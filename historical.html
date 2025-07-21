@@ -7,10 +7,21 @@
 </head>
 <body>
   <div class="container">
-    <h1>📊 Historical Statistics</h1>
+    <h1>📊 Historical Box Score</h1>
+
+    <!-- Filter buttons -->
+    <div>
+      <button onclick="filterTable('all')">Show All</button>
+      <button onclick="filterTable('Lions')">Lions</button>
+      <button onclick="filterTable('Eagles')">Eagles</button>
+      <button onclick="filterHighScorers()">Points > 10</button>
+    </div>
+
+    <!-- Box Score Table -->
     <table id="statsTable">
       <thead>
         <tr>
+          <th>Team</th>
           <th>Player</th>
           <th>Points</th>
           <th>Rebounds</th>
@@ -19,20 +30,49 @@
       </thead>
       <tbody></tbody>
     </table>
+
     <a href="index.html">← Back to Dashboard</a>
   </div>
 
   <script>
+    let originalData = [];
+
     fetch('boxscore.json')
       .then(res => res.json())
       .then(data => {
-        const tbody = document.querySelector('#statsTable tbody');
-        data.forEach(row => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${row.player}</td><td>${row.points}</td><td>${row.rebounds}</td><td>${row.assists}</td>`;
-          tbody.appendChild(tr);
-        });
+        originalData = data;
+        renderTable(originalData);
       });
+
+    function renderTable(data) {
+      const tbody = document.querySelector('#statsTable tbody');
+      tbody.innerHTML = ''; // clear previous data
+      data.forEach(player => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${player.team}</td>
+          <td>${player.player}</td>
+          <td>${player.points}</td>
+          <td>${player.rebounds}</td>
+          <td>${player.assists}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterTable(team) {
+      if (team === 'all') {
+        renderTable(originalData);
+      } else {
+        const filtered = originalData.filter(p => p.team === team);
+        renderTable(filtered);
+      }
+    }
+
+    function filterHighScorers() {
+      const filtered = originalData.filter(p => p.points > 10);
+      renderTable(filtered);
+    }
   </script>
 </body>
 </html>
