@@ -38,3 +38,35 @@ button:hover {
 section {
   margin-top: 30px;
 }
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  background-color: #111;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.top-nav .left-section span,
+.top-nav .right-section span {
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.sub-nav {
+  background-color: #e2e2e2;
+  padding: 10px 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.sub-nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.sub-nav a:hover {
+  color: #0077cc;
+}
