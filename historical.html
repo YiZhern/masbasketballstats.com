@@ -125,3 +125,11 @@
         renderTable(filtered);
       }
     }
+
+    function filterHighScorers() {
+      const filtered = originalData.filter(p => p.pts > 10);
+      renderTable(filtered);
+    }
+  </script>
+</body>
+</html>
