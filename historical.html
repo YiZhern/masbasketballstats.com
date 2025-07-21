@@ -47,39 +47,36 @@
       <button onclick="filterTable('Eagles')">Eagles</button>
       <button onclick="filterHighScorers()">Points > 10</button>
     </div>
+  <div class="container">
+  <h1>📊 Box Score – Indiana Pacers</h1>
 
- <script>
-    fetch('boxscore.json')
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.querySelector('#statsTable tbody');
-        tbody.innerHTML = '';
+  <table id="statsTable">
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>Player</th>
+          <th>MIN</th>
+          <th>FG</th>
+          <th>3PT</th>
+          <th>FT</th>
+          <th>OREB</th>
+          <th>DREB</th>
+          <th>REB</th>
+          <th>AST</th>
+          <th>STL</th>
+          <th>BLK</th>
+          <th>TO</th>
+          <th>PF</th>
+          <th>+/-</th>
+          <th>PTS</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
-        data.forEach(p => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${p.team}</td>
-            <td>${p.player}</td>
-            <td>${p.min}</td>
-            <td>${p.fg}</td>
-            <td>${p['3pt']}</td>
-            <td>${p.ft}</td>
-            <td>${p.oreb}</td>
-            <td>${p.dreb}</td>
-            <td>${p.reb}</td>
-            <td>${p.ast}</td>
-            <td>${p.stl}</td>
-            <td>${p.blk}</td>
-            <td>${p.to}</td>
-            <td>${p.pf}</td>
-            <td>${p.plusminus >= 0 ? '+' + p.plusminus : p.plusminus}</td>
-            <td>${p.pts}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      });
-  </script>
-
+    <a href="index.html">← Back to Dashboard</a>
+  </div>
+    
     <a href="index.html">← Back to Dashboard</a>
   </div>
 
