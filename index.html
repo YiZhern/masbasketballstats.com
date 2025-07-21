@@ -2,29 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bestkeball Stats Dashboard</title>
+  <title>Basketball Stats Dashboard</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>🏀 Bastkeball Stats Dashboard</h1>
+    <h1>🏀 Basketball Stats Dashboard</h1>
+    <p>Welcome! Explore basketball statistics and data-driven insights.</p>
 
-    <section>
-      <h2>Free Throw % Calculator</h2>
-      <input type="number" id="made" placeholder="Free Throws Made" />
-      <input type="number" id="attempted" placeholder="Attempts" />
-      <button onclick="calculate()">Calculate</button>
-      <p id="result"></p>
-    </section>
-
-    <section>
-      <h2>Sample Shot Chart</h2>
-      <canvas id="shotChart" width="400" height="200"></canvas>
-    </section>
+    <nav>
+      <ul>
+        <li><a href="historical.html">📊 Historical Statistics</a></li>
+        <li><a href="calculator.html">🧮 Advanced Statistics Calculator</a></li>
+      </ul>
+    </nav>
   </div>
-
-  <script src="scripts.js"></script>
 </body>
 </html>
