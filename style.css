@@ -29,7 +29,7 @@ input::placeholder {
   color: #888;
 }
 
-button {
+input, button {
   padding: 10px 16px;
   margin-top: 10px;
   background: #00aaff;
@@ -39,6 +39,9 @@ button {
   border-radius: 6px;
   font-weight: bold;
   transition: background 0.2s ease;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 button:hover {
@@ -156,6 +159,34 @@ th {
 
 tr:nth-child(even) {
   background-color: #242424;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .top-nav, .sub-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sub-nav {
+    gap: 10px;
+  }
+
+  .top-nav .left-section, 
+  .top-nav .right-section {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .dropdown-content {
+    position: static;
+    width: 100%;
+  }
 }
 
 tr:hover {
