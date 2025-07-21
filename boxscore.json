@@ -1,4 +1,6 @@
 [
-  { "player": "John Doe", "points": 22, "rebounds": 10, "assists": 5 },
-  { "player": "Mike Lee", "points": 18, "rebounds": 7, "assists": 2 }
+  { "team": "Lions", "player": "John Doe", "points": 22, "rebounds": 10, "assists": 5 },
+  { "team": "Lions", "player": "Mike Lee", "points": 8, "rebounds": 7, "assists": 2 },
+  { "team": "Eagles", "player": "Alex Chan", "points": 14, "rebounds": 5, "assists": 3 },
+  { "team": "Eagles", "player": "Sam Woo", "points": 6, "rebounds": 4, "assists": 1 }
 ]
