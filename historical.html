@@ -113,3 +113,15 @@
           <td>${p.plusminus >= 0 ? '+' + p.plusminus : p.plusminus}</td>
           <td>${p.pts}</td>
         `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterTable(team) {
+      if (team === 'all') {
+        renderTable(originalData);
+      } else {
+        const filtered = originalData.filter(p => p.team === team);
+        renderTable(filtered);
+      }
+    }
