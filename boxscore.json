@@ -1,0 +1,4 @@
+[
+  { "player": "John Doe", "points": 22, "rebounds": 10, "assists": 5 },
+  { "player": "Mike Lee", "points": 18, "rebounds": 7, "assists": 2 }
+]
