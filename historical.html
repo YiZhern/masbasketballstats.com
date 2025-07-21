@@ -25,7 +25,6 @@
     <a href="index.html">Home</a>
     <a href="historical.html">Historical Stats</a>
     <a href="calculator.html">Advanced Calculator</a>
-
     <div class="dropdown">
       <a href="#" class="dropbtn">Competition ▼</a>
       <div class="dropdown-content">
@@ -36,9 +35,10 @@
       </div>
     </div>
   </div>
-  
+
+  <!-- Main Container -->
   <div class="container">
-    <h1>📊 Historical Box Score</h1>
+    <h1>📊 Box Score – Indiana Pacers</h1>
 
     <!-- Filter buttons -->
     <div>
@@ -47,10 +47,9 @@
       <button onclick="filterTable('Eagles')">Eagles</button>
       <button onclick="filterHighScorers()">Points > 10</button>
     </div>
-  <div class="container">
-  <h1>📊 Box Score – Indiana Pacers</h1>
 
-  <table id="statsTable">
+    <!-- Box Score Table -->
+    <table id="statsTable">
       <thead>
         <tr>
           <th>Team</th>
@@ -76,10 +75,8 @@
 
     <a href="index.html">← Back to Dashboard</a>
   </div>
-    
-    <a href="index.html">← Back to Dashboard</a>
-  </div>
 
+  <!-- JS Script -->
   <script>
     let originalData = [];
 
@@ -92,33 +89,24 @@
 
     function renderTable(data) {
       const tbody = document.querySelector('#statsTable tbody');
-      tbody.innerHTML = ''; // clear previous data
-      data.forEach(player => {
+      tbody.innerHTML = '';
+      data.forEach(p => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${player.team}</td>
-          <td>${player.player}</td>
-          <td>${player.points}</td>
-          <td>${player.rebounds}</td>
-          <td>${player.assists}</td>
+          <td>${p.team}</td>
+          <td>${p.player}</td>
+          <td>${p.min}</td>
+          <td>${p.fg}</td>
+          <td>${p['3pt']}</td>
+          <td>${p.ft}</td>
+          <td>${p.oreb}</td>
+          <td>${p.dreb}</td>
+          <td>${p.reb}</td>
+          <td>${p.ast}</td>
+          <td>${p.stl}</td>
+          <td>${p.blk}</td>
+          <td>${p.to}</td>
+          <td>${p.pf}</td>
+          <td>${p.plusminus >= 0 ? '+' + p.plusminus : p.plusminus}</td>
+          <td>${p.pts}</td>
         `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function filterTable(team) {
-      if (team === 'all') {
-        renderTable(originalData);
-      } else {
-        const filtered = originalData.filter(p => p.team === team);
-        renderTable(filtered);
-      }
-    }
-
-    function filterHighScorers() {
-      const filtered = originalData.filter(p => p.points > 10);
-      renderTable(filtered);
-    }
-  </script>
-</body>
-</html>
