@@ -129,19 +129,40 @@
       });
     }
 
-    function filterTable(team) {
-      if (team === 'all') {
-        renderTable(originalData);
-      } else {
-        const filtered = originalData.filter(p => p.team === team);
-        renderTable(filtered);
-      }
+  function updateYears() {
+    const comp = document.getElementById('competitionSelect').value;
+    const yearSelect = document.getElementById('yearSelect');
+    yearSelect.innerHTML = '<option value="all">All</option>';
+
+    const years = [...new Set(originalData
+      .filter(p => p.competition === comp)
+      .map(p => p.year))];
+
+    years.sort((a, b) => b - a); // descending order
+
+    years.forEach(year => {
+      const opt = document.createElement('option');
+      opt.value = year;
+      opt.textContent = year;
+      yearSelect.appendChild(opt);
+    });
+  }
+  function filterByCompetition() {
+    const comp = document.getElementById('competitionSelect').value;
+    const year = document.getElementById('yearSelect').value;
+
+    let filtered = originalData;
+
+    if (comp) {
+      filtered = filtered.filter(p => p.competition === comp);
     }
 
-    function filterHighScorers() {
-      const filtered = originalData.filter(p => p.pts > 10);
-      renderTable(filtered);
+    if (year !== "all") {
+      filtered = filtered.filter(p => p.year.toString() === year);
     }
-  </script>
+
+    renderTable(filtered);
+  }
+</script>
 </body>
 </html>
