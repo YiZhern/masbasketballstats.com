@@ -39,15 +39,26 @@
 
   <!-- Main Container -->
   <div class="container">
-    <h1>📊 Box Score – Indiana Pacers</h1>
+    <h1>Box Score</h1>
 
     <!-- Filter buttons -->
-    <div>
-      <button onclick="filterTable('all')">Show All</button>
-      <button onclick="filterTable('Lions')">Lions</button>
-      <button onclick="filterTable('Eagles')">Eagles</button>
-      <button onclick="filterHighScorers()">Points > 10</button>
+    <div class="filter-bar">
+      <label for="competitionSelect">Competition:</label>
+      <select id="competitionSelect" onchange="updateYears()">
+        <option value="">Select Competition</option>
+        <option value="MABA Cup">MABA Cup</option>
+        <option value="National U17">National U17</option>
+        <option value="Agong Cup">Agong Cup</option>
+      </select>
+
+      <label for="yearSelect">Year:</label>
+      <select id="yearSelect">
+        <option value="all">All</option>
+      </select>
+
+      <button onclick="filterByCompetition()">Search</button>
     </div>
+
 
     <!-- Box Score Table -->
     <div class="table-wrapper">
