@@ -42,23 +42,26 @@
   <div class="container">
     <h1>Box Score</h1>
 
-    <!-- Filter buttons -->
-    <div class="filter-bar">
-      <label for="competitionSelect">Competition:</label>
-      <select id="competitionSelect" onchange="updateYears()">
-        <option value="">Select Competition</option>
-        <option value="MABA Cup">MABA Cup</option>
-        <option value="National U17">National U17</option>
-        <option value="Agong Cup">Agong Cup</option>
-      </select>
+<!-- Filter buttons -->
+<div class="filter-bar">
+  <label for="competitionSelect">Competition:</label>
+  <select id="competitionSelect" onchange="updateYears()">
+    <option value="">Select Competition</option>
+    <option value="MABA Cup">MABA Cup</option>
+    <option value="National U17">National U17</option>
+    <option value="Agong Cup">Agong Cup</option>
+  </select>
 
-      <label for="yearSelect">Year:</label>
-      <select id="yearSelect">
-        <option value="all">All</option>
-      </select>
+  <label for="yearSelect">Year:</label>
+  <select id="yearSelect">
+    <option value="all">All</option>
+  </select>
 
-      <button onclick="filterByCompetition()">Search</button>
-    </div>
+  <label for="playerInput">Player:</label>
+  <input type="text" id="playerInput" placeholder="Enter player name" />
+
+  <button onclick="filterByCompetition()">Search</button>
+</div>
 
 
     <!-- Box Score Table -->
@@ -131,8 +134,6 @@
       fd: parseInt(row['FD']),
       pts: parseInt(row['PTS'])
     }));
-
-    renderTable(originalData);
   });
 
 
@@ -193,7 +194,8 @@
   function filterByCompetition() {
     const comp = document.getElementById('competitionSelect').value;
     const year = document.getElementById('yearSelect').value;
-
+    const player = document.getElementById('playerInput').value.toLowerCase();
+  
     let filtered = originalData;
 
     if (comp) {
@@ -203,7 +205,11 @@
     if (year !== "all") {
       filtered = filtered.filter(p => p.year.toString() === year);
     }
-
+  
+    if (player) {
+      filtered = filtered.filter(p => p.player.toLowerCase().includes(player));
+    }
+  
     renderTable(filtered);
   }
 </script>
