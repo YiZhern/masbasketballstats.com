@@ -9,7 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
-  <!-- Top ESPN-style nav -->
+  <!-- nav bar -->
   <div class="top-nav">
     <div class="left-section">
       <a href="https://www.maba.com.my" target="_blank" style="color: white; text-decoration: none;">MABA</a>
@@ -51,7 +51,7 @@
     <option value="U17 (Boys)">National U17 (Boys)</option>
     <option value="MABA Cup">MABA Cup</option>
     <option value="Agong Cup">Agong Cup</option>
-    <option value="All">Agong Cup</option>
+    <option value="All">All</option>
   </select>
 
   <label for="yearSelect">Year:</label>
@@ -101,6 +101,13 @@
       </thead>
       <tbody></tbody>
     </table>
+
+    <!-- pagination -->
+    <div id="pagination" style="margin-top: 20px; text-align: center;">
+      <button onclick="changePage(-1)">Previous</button>
+      <span id="pageInfo">Page 1</span>
+      <button onclick="changePage(1)">Next</button>
+    </div>
   </div>
   </div>
 
