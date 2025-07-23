@@ -70,6 +70,20 @@
   <button onclick="filterByCompetition()">Search</button>
 </div>
 
+<!-- sort bar -->
+<div class="sort-bar">
+  <label for="sortSelect">Sort by:</label>
+  <select id="sortSelect">
+    <option value="pts">Points (PTS)</option>
+    <option value="min">Minutes (MIN)</option>
+    <option value="as">Assists (AS)</option>
+    <option value="reb">Rebounds (TR)</option>
+    <option value="st">Steals (ST)</option>
+    <option value="fgm">FG Made (FGM)</option>
+  </select>
+  <button onclick="sortByStat()">Sort 🔽</button>
+</div>
+
     <!-- Box Score Table -->
  <div class="table-wrapper">
     <table id="statsTable">
