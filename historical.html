@@ -47,14 +47,18 @@
   <label for="competitionSelect">Competition:</label>
   <select id="competitionSelect" onchange="updateYears()">
     <option value="">Select Competition</option>
+    <option value="U15 (Boys)">National U15 (Boys)</option>
+    <option value="U17 (Boys)">National U17 (Boys)</option>
     <option value="MABA Cup">MABA Cup</option>
-    <option value="National U17">National U17</option>
     <option value="Agong Cup">Agong Cup</option>
+    <option value="All">Agong Cup</option>
   </select>
 
   <label for="yearSelect">Year:</label>
   <select id="yearSelect">
-    <option value="all">All</option>
+    <option value="2024">2024</option>
+    <option value="2025">2025</option>
+    <option value="All">All</option>
   </select>
 
   <label for="playerInput">Player:</label>
@@ -198,11 +202,11 @@
   
     let filtered = originalData;
 
-    if (comp) {
+    if (comp !== "All") {
       filtered = filtered.filter(p => p.competition === comp);
     }
 
-    if (year !== "all") {
+    if (year !== "All") {
       filtered = filtered.filter(p => p.year.toString() === year);
     }
   
