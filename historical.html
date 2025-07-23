@@ -97,73 +97,80 @@
   </div>
 
   <!-- JS Script -->
-  <script>
-    let originalData = [];
+<script>
+  let originalData = [];
 
-    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
-      .then(response => response.text())
-      .then(csv => {
-        const rows = csv.trim().split('\n').slice(1); // Skip header
-        originalData = rows.map(row => {
-          const cols = row.split(',');
-          return {
-            player: cols[1],
-            competition: cols[2],
-            year: parseInt(cols[3]),
-            team: cols[4],
-            gp: parseInt(cols[5]),
-            min: parseInt(cols[6]),
-            fga: parseInt(cols[7]),
-            fgm: parseInt(cols[8]),
-            fga2: parseInt(cols[9]),
-            fgm2: parseInt(cols[10]),
-            fga3: parseInt(cols[11]),
-            fgm3: parseInt(cols[12]),
-            fta: parseInt(cols[13]),
-            ftm: parseInt(cols[14]),
-            oreb: parseInt(cols[15]),
-            dreb: parseInt(cols[16]),
-            treb: parseInt(cols[17]),
-            as: parseInt(cols[18]),
-            to: parseInt(cols[19]),
-            st: parseInt(cols[20]),
-            bs: parseInt(cols[21]),
-            pf: parseInt(cols[22]),
-            fd: parseInt(cols[23]),
-            pts: parseInt(cols[24])
-          };
-        });
-
-        renderTable(originalData);
-   });
-
-
-    function renderTable(data) {
-      const tbody = document.querySelector('#statsTable tbody');
-      tbody.innerHTML = '';
-      data.forEach(p => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${p.team}</td>
-          <td>${p.player}</td>
-          <td>${p.min}</td>
-          <td>${p.fg}</td>
-          <td>${p['3pt']}</td>
-          <td>${p.ft}</td>
-          <td>${p.oreb}</td>
-          <td>${p.dreb}</td>
-          <td>${p.reb}</td>
-          <td>${p.ast}</td>
-          <td>${p.stl}</td>
-          <td>${p.blk}</td>
-          <td>${p.to}</td>
-          <td>${p.pf}</td>
-          <td>${p.plusminus >= 0 ? '+' + p.plusminus : p.plusminus}</td>
-          <td>${p.pts}</td>
-        `;
-        tbody.appendChild(tr);
+  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
+    .then(response => response.text())
+    .then(csv => {
+      const rows = csv.trim().split('\n').slice(1); // Skip header
+      originalData = rows.map(row => {
+        const cols = row.split(',');
+        return {
+          player: cols[0],
+          competition: cols[1],
+          year: parseInt(cols[2]),
+          team: cols[3],
+          gp: parseInt(cols[4]),
+          min: parseInt(cols[5]),
+          fga: parseInt(cols[6]),
+          fgm: parseInt(cols[7]),
+          fga2: parseInt(cols[8]),
+          fgm2: parseInt(cols[9]),
+          fga3: parseInt(cols[10]),
+          fgm3: parseInt(cols[11]),
+          fta: parseInt(cols[12]),
+          ftm: parseInt(cols[13]),
+          oreb: parseInt(cols[14]),
+          dreb: parseInt(cols[15]),
+          treb: parseInt(cols[16]),
+          as: parseInt(cols[17]),
+          to: parseInt(cols[18]),
+          st: parseInt(cols[19]),
+          bs: parseInt(cols[20]),
+          pf: parseInt(cols[21]),
+          fd: parseInt(cols[22]),
+          pts: parseInt(cols[23])
+        };
       });
-    }
+
+      renderTable(originalData);
+    });
+
+  function renderTable(data) {
+    const tbody = document.querySelector('#statsTable tbody');
+    tbody.innerHTML = '';
+    data.forEach(p => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${p.player}</td>
+        <td>${p.competition}</td>
+        <td>${p.year}</td>
+        <td>${p.team}</td>
+        <td>${p.gp}</td>
+        <td>${p.min}</td>
+        <td>${p.fga}</td>
+        <td>${p.fgm}</td>
+        <td>${p.fga2}</td>
+        <td>${p.fgm2}</td>
+        <td>${p.fga3}</td>
+        <td>${p.fgm3}</td>
+        <td>${p.fta}</td>
+        <td>${p.ftm}</td>
+        <td>${p.oreb}</td>
+        <td>${p.dreb}</td>
+        <td>${p.treb}</td>
+        <td>${p.as}</td>
+        <td>${p.to}</td>
+        <td>${p.st}</td>
+        <td>${p.bs}</td>
+        <td>${p.pf}</td>
+        <td>${p.fd}</td>
+        <td>${p.pts}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
 
   function updateYears() {
     const comp = document.getElementById('competitionSelect').value;
@@ -174,7 +181,7 @@
       .filter(p => p.competition === comp)
       .map(p => p.year))];
 
-    years.sort((a, b) => b - a); // descending order
+    years.sort((a, b) => b - a);
 
     years.forEach(year => {
       const opt = document.createElement('option');
@@ -183,6 +190,7 @@
       yearSelect.appendChild(opt);
     });
   }
+
   function filterByCompetition() {
     const comp = document.getElementById('competitionSelect').value;
     const year = document.getElementById('yearSelect').value;
