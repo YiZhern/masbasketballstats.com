@@ -92,12 +92,37 @@
   <script>
     let originalData = [];
 
-    fetch('boxscore.json')
-      .then(res => res.json())
-      .then(data => {
-        originalData = data;
+    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
+      .then(response => response.text())
+      .then(csv => {
+        const rows = csv.trim().split('\n').slice(1); // Skip header
+        originalData = rows.map(row => {
+          const cols = row.split(',');
+          return {
+            competition: cols[0],
+            year: parseInt(cols[1]),
+            team: cols[2],
+            player: cols[3],
+            min: parseInt(cols[4]),
+            fg: cols[5],
+            '3pt': cols[6],
+            ft: cols[7],
+            oreb: parseInt(cols[8]),
+            dreb: parseInt(cols[9]),
+            reb: parseInt(cols[10]),
+            ast: parseInt(cols[11]),
+            stl: parseInt(cols[12]),
+            blk: parseInt(cols[13]),
+            to: parseInt(cols[14]),
+            pf: parseInt(cols[15]),
+            plusminus: parseInt(cols[16]),
+            pts: parseInt(cols[17])
+          };
+        });
+
         renderTable(originalData);
-      });
+   });
+
 
     function renderTable(data) {
       const tbody = document.querySelector('#statsTable tbody');
