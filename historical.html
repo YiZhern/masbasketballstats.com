@@ -236,11 +236,11 @@ function updatePaginationInfo(totalItems) {
   
     let filtered = originalData;
 
-    if (comp && comp !== "All") {
+    if (comp && comp !== "All" && comp !== "") {
       filtered = filtered.filter(p => p.competition === comp);
     }
 
-    if (year && year !== "All") {
+    if (year && year !== "All" && year !== "") {
       filtered = filtered.filter(p => p.year.toString() === year);
     }
   
@@ -248,7 +248,7 @@ function updatePaginationInfo(totalItems) {
       filtered = filtered.filter(p => p.player.toLowerCase().includes(player));
     }
 
-    currentPage = 1；
+    currentPage = 1;
     renderTable(filtered);
   }
 </script>
