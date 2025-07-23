@@ -148,40 +148,49 @@
   });
 
 
-  function renderTable(data) {
-    const tbody = document.querySelector('#statsTable tbody');
-    tbody.innerHTML = '';
-    data.forEach(p => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${p.player}</td>
-        <td>${p.competition}</td>
-        <td>${p.year}</td>
-        <td>${p.team}</td>
-        <td>${p.gp}</td>
-        <td>${p.min}</td>
-        <td>${p.fga}</td>
-        <td>${p.fgm}</td>
-        <td>${p.fga2}</td>
-        <td>${p.fgm2}</td>
-        <td>${p.fga3}</td>
-        <td>${p.fgm3}</td>
-        <td>${p.fta}</td>
-        <td>${p.ftm}</td>
-        <td>${p.oreb}</td>
-        <td>${p.dreb}</td>
-        <td>${p.treb}</td>
-        <td>${p.as}</td>
-        <td>${p.to}</td>
-        <td>${p.st}</td>
-        <td>${p.bs}</td>
-        <td>${p.pf}</td>
-        <td>${p.fd}</td>
-        <td>${p.pts}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
+function renderTable(data) {
+  filteredData = data;
+  const tbody = document.querySelector('#statsTable tbody');
+  tbody.innerHTML = '';
+
+  const start = (currentPage - 1) * rowsPerPage;
+  const end = start + rowsPerPage;
+  const pageData = data.slice(start, end);
+
+  pageData.forEach(p => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${p.player}</td>
+      <td>${p.competition}</td>
+      <td>${p.year}</td>
+      <td>${p.team}</td>
+      <td>${p.gp}</td>
+      <td>${p.min}</td>
+      <td>${p.fga}</td>
+      <td>${p.fgm}</td>
+      <td>${p.fga2}</td>
+      <td>${p.fgm2}</td>
+      <td>${p.fga3}</td>
+      <td>${p.fgm3}</td>
+      <td>${p.fta}</td>
+      <td>${p.ftm}</td>
+      <td>${p.oreb}</td>
+      <td>${p.dreb}</td>
+      <td>${p.treb}</td>
+      <td>${p.as}</td>
+      <td>${p.to}</td>
+      <td>${p.st}</td>
+      <td>${p.bs}</td>
+      <td>${p.pf}</td>
+      <td>${p.fd}</td>
+      <td>${p.pts}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  updatePaginationInfo(data.length);
+}
+
 
   function updateYears() {
     const comp = document.getElementById('competitionSelect').value;
