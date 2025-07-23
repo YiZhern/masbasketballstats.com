@@ -112,7 +112,7 @@
   </div>
   </div>
 
-  <!-- JS Script -->
+<!-- JS Script -->
 <script>
   let originalData = [];
 
@@ -192,6 +192,20 @@ function renderTable(data) {
   updatePaginationInfo(data.length);
 }
 
+function changePage(direction) {
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+  currentPage += direction;
+
+  if (currentPage < 1) currentPage = 1;
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  renderTable(filteredData);
+}
+
+function updatePaginationInfo(totalItems) {
+  const totalPages = Math.ceil(totalItems / rowsPerPage);
+  document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+}
 
   function updateYears() {
     const comp = document.getElementById('competitionSelect').value;
