@@ -266,6 +266,24 @@ function updatePaginationInfo(totalItems) {
     currentPage = 1;
     renderTable(filtered);
   }
+
+let sortDescending = true;
+
+function sortByStat() {
+  const stat = document.getElementById('sortSelect').value;
+  if (!filteredData.length) return;
+
+  filteredData.sort((a, b) => {
+    return sortDescending ? b[stat] - a[stat] : a[stat] - b[stat];
+  });
+
+  document.querySelector("button[onclick='sortByStat()']").textContent = 
+    sortDescending ? "Sort 🔼" : "Sort 🔽";
+
+  sortDescending = !sortDescending;
+  renderTable(filteredData);
+}
+  
 </script>
 </body>
 </html>
