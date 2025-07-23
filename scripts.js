@@ -1,3 +1,7 @@
+let currentPage = 1;
+const rowsPerPage = 30;
+let filteredData = []; // will hold filtered results
+
 function calculate() {
   const made = parseInt(document.getElementById("made").value);
   const attempted = parseInt(document.getElementById("attempted").value);
