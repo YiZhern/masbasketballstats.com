@@ -114,7 +114,10 @@
 
 <!-- JS Script -->
 <script>
-  let originalData = [];
+let currentPage = 1;
+const rowsPerPage = 30;
+let filteredData = []; // will hold filtered results
+let originalData = [];
 
  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
   .then(response => response.text())
