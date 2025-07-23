@@ -99,24 +99,30 @@
         originalData = rows.map(row => {
           const cols = row.split(',');
           return {
-            competition: cols[0],
-            year: parseInt(cols[1]),
-            team: cols[2],
-            player: cols[3],
-            min: parseInt(cols[4]),
-            fg: cols[5],
-            '3pt': cols[6],
-            ft: cols[7],
-            oreb: parseInt(cols[8]),
-            dreb: parseInt(cols[9]),
-            reb: parseInt(cols[10]),
-            ast: parseInt(cols[11]),
-            stl: parseInt(cols[12]),
-            blk: parseInt(cols[13]),
-            to: parseInt(cols[14]),
-            pf: parseInt(cols[15]),
-            plusminus: parseInt(cols[16]),
-            pts: parseInt(cols[17])
+            player: cols[1],
+            competition: cols[2],
+            year: parseInt(cols[3]),
+            team: cols[4],
+            gp: parseInt(cols[5]),
+            min: parseInt(cols[6]),
+            fga: parseInt(cols[7]),
+            fgm: parseInt(cols[8]),
+            fga2: parseInt(cols[9]),
+            fgm2: parseInt(cols[10]),
+            fga3: parseInt(cols[11]),
+            fgm3: parseInt(cols[12]),
+            fta: parseInt(cols[13]),
+            ftm: parseInt(cols[14]),
+            oreb: parseInt(cols[15]),
+            dreb: parseInt(cols[16]),
+            treb: parseInt(cols[17]),
+            as: parseInt(cols[18]),
+            to: parseInt(cols[19]),
+            st: parseInt(cols[20]),
+            bs: parseInt(cols[21]),
+            pf: parseInt(cols[22]),
+            fd: parseInt(cols[23]),
+            pts: parseInt(cols[24])
           };
         });
 
