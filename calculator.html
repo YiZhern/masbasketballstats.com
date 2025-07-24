@@ -187,24 +187,48 @@
       });
     }
 
-    function updateWeight(input, group) {
-      const container = document.getElementById(`${group}-weights`);
-      const sliders = container.querySelectorAll('input[type="range"]');
-      let total = 0;
-    
-      sliders.forEach(slider => {
-        total += parseInt(slider.value);
-        slider.nextElementSibling.textContent = slider.value;
+  function updateWeightAutoAdjusted(input, group) {
+    const sliders = [...document.querySelectorAll(`#${group}-weights input[type="range"]`)];
+    const total = 100;
+    const movedSlider = input;
+    const movedValue = parseInt(movedSlider.value);
+    const others = sliders.filter(slider => slider !== movedSlider);
+  
+    const remaining = total - movedValue;
+  
+    const sumOthers = others.reduce((sum, slider) => sum + parseInt(slider.value), 0);
+    if (sumOthers === 0) {
+      // If others are all zero, split equally
+      others.forEach(slider => slider.value = Math.floor(remaining / others.length));
+    } else {
+      others.forEach(slider => {
+        const ratio = parseInt(slider.value) / sumOthers;
+        slider.value = Math.round(ratio * remaining);
       });
-    
-      document.getElementById(`${group}-total`).textContent = total;
-    
-      if (total !== 100) {
-        document.getElementById(`${group}-total`).style.color = 'red';
+    }
+  
+    // Fix rounding error
+    let checkTotal = sliders.reduce((sum, s) => sum + parseInt(s.value), 0);
+    while (checkTotal !== 100) {
+      const delta = 100 - checkTotal;
+      const adj = others.find(s => parseInt(s.value) + delta >= 0);
+      if (adj) {
+        adj.value = parseInt(adj.value) + delta;
+        checkTotal = sliders.reduce((sum, s) => sum + parseInt(s.value), 0);
       } else {
-        document.getElementById(`${group}-total`).style.color = 'green';
+        break;
       }
     }
+  
+    // Update text next to each slider
+    sliders.forEach(slider => {
+      slider.nextElementSibling.textContent = slider.value;
+    });
+  
+    document.getElementById(`${group}-total`).textContent = 100;
+    document.getElementById(`${group}-total`).style.color = 'green';
+  }
+
 
     document.getElementById('generateBtn').onclick = generate;
     ['guard','wings','center','def'].forEach(g => {
