@@ -3,14 +3,17 @@ body {
   background: #f5f6f8;
   margin: 0;
   color: #333;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 .container {
   max-width: 1400px;
   margin: 30px auto;
   background: #ffffff;
-  padding: 35px;
+  padding: 35px 20px;
   border-radius: 12px;
+  box-sizing: border-box;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -282,6 +285,8 @@ tr:hover {
   margin-bottom: 12px;
   color: #333;
   font-weight: 500;
+  flex-wrap: wrap;
+  word-break: break-word;
 }
 
 .slider-group span {
@@ -297,8 +302,8 @@ tr:hover {
 }
 
 .position-group {
-  flex: 1;
-  min-width: 300px;
+  flex: 1 1 100%;
+  min-width: 0;
   background: #f0f0f0; /* was #222 */
   padding: 20px;
   border-radius: 10px;
