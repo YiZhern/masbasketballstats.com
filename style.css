@@ -133,6 +133,7 @@ input::placeholder {
 }
 
 table {
+  table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
   margin-top: 25px;
@@ -148,6 +149,7 @@ th, td {
   text-align: center;
   font-size: 13px;
   color: #333;
+  word-wrap: break-word;
 }
 
 th {
@@ -276,20 +278,29 @@ tr:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 12px;
-  color: #eee;
+  color: #333;
   font-weight: 500;
+}
+
+.slider-group span {
+  display: inline-block;
+  width: 30px; /* fixes width for percentages like 5%, 25%, 100% */
+  text-align: right;
 }
 
 .slider-group input[type="range"] {
   flex: 1;
+  max-width: 100%;
   accent-color: #ff6600;
 }
 
-.position-group p {
-  text-align: right;
-  font-weight: bold;
-  margin-top: 10px;
-  color: #ccc;
+.position-group {
+  flex: 1;
+  min-width: 300px;
+  background: #f0f0f0; /* was #222 */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.1);
 }
