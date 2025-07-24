@@ -64,10 +64,10 @@
     <div class="position-group">
       <h3>Point Guard</h3>
       <div class="slider-group" id="pg-weights">
-        <label>PTS <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
-        <label>AST <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
-        <label>FGA <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
-        <label>TOS <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
+        <label>PTS <input type="pg_pts" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
+        <label>AST <input type="pg_ast" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
+        <label>FGA <input type="pg_fga" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
+        <label>TOS <input type="pg_tos" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
       </div>
       <p>Total: <span id="pg-total">100</span>%</p>
     </div>
@@ -75,11 +75,11 @@
     <!-- WINGS -->
     <div class="position-group">
       <h3>Wings</h3>
-      <div class="slider-group" id="wings-weights">
-        <label>PTS <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
-        <label>AST <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
-        <label>FGA <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
-        <label>TOS <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
+      <div class="slider-group" id="wg-weights">
+        <label>PTS <input type="wg_pts" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
+        <label>AST <input type="wg_ast" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
+        <label>FGA <input type="wg_fga" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
+        <label>TOS <input type="wg_tos" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
       </div>
       <p>Total: <span id="wings-total">100</span>%</p>
     </div>
@@ -99,7 +99,7 @@
     <!-- DEFENSIVE -->
     <div class="position-group">
       <h3>Defensive</h3>
-      <div class="slider-group" id="defensive-weights">
+      <div class="slider-group" id="def-weights">
         <label>PTS <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label>
         <label>AST <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label>
         <label>FGA <input type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label>
@@ -199,47 +199,36 @@
     }
 
   function updateWeightAutoAdjusted(input, group) {
-    const sliders = [...document.querySelectorAll(`#${group}-weights input[type="range"]`)];
-    const total = 50;
+    const sliders = Array.from(document.querySelectorAll(`#${group}-weights input[type="range"]`));
+    const total = 100;
     const movedSlider = input;
     const movedValue = parseInt(movedSlider.value);
-    const others = sliders.filter(slider => slider !== movedSlider);
-  
+    const others = sliders.filter(s => s !== movedSlider);
+    const sumOthers = others.reduce((sum, s) => sum + parseInt(s.value), 0);
     const remaining = total - movedValue;
   
-    const sumOthers = others.reduce((sum, slider) => sum + parseInt(slider.value), 0);
     if (sumOthers === 0) {
-      // If others are all zero, split equally
-      others.forEach(slider => slider.value = Math.floor(remaining / others.length));
+      others.forEach(s => s.value = Math.floor(remaining / others.length));
     } else {
-      others.forEach(slider => {
-        const ratio = parseInt(slider.value) / sumOthers;
-        slider.value = Math.round(ratio * remaining);
+      others.forEach(s => {
+        const ratio = parseInt(s.value) / sumOthers;
+        s.value = Math.round(ratio * remaining);
       });
     }
   
-    // Fix rounding error
+    // Fix rounding
     let checkTotal = sliders.reduce((sum, s) => sum + parseInt(s.value), 0);
     while (checkTotal !== 100) {
       const delta = 100 - checkTotal;
-      const adj = others.find(s => parseInt(s.value) + delta >= 0);
-      if (adj) {
-        adj.value = parseInt(adj.value) + delta;
-        checkTotal = sliders.reduce((sum, s) => sum + parseInt(s.value), 0);
-      } else {
-        break;
-      }
+      const adj = others[0];
+      adj.value = parseInt(adj.value) + delta;
+      checkTotal = sliders.reduce((sum, s) => sum + parseInt(s.value), 0);
     }
   
-    // Update text next to each slider
-    sliders.forEach(slider => {
-      slider.nextElementSibling.textContent = slider.value;
-    });
-  
-    document.getElementById(`${group}-total`).textContent = 100;
+    sliders.forEach(s => s.nextElementSibling.textContent = s.value);
+    document.getElementById(`${group}-total`).textContent = "100";
     document.getElementById(`${group}-total`).style.color = 'green';
   }
-
 
     document.getElementById('generateBtn').onclick = generate;
     ['guard','wings','center','def'].forEach(g => {
