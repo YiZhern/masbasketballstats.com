@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta charset="UTF-8" />
-  <title>Advanced Statistics Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Calculator</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
-  <!-- Top ESPN-style nav -->
+  <!-- Nav -->
   <div class="top-nav">
     <div class="left-section">
-      <a href="https://www.maba.com.my" target="_blank" style="color: white; text-decoration: none;">MABA</a>
+      <a href="https://www.maba.com.my" target="_blank" style="color:white;text-decoration:none;">MABA</a>
       <span>FIBA</span>
     </div>
     <div class="right-section">
@@ -20,33 +21,119 @@
       <span>👤</span>
     </div>
   </div>
-  
-  <!-- Sub-nav with dropdown -->
+
   <div class="sub-nav">
     <a href="index.html">Home</a>
     <a href="historical.html">Historical Stats</a>
     <a href="calculator.html">Advanced Calculator</a>
-
-    <div class="dropdown">
-      <a href="#" class="dropbtn">Competition ▼</a>
-      <div class="dropdown-content">
-        <a href="#">MABA Cup</a>
-        <a href="#">National U17</a>
-        <a href="#">National U15</a>
-        <a href="#">Agong Cup</a>
-      </div>
-    </div>
   </div>
-  
+
+  <!-- Main Container -->
   <div class="container">
-    <h1>🧮 Advanced Statistics Calculator</h1>
+    <h1>🏀 Position Ranking Calculator</h1>
 
-    <input type="number" id="made" placeholder="Free Throws Made" />
-    <input type="number" id="attempted" placeholder="Attempts" />
-    <button onclick="calculate()">Calculate</button>
-    <p id="result"></p>
+    <!-- Filters -->
+    <div class="filter-bar">
+      <label>Competition:</label>
+      <select id="competitionSelect">
+        <option value="All">All</option>
+        <option value="U15 (Boys)">U15 (Boys)</option>
+        <option value="U17 (Boys)">U17 (Boys)</option>
+        <option value="MABA Cup">MABA Cup</option>
+        <option value="Agong Cup">Agong Cup</option>
+      </select>
+
+      <label>Year:</label>
+      <select id="yearSelect">
+        <option value="All">All</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+      </select>
+
+      <button onclick="loadRankings()">Load Rankings</button>
+    </div>
+
+    <!-- Ranking Matrix -->
+    <div id="rankingMatrix" class="matrix-wrapper"></div>
   </div>
 
-  <script src="scripts.js"></script>
+  <script>
+    let originalData = [];
+
+    const positionWeights = {
+      guard: { pts: 0.3, as: 0.3, st: 0.2, fgm: 0.2, to: -0.2 },
+      wings: { pts: 0.25, reb: 0.2, fgm: 0.25, st: 0.2, pf: -0.1 },
+      center: { tres: 0.2, reb: 0.3, bs: 0.3, pts: 0.2, pf: -0.2 },
+      defense: { st: 0.4, bs: 0.3, to: -0.3, pf: -0.2 }
+    };
+
+    fetch('https://docs.google.com/spreadsheets/d/.../pub?output=csv')
+      .then(r => r.text())
+      .then(csv => {
+        const parsed = Papa.parse(csv, { header: true }).data;
+        originalData = parsed.map(row => ({
+          player: row['Player'],
+          competition: row['Competition'],
+          year: parseInt(row['Year']),
+          team: row['Team'],
+          gp: parseInt(row['GP']),
+          min: parseInt(row['Min']),
+          fga: parseInt(row['FGA']),
+          fgm: parseInt(row['FGM']),
+          fga2: parseInt(row['2FGA']),
+          fgm2: parseInt(row['2FGM']),
+          fga3: parseInt(row['3FGA']),
+          fgm3: parseInt(row['3FGM']),
+          fta: parseInt(row['FTA']),
+          ftm: parseInt(row['FTM']),
+          oreb: parseInt(row['OR']),
+          dreb: parseInt(row['DR']),
+          treb: parseInt(row['TR']),
+          as: parseInt(row['AS']),
+          to: parseInt(row['TO']),
+          st: parseInt(row['ST']),
+          bs: parseInt(row['BS']),
+          pf: parseInt(row['PF']),
+          fd: parseInt(row['FD']),
+          pts: parseInt(row['PTS'])
+        }));
+      });
+
+    function loadRankings() {
+      const comp = document.getElementById('competitionSelect').value;
+      const year = document.getElementById('yearSelect').value;
+      let data = originalData.slice();
+
+      if (comp !== 'All') data = data.filter(p => p.competition === comp);
+      if (year !== 'All') data = data.filter(p => p.year.toString() === year);
+
+      generateRankingMatrix(data);
+    }
+
+    function calculateScore(player, pos) {
+      const w = positionWeights[pos];
+      return Object.keys(w).reduce((sum, stat) => sum + (player[stat] || 0) * w[stat], 0);
+    }
+
+    function generateRankingMatrix(data) {
+      const container = document.getElementById('rankingMatrix');
+      container.innerHTML = '';
+
+      for (const pos in positionWeights) {
+        const arr = data.slice().sort((a, b) => calculateScore(b, pos) - calculateScore(a, pos));
+        const top10 = arr.slice(0, 10);
+
+        const tbl = document.createElement('table');
+        tbl.innerHTML = `
+          <thead><tr><th colspan="3">${pos.toUpperCase()}</th></tr>
+                     <tr><th>Player</th><th>Team</th><th>Score</th></tr></thead>
+          <tbody>${top10.map(p =>
+            `<tr><td>${p.player}</td><td>${p.team}</td><td>${calculateScore(p, pos).toFixed(2)}</td></tr>`
+          ).join('')}</tbody>`;
+
+        container.appendChild(tbl);
+      }
+    }
+  </script>
 </body>
 </html>
