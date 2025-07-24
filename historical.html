@@ -253,7 +253,7 @@ function updatePaginationInfo(totalItems) {
       filtered = filtered.filter(p => p.competition === comp);
     }
 
-    if (year && comp !== 'All') {
+    if (year && year !== 'All') {
       filtered = filtered.filter(p => p.year.toString() === year);
     }
   
