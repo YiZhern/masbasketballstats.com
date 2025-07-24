@@ -238,7 +238,7 @@
 
     document.getElementById('generateBtn').onclick = generate;
     ['pg','wg','center','def'].forEach(g => {
-      ['pts','as','fgm','reb','st','bs','to','pf'].forEach(stat => {
+      ['fga','fgm','2fga','2fgm','3fga','3fgm','fta','ftm','or','dr','tr','as','to','st','bs','pf','fd','pts'].forEach(stat => {
         const el = document.querySelector(`input[name="${g}_${stat}"]`);
         if (el) {
           el.oninput = function () {
