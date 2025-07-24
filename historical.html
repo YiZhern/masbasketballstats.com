@@ -249,15 +249,15 @@ function updatePaginationInfo(totalItems) {
   
     let filtered = originalData;
 
-    if (comp) {
+    if (comp && comp !== "") {
       filtered = filtered.filter(p => p.competition === comp);
     }
 
-    if (year) {
+    if (year && comp !== "") {
       filtered = filtered.filter(p => p.year.toString() === year);
     }
   
-    if (player) {
+    if (player && comp !== "") {
       filtered = filtered.filter(p => p.player.toLowerCase().includes(player));
     }
 
