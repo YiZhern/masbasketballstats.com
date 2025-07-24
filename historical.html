@@ -251,10 +251,14 @@ function updatePaginationInfo(totalItems) {
 
     if (comp && comp !== 'All') {
       filtered = filtered.filter(p => p.competition === comp);
+    } else if (comp == 'All') {
+      filtered = filtered;
     }
 
     if (year && year !== 'All') {
       filtered = filtered.filter(p => p.year.toString() === year);
+    } else if (year == 'All') {
+      filtered = filtered;
     }
   
     if (player) {
