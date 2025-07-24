@@ -175,15 +175,15 @@
       if (year !== 'All') data = data.filter(p => p.year.toString() === year);
 
       const config = {
-        guard: readWeights('guard',['pts','as','fgm','to']),
-        wings: readWeights('wings',['pts','reb','fgm','st']),
+        pg: readWeights('pg',['pts','as','fgm','to']),
+        wg: readWeights('wg',['pts','reb','fgm','st']),
         center: readWeights('center',['reb','bs','pts','pf']),
         def:    readWeights('def',['st','bs','to','pf'])
       };
 
       const container = document.getElementById('rankingMatrix');
       container.innerHTML = '';
-      ['guard','wings','center','def'].forEach(pos => {
+      ['pg','wg','center','def'].forEach(pos => {
         const weights = config[pos];
         const sorted = data.map(p => ({
           player:p.player, team:p.team, score:calculateScore(p,weights)
@@ -231,7 +231,7 @@
   }
 
     document.getElementById('generateBtn').onclick = generate;
-    ['guard','wings','center','def'].forEach(g => {
+    ['pg','wg','center','def'].forEach(g => {
       ['pts','as','fgm','reb','st','bs','to','pf'].forEach(stat => {
         const el = document.querySelector(`input[name="${g}_${stat}"]`);
         if (el) el.oninput = () => document.getElementById(`sum_${g}`).textContent = sumWeights(g);
