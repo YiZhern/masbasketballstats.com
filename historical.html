@@ -46,7 +46,7 @@
 <div class="filter-bar">
   <label for="competitionSelect">Competition:</label>
   <select id="competitionSelect" onchange="updateYears()">
-    <option value="">Select Competition</option>
+    <option value = "">Select Competition</option>
     <option value="U15 (Boys)">National U15 (Boys)</option>
     <option value="U17 (Boys)">National U17 (Boys)</option>
     <option value="All">All</option>
@@ -54,7 +54,7 @@
 
   <label for="yearSelect">Year:</label>
   <select id="yearSelect">
-    <option value="">Select Year</option>
+    <option value = "">Select Year</option>
     <option value="2024">2024</option>
     <option value="2025">2025</option>
     <option value="All">All</option>
@@ -82,7 +82,7 @@
   <button onclick="sortByStat()">Sort 🔽</button>
 </div>
 
-    <!-- Box Score Table -->
+ <!-- Box Score Table -->
  <div class="table-wrapper">
     <table id="statsTable">
       <thead>
@@ -127,10 +127,10 @@
 
 <!-- JS Script -->
 <script>
-let currentPage = 1;
-const rowsPerPage = 30;
-let filteredData = []; // will hold filtered results
-let originalData = [];
+  let currentPage = 1;
+  const rowsPerPage = 30;
+  let filteredData = []; // will hold filtered results
+  let originalData = [];
 
  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
   .then(response => response.text())
@@ -165,79 +165,79 @@ let originalData = [];
   });
 
 
-function renderTable(data) {
-  filteredData = data;
-  const tbody = document.querySelector('#statsTable tbody');
-  tbody.innerHTML = '';
+  function renderTable(data) {
+    filteredData = data;
+    const tbody = document.querySelector('#statsTable tbody');
+    tbody.innerHTML = '';
+  
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const pageData = data.slice(start, end);
+  
+    pageData.forEach(p => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${p.player}</td>
+        <td>${p.competition}</td>
+        <td>${p.year}</td>
+        <td>${p.team}</td>
+        <td>${p.gp}</td>
+        <td>${p.min}</td>
+        <td>${p.fga}</td>
+        <td>${p.fgm}</td>
+        <td>${p.fga2}</td>
+        <td>${p.fgm2}</td>
+        <td>${p.fga3}</td>
+        <td>${p.fgm3}</td>
+        <td>${p.fta}</td>
+        <td>${p.ftm}</td>
+        <td>${p.oreb}</td>
+        <td>${p.dreb}</td>
+        <td>${p.treb}</td>
+        <td>${p.as}</td>
+        <td>${p.to}</td>
+        <td>${p.st}</td>
+        <td>${p.bs}</td>
+        <td>${p.pf}</td>
+        <td>${p.fd}</td>
+        <td>${p.pts}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  
+    updatePaginationInfo(data.length);
+  }
+  
+  function changePage(direction) {
+    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+    currentPage += direction;
+  
+    if (currentPage < 1) currentPage = 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+  
+    renderTable(filteredData);
+  }
 
-  const start = (currentPage - 1) * rowsPerPage;
-  const end = start + rowsPerPage;
-  const pageData = data.slice(start, end);
-
-  pageData.forEach(p => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${p.player}</td>
-      <td>${p.competition}</td>
-      <td>${p.year}</td>
-      <td>${p.team}</td>
-      <td>${p.gp}</td>
-      <td>${p.min}</td>
-      <td>${p.fga}</td>
-      <td>${p.fgm}</td>
-      <td>${p.fga2}</td>
-      <td>${p.fgm2}</td>
-      <td>${p.fga3}</td>
-      <td>${p.fgm3}</td>
-      <td>${p.fta}</td>
-      <td>${p.ftm}</td>
-      <td>${p.oreb}</td>
-      <td>${p.dreb}</td>
-      <td>${p.treb}</td>
-      <td>${p.as}</td>
-      <td>${p.to}</td>
-      <td>${p.st}</td>
-      <td>${p.bs}</td>
-      <td>${p.pf}</td>
-      <td>${p.fd}</td>
-      <td>${p.pts}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-
-  updatePaginationInfo(data.length);
-}
-
-function changePage(direction) {
-  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-  currentPage += direction;
-
-  if (currentPage < 1) currentPage = 1;
-  if (currentPage > totalPages) currentPage = totalPages;
-
-  renderTable(filteredData);
-}
-
-function updatePaginationInfo(totalItems) {
-  const totalPages = Math.ceil(totalItems / rowsPerPage);
-  document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
-}
+  function updatePaginationInfo(totalItems) {
+    const totalPages = Math.ceil(totalItems / rowsPerPage);
+    document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+  }
 
   function updateYears() {
     const comp = document.getElementById('competitionSelect').value;
     const yearSelect = document.getElementById('yearSelect');
-    yearSelect.innerHTML = '<option value="all">All</option>';
-
+    yearSelect.innerHTML = '<option value="All">All</option>';
+  
     const years = [...new Set(originalData
-      .filter(p => p.competition === comp)
-      .map(p => p.year))];
-
+      .filter(p => comp === 'All' || p.competition === comp)
+      .map(p => p.year))
+    ];
     years.sort((a, b) => b - a);
-
-    years.forEach(year => {
+  
+    years.forEach(y => {
       const opt = document.createElement('option');
-      opt.value = year;
-      opt.textContent = year;
+      opt.value = y;
+      opt.textContent = y;
       yearSelect.appendChild(opt);
     });
   }
@@ -249,16 +249,12 @@ function updatePaginationInfo(totalItems) {
   
     let filtered = originalData;
 
-    if (comp && comp !== 'All') {
+    if (comp !== '' && comp !== 'All') {
       filtered = filtered.filter(p => p.competition === comp);
-    } else if (comp == 'All') {
-      filtered = filtered;
-    }
-
-    if (year && year !== 'All') {
+    } 
+    
+    if (year !== '' && year !== 'All') {
       filtered = filtered.filter(p => p.year.toString() === year);
-    } else if (year == 'All') {
-      filtered = filtered;
     }
   
     if (player) {
@@ -269,22 +265,22 @@ function updatePaginationInfo(totalItems) {
     renderTable(filtered);
   }
 
-let sortDescending = true;
-
-function sortByStat() {
-  const stat = document.getElementById('sortSelect').value;
-  if (!filteredData.length) return;
-
-  filteredData.sort((a, b) => {
-    return sortDescending ? b[stat] - a[stat] : a[stat] - b[stat];
-  });
-
-  document.querySelector("button[onclick='sortByStat()']").textContent = 
-    sortDescending ? "Sort 🔼" : "Sort 🔽";
-
-  sortDescending = !sortDescending;
-  renderTable(filteredData);
-}
+  let sortDescending = true;
+  
+  function sortByStat() {
+    const stat = document.getElementById('sortSelect').value;
+    if (!filteredData.length) return;
+  
+    filteredData.sort((a, b) => {
+      return sortDescending ? b[stat] - a[stat] : a[stat] - b[stat];
+    });
+  
+    document.querySelector("button[onclick='sortByStat()']").textContent = 
+      sortDescending ? "Sort 🔼" : "Sort 🔽";
+  
+    sortDescending = !sortDescending;
+    renderTable(filteredData);
+  }
   
 </script>
 </body>
