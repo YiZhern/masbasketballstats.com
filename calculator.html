@@ -78,7 +78,7 @@
       <div class="slider-group" id="wg-weights">
         <label>PTS <input name="wg_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wg')"> <span>0</span>%</label> 
         <label>AST <input name="wg_as" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'wg')"> <span>50</span>%</label>
-        <label>FGA <input name="wg_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wg')"> <span>0</span>%</label> 
+        <label>FGA <input name="wg_fga" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wg')"> <span>0</span>%</label> 
         <label>TOS <input name="wg_to" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'wg')"> <span>50</span>%</label>
       </div>
       <p>Total: <span id="wg-total">100</span>%</p>
@@ -151,7 +151,7 @@
       let ok = true;
       groups.forEach(g => {
         const s = sumWeights(g);
-        document.getElementById(`sum_${g}`).textContent = s;
+        document.getElementById(`${g}-total`).textContent = s;
         if (s !== 100) ok = false;
       });
       return ok;
