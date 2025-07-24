@@ -236,6 +236,10 @@ tr:hover {
   .position-group {
     flex: 100%;
   }
+
+  .row-wrapper {
+    flex-direction: column;
+  }
 }
 
 .weight-panel {
