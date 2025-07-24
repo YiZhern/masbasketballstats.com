@@ -198,37 +198,43 @@
       });
     }
 
-  function updateWeightAutoAdjusted(input, group) {
-    const sliders = Array.from(document.querySelectorAll(`#${group}-weights input[type="range"]`));
-    const total = 100;
-    const movedSlider = input;
-    const movedValue = parseInt(movedSlider.value);
-    const others = sliders.filter(s => s !== movedSlider);
-    const sumOthers = others.reduce((sum, s) => sum + parseInt(s.value), 0);
-    const remaining = total - movedValue;
-  
-    if (sumOthers === 0) {
-      others.forEach(s => s.value = Math.floor(remaining / others.length));
-    } else {
-      others.forEach(s => {
-        const ratio = parseInt(s.value) / sumOthers;
-        s.value = Math.round(ratio * remaining);
-      });
+    function updateWeightAutoAdjusted(input, group) {
+      const sliders = Array.from(document.querySelectorAll(`#${group}-weights input[type="range"]`));
+      const total = 100;
+      const movedSlider = input;
+      const movedValue = parseInt(movedSlider.value);
+      const others = sliders.filter(s => s !== movedSlider);
+      let remaining = total - movedValue;
+    
+      if (remaining < 0) remaining = 0; // Prevent negative weights
+    
+      const sumOthers = others.reduce((sum, s) => sum + parseInt(s.value), 0);
+    
+      if (sumOthers === 0) {
+        // Distribute remaining equally
+        const share = Math.floor(remaining / others.length);
+        others.forEach(s => s.value = share);
+      } else {
+        // Redistribute proportionally
+        others.forEach(s => {
+          const val = parseInt(s.value);
+          const ratio = val / sumOthers;
+          s.value = Math.round(ratio * remaining);
+        });
+      }
+    
+      // Rounding fix to make sure total is exactly 100
+      let checkTotal = sliders.reduce((sum, s) => sum + parseInt(s.value), 0);
+      if (checkTotal !== 100 && others.length > 0) {
+        const delta = 100 - checkTotal;
+        const adj = others[0];
+        adj.value = parseInt(adj.value) + delta;
+      }
+    
+      sliders.forEach(s => s.nextElementSibling.textContent = s.value);
+      document.getElementById(`${group}-total`).textContent = "100";
+      document.getElementById(`${group}-total`).style.color = 'green';
     }
-  
-    // Fix rounding
-    let checkTotal = sliders.reduce((sum, s) => sum + parseInt(s.value), 0);
-    while (checkTotal !== 100) {
-      const delta = 100 - checkTotal;
-      const adj = others[0];
-      adj.value = parseInt(adj.value) + delta;
-      checkTotal = sliders.reduce((sum, s) => sum + parseInt(s.value), 0);
-    }
-  
-    sliders.forEach(s => s.nextElementSibling.textContent = s.value);
-    document.getElementById(`${group}-total`).textContent = "100";
-    document.getElementById(`${group}-total`).style.color = 'green';
-  }
 
     document.getElementById('generateBtn').onclick = generate;
     ['pg','wg','center','def'].forEach(g => {
