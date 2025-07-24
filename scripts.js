@@ -32,3 +32,22 @@ new Chart(ctx, {
     }
   }
 });
+
+function updateWeight(input, group) {
+  const container = document.getElementById(`${group}-weights`);
+  const sliders = container.querySelectorAll('input[type="range"]');
+  let total = 0;
+
+  sliders.forEach(slider => {
+    total += parseInt(slider.value);
+    slider.nextElementSibling.textContent = slider.value;
+  });
+
+  document.getElementById(`${group}-total`).textContent = total;
+
+  if (total !== 100) {
+    document.getElementById(`${group}-total`).style.color = 'red';
+  } else {
+    document.getElementById(`${group}-total`).style.color = 'green';
+  }
+}
