@@ -56,51 +56,53 @@
         <select id="yearSelect"><option>All</option><option>2024</option><option>2025</option></select>
       </label>
     </div>
-    
-    <div id="weightsContainer">
-      <div class="weight-group" id="guardGroup">
-        <h3>Guard Weights (Total = 100)</h3>
-        <label>PTS: <input type="number" name="guard_pts" value="30" min="0" max="100"/></label>
-        <label>AS:  <input type="number" name="guard_as" value="30" min="0" max="100"/></label>
-        <label>FGM: <input type="number" name="guard_fgm" value="20" min="0" max="100"/></label>
-        <label>TO:  <input type="number" name="guard_to" value="20" min="0" max="100"/></label>
-        <div>Sum: <span id="sum_guard">100</span></div>
-      </div>
 
-      <div class="weight-group" id="wingsGroup">
-        <h3>Wings Weights (Total = 100)</h3>
-        <label>PTS: <input type="number" name="wings_pts" value="25" min="0" max="100"/></label>
-        <label>REB: <input type="number" name="wings_reb" value="25" min="0" max="100"/></label>
-        <label>FGM: <input type="number" name="wings_fgm" value="25" min="0" max="100"/></label>
-        <label>ST:  <input type="number" name="wings_st" value="25" min="0" max="100"/></label>
-        <div>Sum: <span id="sum_wings">100</span></div>
+  <div class="weight-panel">
+    <h2>Weight Allocation (Total 100 per Position)</h2>
+  
+    <div class="position-group">
+      <h3>Point Guard</h3>
+      <div class="slider-group" id="pg-weights">
+        <label>PTS <input type="range" min="0" max="100" value="25" data-stat="pts" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>AS <input type="range" min="0" max="100" value="25" data-stat="as" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>FGA <input type="range" min="0" max="100" value="25" data-stat="fga" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>TO <input type="range" min="0" max="100" value="25" data-stat="to" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
       </div>
+      <p>Total: <span id="pg-total">100</span>%</p>
+      
+      <h3>Wings</h3>
+      <div class="slider-group" id="pg-weights">
+        <label>PTS <input type="range" min="0" max="100" value="25" data-stat="pts" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>AS <input type="range" min="0" max="100" value="25" data-stat="as" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>FGA <input type="range" min="0" max="100" value="25" data-stat="fga" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>TO <input type="range" min="0" max="100" value="25" data-stat="to" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+      </div>
+      <p>Total: <span id="pg-total">100</span>%</p>
 
-      <div class="weight-group" id="centerGroup">
-        <h3>Center Weights (Total = 100)</h3>
-        <label>REB: <input type="number" name="center_reb" value="30" min="0" max="100"/></label>
-        <label>BS:  <input type="number" name="center_bs" value="30" min="0" max="100"/></label>
-        <label>PTS: <input type="number" name="center_pts" value="20" min="0" max="100"/></label>
-        <label>PF:  <input type="number" name="center_pf" value="20" min="0" max="100"/></label>
-        <div>Sum: <span id="sum_center">100</span></div>
+      <h3>Center</h3>
+      <div class="slider-group" id="pg-weights">
+        <label>PTS <input type="range" min="0" max="100" value="25" data-stat="pts" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>AS <input type="range" min="0" max="100" value="25" data-stat="as" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>FGA <input type="range" min="0" max="100" value="25" data-stat="fga" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>TO <input type="range" min="0" max="100" value="25" data-stat="to" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
       </div>
+      <p>Total: <span id="pg-total">100</span>%</p>
 
-      <div class="weight-group" id="defGroup">
-        <h3>Defensive Weights (Total = 100)</h3>
-        <label>ST: <input type="number" name="def_st" value="40" min="0" max="100"/></label>
-        <label>BS: <input type="number" name="def_bs" value="30" min="0" max="100"/></label>
-        <label>TO: <input type="number" name="def_to" value="20" min="0" max="100"/></label>
-        <label>PF: <input type="number" name="def_pf" value="10" min="0" max="100"/></label>
-        <div>Sum: <span id="sum_def">100</span></div>
+      <h3>Defensive</h3>
+      <div class="slider-group" id="pg-weights">
+        <label>PTS <input type="range" min="0" max="100" value="25" data-stat="pts" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>AS <input type="range" min="0" max="100" value="25" data-stat="as" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>FGA <input type="range" min="0" max="100" value="25" data-stat="fga" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
+        <label>TO <input type="range" min="0" max="100" value="25" data-stat="to" oninput="updateWeight(this, 'pg')"> <span>25</span>%</label>
       </div>
+      <p>Total: <span id="pg-total">100</span>%</p>
     </div>
 
     <button id="generateBtn">Generate Rankings</button>
     <div id="errorMsg" style="color:#f55; margin:10px 0;"></div>
-
     <div id="rankingMatrix"></div>
   </div>
-
+    
   <script>
     let originalData = [];
     fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
