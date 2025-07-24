@@ -47,14 +47,21 @@
   
   <div class="container">
     <h1>Weighted Position Calculator</h1>
-    
+
     <div class="filter-bar">
-      <label>Competition:
-        <select id="competitionSelect" onchange="updateYears()"><option>All</option><option>U15 (Boys)</option><option>U17 (Boys)</option><option>MABA Cup</option><option>Agong Cup</option></select>
-      </label>
-      <label>Year:
-        <select id="yearSelect"><option>All</option><option>2024</option><option>2025</option></select>
-      </label>
+      <label for="competitionSelect">Competition:</label>
+        <select id="competitionSelect" onchange="updateYears()">
+          <option>All</option>
+          <option>U15 (Boys)</option>
+          <option>U17 (Boys)</option>
+        </select>
+      
+      <label for="yearSelect">Year:</label>
+        <select id="yearSelect">
+          <option>All</option>
+          <option>2024</option>
+          <option>2025</option>
+        </select>
     </div>
 
   <div class="weight-panel">
