@@ -234,7 +234,12 @@
     ['pg','wg','center','def'].forEach(g => {
       ['pts','as','fgm','reb','st','bs','to','pf'].forEach(stat => {
         const el = document.querySelector(`input[name="${g}_${stat}"]`);
-        if (el) el.oninput = () => document.getElementById(`sum_${g}`).textContent = sumWeights(g);
+        if (el) {
+          el.oninput = function () {
+            updateWeightAutoAdjusted(this, g);
+            document.getElementById(`sum_${g}`).textContent = sumWeights(g);
+          };
+        }
       });
     });
   </script>
