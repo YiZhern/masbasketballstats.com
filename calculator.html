@@ -131,7 +131,7 @@
       });
 
     function sumWeights(prefix) {
-      return ['fga','fgm','2fga','2fgm','3fga','3fgm','fta','ftm','or','dr','tr','as','to','st','bs','pf','fd','pts']
+      return ['fga','fgm','fga2','fgm2','fga3','fgm3','fta','ftm','oreb','dreb','treb','as','to','st','bs','pf','fd','pts']
         .reduce((s, stat) => {
           const el = document.querySelector(`input[name="${prefix}_${stat}"]`);
           return el ? s + Number(el.value) : s;
@@ -241,7 +241,7 @@
 
     document.getElementById('generateBtn').onclick = generate;
     ['pg','wg','center','def'].forEach(g => {
-      ['fga','fgm','2fga','2fgm','3fga','3fgm','fta','ftm','or','dr','tr','as','to','st','bs','pf','fd','pts'].forEach(stat => {
+      ['fga','fgm','fga2','fgm2','fga3','fgm3','fta','ftm','oreb','dreb','treb','as','to','st','bs','pf','fd','pts'].forEach(stat => {
         const el = document.querySelector(`input[name="${g}_${stat}"]`);
         if (el) {
           el.oninput = function () {
