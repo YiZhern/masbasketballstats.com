@@ -139,6 +139,7 @@ table {
   table-layout: fixed;    /* Ensures consistent column widths */
   width: 100%;
   border-collapse: collapse;
+  min-width: 1200px;
 }
 
 th, td {
@@ -146,6 +147,8 @@ th, td {
   border: 1px solid #eee;
   font-size: 13px;
   text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;     /* Prevent columns from wrapping */
 }
 
