@@ -67,7 +67,7 @@
       defense: { st: 0.4, bs: 0.3, to: -0.3, pf: -0.2 }
     };
 
-    fetch('https://docs.google.com/spreadsheets/d/.../pub?output=csv')
+    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
       .then(r => r.text())
       .then(csv => {
         const parsed = Papa.parse(csv, { header: true }).data;
