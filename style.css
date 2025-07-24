@@ -244,12 +244,19 @@ tr:hover {
   font-weight: bold;
 }
 
+.row-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-between;
+}
+
 .position-group {
-  margin-bottom: 25px;
-  padding: 15px;
-  border: 1px solid #ffcc80;
+  flex: 1 1 48%;
+  background-color: #f8f8f8;
+  padding: 20px;
   border-radius: 8px;
-  background: #fefefe;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
 }
 
 .position-group h3 {
