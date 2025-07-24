@@ -1,8 +1,9 @@
+/* === Base Setup === */
 body {
   font-family: 'Segoe UI', Roboto, sans-serif;
   background: #f5f6f8;
-  margin: 0;
   color: #333;
+  margin: 0;
   padding: 0;
   overflow-x: hidden;
 }
@@ -17,6 +18,7 @@ body {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
+/* === Buttons === */
 button {
   background: #ff6600;
   color: white;
@@ -33,6 +35,7 @@ button:hover {
   transform: translateY(-2px);
 }
 
+/* === Inputs & Selects === */
 input[type="text"], select {
   padding: 10px;
   background: #fafafa;
@@ -46,6 +49,7 @@ input::placeholder {
   color: #aaa;
 }
 
+/* === Navigation === */
 .top-nav {
   display: flex;
   justify-content: space-between;
@@ -85,7 +89,7 @@ input::placeholder {
   color: #ff6600;
 }
 
-/* Dropdown */
+/* === Dropdown === */
 .dropdown {
   position: relative;
 }
@@ -129,33 +133,7 @@ input::placeholder {
   display: block;
 }
 
-/* Table Styling */
-.table-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-table {
-  table-layout: fixed;
-  min-width: max-content; /* Allow table to stretch as needed */
-  width: 100%;
-}
-
-th, td {
-  white-space: nowrap;
-  overflow: visible; /* Better for small screens */
-  text-overflow: ellipsis;
-}
-
-thead th {
-  background: #ff6600;
-  color: #fff;
-}
-
-tr:nth-child(even) {
-  background: #f9f9f9;
-}
-
+/* === Filter & Sort Bars === */
 .filter-bar,
 .sort-bar {
   display: flex;
@@ -177,6 +155,44 @@ tr:nth-child(even) {
   gap: 10px;
 }
 
+/* === Table Styles === */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  table-layout: fixed;
+  min-width: max-content;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 8px;
+  border: 1px solid #eee;
+  text-align: center;
+  font-size: 13px;
+}
+
+thead th {
+  background: #ff6600;
+  color: white;
+  text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+tr:hover {
+  background: #fff2e6;
+}
+
+/* === Pagination === */
 .pagination {
   margin-top: 20px;
   display: flex;
@@ -199,41 +215,7 @@ tr:nth-child(even) {
   color: #333;
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding: 20px 10px;
-    margin: 0;
-    border-radius: 0;
-  }
-  
-  .top-nav, .sub-nav {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .filter-bar, .sort-bar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  input, select, button {
-    width: 100%;
-  }
-
-  .dropdown-content {
-    position: static;
-    width: 100%;
-  }
-  
-  .position-group {
-    flex: 100%;
-  }
-
-  .row-wrapper {
-    flex-direction: column;
-  }
-}
-
+/* === Weight Panel === */
 .weight-panel {
   background: #fff;
   color: #111;
@@ -250,6 +232,7 @@ tr:nth-child(even) {
   font-weight: bold;
 }
 
+/* === Weight Slider Layout === */
 .row-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -259,9 +242,9 @@ tr:nth-child(even) {
 }
 
 .position-group {
-  flex: 1;
+  flex: 1 1 45%;
   min-width: 300px;
-  background: #222;
+  background: #f0f0f0;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(255, 102, 0, 0.1);
@@ -282,12 +265,11 @@ tr:nth-child(even) {
   color: #333;
   font-weight: 500;
   flex-wrap: wrap;
-  word-break: break-word;
 }
 
 .slider-group span {
   display: inline-block;
-  width: 30px; /* fixes width for percentages like 5%, 25%, 100% */
+  width: 30px;
   text-align: right;
 }
 
@@ -297,15 +279,41 @@ tr:nth-child(even) {
   accent-color: #ff6600;
 }
 
-.position-group {
-  flex: 1 1 100%;
-  min-width: 0;
-  background: #f0f0f0; /* was #222 */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 102, 0, 0.1);
-}
+/* === Responsive === */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 10px;
+    margin: 0;
+    border-radius: 0;
+  }
 
-body {
-  overflow-x: hidden;
+  .top-nav,
+  .sub-nav,
+  .filter-bar,
+  .sort-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input, select, button {
+    width: 100%;
+  }
+
+  .dropdown-content {
+    position: static;
+    width: 100%;
+  }
+
+  .player-search {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .row-wrapper {
+    flex-direction: column;
+  }
+
+  .position-group {
+    flex: 1 1 100%;
+  }
 }
