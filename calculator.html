@@ -176,9 +176,9 @@
 
       const config = {
         pg: readWeights('pg',['pts','as','fgm','to']),
-        wg: readWeights('wg',['pts','reb','fgm','st']),
-        center: readWeights('center',['reb','bs','pts','pf']),
-        def:    readWeights('def',['st','bs','to','pf'])
+        wg: readWeights('wg',['pts','as','fgm','to']),
+        center: readWeights('center',['pts','as','fgm','to']),
+        def:    readWeights('def',['pts','as','fgm','to'])
       };
 
       const container = document.getElementById('rankingMatrix');
