@@ -81,7 +81,7 @@
 </div>
 
  <!-- Box Score Table -->
- <div class="table-wrapper">
+ <div class="table-wrapper-2">
     <table id="statsTable">
       <thead>
         <tr>
@@ -160,8 +160,11 @@
       fd: parseInt(row['FD']),
       pts: parseInt(row['PTS'])
     }));
+    filteredData = originalData;       
+      updateYears();                     
+      console.log('Loaded rows:', originalData.length);
+      renderTable(originalData);       
   });
-
 
   function renderTable(data) {
     filteredData = data;
