@@ -64,8 +64,10 @@
     <div class="position-group">
       <h3>Point Guard</h3>
       <div class="slider-group" id="pg-weights">
-        <label>PTS <input name="pg_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label> <label>AST <input name="pg_as" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
-        <label>FGA <input name="pg_fga" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label> <label>TOS <input name="pg_to" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
+        <label>PTS <input name="pg_pts" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label> 
+        <label>AST <input name="pg_as" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
+        <label>FGA <input name="pg_fga" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label> 
+        <label>TOS <input name="pg_to" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'pg')"> <span>0</span>%</label>
       </div>
       <p>Total: <span id="pg-total">100</span>%</p>
     </div>
@@ -74,8 +76,10 @@
     <div class="position-group">
       <h3>Wings</h3>
       <div class="slider-group" id="wg-weights">
-        <label>PTS <input name="wg_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label> <label>AST <input name="wg_as" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
-        <label>FGA <input name="wg_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label> <label>TOS <input name="wg_to" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
+        <label>PTS <input name="wg_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label> 
+        <label>AST <input name="wg_as" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
+        <label>FGA <input name="wg_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label> 
+        <label>TOS <input name="wg_to" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'wings')"> <span>0</span>%</label>
       </div>
       <p>Total: <span id="wings-total">100</span>%</p>
     </div>
@@ -84,8 +88,10 @@
     <div class="position-group">
       <h3>Center</h3>
       <div class="slider-group" id="center-weights">
-        <label>PTS <input name="ctr_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'center')"> <span>0</span>%</label> <label>AST <input name="ctr_as" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'center')"> <span>0</span>%</label>
-        <label>FGA <input name="ctr_fga" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'center')"> <span>0</span>%</label> <label>TOS <input name="ctr_to" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'center')"> <span>0</span>%</label>
+        <label>PTS <input name="ctr_pts" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'center')"> <span>0</span>%</label> 
+        <label>AST <input name="ctr_as" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'center')"> <span>0</span>%</label>
+        <label>FGA <input name="ctr_fga" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'center')"> <span>0</span>%</label> 
+        <label>TOS <input name="ctr_to" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'center')"> <span>0</span>%</label>
       </div>
       <p>Total: <span id="center-total">100</span>%</p>
     </div>
@@ -94,8 +100,10 @@
     <div class="position-group">
       <h3>Defensive</h3>
       <div class="slider-group" id="def-weights">
-        <label>PTS <input name="def_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label> <label>AST <input name="def_as" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label>
-        <label>FGA <input name="def_fga" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label> <label>TOS <input name="def_to" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label>
+        <label>PTS <input name="def_pts" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label> 
+        <label>AST <input name="def_as" type="range" min="0" max="50" value="0" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label>
+        <label>FGA <input name="def_fga" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label> 
+        <label>TOS <input name="def_to" type="range" min="0" max="50" value="50" oninput="updateWeightAutoAdjusted(this, 'defensive')"> <span>0</span>%</label>
       </div>
       <p>Total: <span id="defensive-total">100</span>%</p>
     </div>
