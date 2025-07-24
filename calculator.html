@@ -175,10 +175,10 @@
       if (year !== 'All') data = data.filter(p => p.year.toString() === year);
 
       const config = {
-        pg: readWeights('pg',['pts','as','fgm','to']),
-        wg: readWeights('wg',['pts','as','fgm','to']),
-        center: readWeights('center',['pts','as','fgm','to']),
-        def:    readWeights('def',['pts','as','fgm','to'])
+        pg: readWeights('pg',['pts','as','fga','to']),
+        wg: readWeights('wg',['pts','as','fga','to']),
+        center: readWeights('center',['pts','as','fga','to']),
+        def:    readWeights('def',['pts','as','fga','to'])
       };
 
       const container = document.getElementById('rankingMatrix');
