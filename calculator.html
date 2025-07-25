@@ -58,10 +58,20 @@
     <div class="weight-panel">
       <h2>Weight Allocation</h2>
       <div class="stats-select">
-        <label><input type="checkbox" name="stat" value="pts"> Points (PTS)</label>
-        <label><input type="checkbox" name="stat" value="as"> Assists (AS)</label>
-        <label><input type="checkbox" name="stat" value="fgm"> FG Made (FGM)</label>
-        <label><input type="checkbox" name="stat" value="st"> Steals (ST)</label>
+        <label><input type="checkbox" name="stat" value="fg"> FG% </label>
+        <label><input type="checkbox" name="stat" value="fg2"> 2FG% </label>
+        <label><input type="checkbox" name="stat" value="fg3"> 3FG% </label>
+        <label><input type="checkbox" name="stat" value="ft"> FT% </label>
+        <label><input type="checkbox" name="stat" value="oreb"> Offensive Rebounds </label>
+        <label><input type="checkbox" name="stat" value="dreb"> Defensive Rebounds </label>
+        <label><input type="checkbox" name="stat" value="treb"> Total Rebounds </label>
+        <label><input type="checkbox" name="stat" value="as"> Assists </label>
+        <label><input type="checkbox" name="stat" value="to"> Turnovers </label>
+        <label><input type="checkbox" name="stat" value="st"> Steals </label>
+        <label><input type="checkbox" name="stat" value="bs"> Blocked Shots </label>
+        <label><input type="checkbox" name="stat" value="pf"> Personal Fouls </label>
+        <label><input type="checkbox" name="stat" value="fd"> Fouls Drawn </label>
+        <label><input type="checkbox" name="stat" value="pts"> Total Points </label>
       </div>
 
       <div class="name-input">
@@ -98,10 +108,26 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
         competition: r['Competition'],
         year: r['Year'],
         team: r['Team'],
-        pts: +r['PTS'],
-        as: +r['AS'],
+        gp:r['GP'],
+        min: r['Min'],
+        fga: +r['FGA'],
         fgm: +r['FGM'],
-        st: +r['ST']
+        fga2: +r['2FGA'],
+        fgm2: +r['2FGM'],
+        fga3: +r['3FGA'],
+        fgm3: +r['3FGM'],
+        fta: +r['FTA'],
+        ftm: +r['FTM'],
+        oreb: +r['OR'],
+        dreb: +r['DR'],
+        treb: +r['TR'],
+        as: +r['AS'],
+        to: +r['TO'],
+        st: +r['ST'],
+        bs: +r['BS'],
+        pf: +r['PF'],
+        fd: +r['FD'],
+        pts: +r['PTS']
       });
     });
     populateCompetitionOptions();
@@ -212,7 +238,7 @@ function generateRanking() {
   .slice(0, 10);
 
   document.getElementById('rankingTitle').textContent =
-    document.getElementById('allocName').value.trim() || 'Custom Allocation';
+    document.getElementById('allocName').value.trim() || 'Ranking';
 
   const tbody = document.querySelector('#rankingTable tbody');
   tbody.innerHTML = entries
