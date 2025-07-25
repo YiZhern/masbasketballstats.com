@@ -121,7 +121,7 @@
           year: r.Year,
           team: r.Team,
           gp: +r.GP,
-          min: +r['Min'],
+          min: +r.Min || +r['MIN'] || 0,
           fga: +r.FGA,
           fgm: +r.FGM,
           fga2: +r['2FGA'],
