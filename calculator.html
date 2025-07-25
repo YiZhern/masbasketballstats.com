@@ -131,10 +131,10 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
         pf: +r.PF,
         fd: +r.FD,
         pts: +r.PTS,
-        fg: +r.FGM / +r.FGA || 0,
-        fg2: +r['2FGM'] / +r['2FGA'] || 0,
-        fg3: +r['3FGM'] / +r['3FGA'] || 0,
-        ft: +r.FTM / +r.FTA || 0
+        fg: safeDivide(+r.FGM, +r.FGA),
+        fg2: safeDivide(+r['2FGM'], +r['2FGA']),
+        fg3: safeDivide(+r['3FGM'], +r['3FGA']),
+        ft: safeDivide(+r.FTM, +r.FTA)
       });
     });
     populateCompetitionOptions();
@@ -268,6 +268,10 @@ function generateRanking() {
   tbody.innerHTML = entries
     .map(e => `<tr><td>${e.player}</td><td>${e.team}</td><td>${e.score.toFixed(2)}</td></tr>`)
     .join('');
+}
+
+function safeDivide(numerator, denominator) {
+  return denominator === 0 ? 0 : numerator / denominator;
 }
 
 // Event bindings after DOM loads
