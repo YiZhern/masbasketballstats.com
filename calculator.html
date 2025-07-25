@@ -295,28 +295,31 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Event bindings after DOM loads
+let originalData = [];
+
 document.addEventListener('DOMContentLoaded', () => {
+  const chips = document.querySelectorAll('.chip');
+
   chips.forEach(chip => {
-  const value = chip.getAttribute('value');
+    const value = chip.dataset.value;
 
-  // Add hidden checkbox
-  const hidden = document.createElement('input');
-  hidden.type = 'checkbox';
-  hidden.name = 'stat';
-  hidden.value = value;
-  hidden.style.display = 'none';
-  chip.appendChild(hidden);
+    // Create a hidden checkbox and append it to each chip
+    const hidden = document.createElement('input');
+    hidden.type = 'checkbox';
+    hidden.name = 'stat';
+    hidden.value = value;
+    hidden.style.display = 'none';
+    chip.appendChild(hidden);
 
-  chip.addEventListener('click', () => {
-    chip.classList.toggle('selected');
-    hidden.checked = chip.classList.contains('selected');
-    renderSliders(); // Trigger re-render
+    // Toggle chip appearance and checkbox value
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('selected');
+      hidden.checked = chip.classList.contains('selected');
+      renderSliders(); // Update sliders dynamically
+    });
   });
 
-  document.querySelectorAll('input[name="stat"]').forEach(c =>
-    c.addEventListener('change', renderSliders)
-  );
-
+  // Attach event to generate button
   document.getElementById('generateBtn').addEventListener('click', generateRanking);
 });
 </script>
