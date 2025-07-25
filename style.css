@@ -114,12 +114,30 @@ input:focus, select:focus {
 }
 
 /* === Filter & Sort Bars === */
-.filter-bar, .sort-bar {
+.sort-bar {
   background: #fff9f4;
   border: 1px solid #ffe5d0;
   border-radius: 12px;
   padding: 18px 24px;
   box-shadow: 0 2px 6px rgba(255, 136, 0, 0.06);
+}
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.player-search {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+}
+
+@media(min-width: 768px) {
+  .filter-bar .player-search {
+    flex: 1;
+  }
 }
 
 .filter-bar label, .sort-bar label {
