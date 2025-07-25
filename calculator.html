@@ -190,14 +190,35 @@ function rebalance(changed) {
   const changedEl = document.querySelector(`[name=w_${changed}]`);
   const cv = +changedEl.value;
   const others = [...all].filter(s => s !== changedEl);
+  let remaining = 100 - cv;
+
+  if (remaining < 0) remaining = 0;
+
   const sumOthers = others.reduce((sum, s) => sum + +s.value, 0);
-  const remaining = 100 - cv;
-  if (sumOthers > 0) {
-    others.forEach(s => s.value = Math.round((s.value / sumOthers) * remaining));
+
+  if (sumOthers === 0) {
+    // Evenly distribute if all others were 0
+    const even = Math.floor(remaining / others.length);
+    others.forEach(s => s.value = even);
   } else {
-    const share = Math.floor(remaining / others.length);
-    others.forEach(s => s.value = share);
+    // Redistribute proportionally
+    others.forEach(s => {
+      const v = +s.value;
+      const ratio = v / sumOthers;
+      s.value = Math.round(ratio * remaining);
+    });
   }
+
+  // Fix any rounding errors
+  let total = [...all].reduce((sum, s) => sum + +s.value, 0);
+  if (total !== 100) {
+    const delta = 100 - total;
+    const firstOther = others[0];
+    if (firstOther) {
+      firstOther.value = +firstOther.value + delta;
+    }
+  }
+
   updateLabels();
 }
 
