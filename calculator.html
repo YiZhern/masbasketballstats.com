@@ -246,6 +246,7 @@ function generateRanking() {
   });
 
   let data = originalData.filter(p =>
+    p.gp > 0 &&
     (!comps.includes('All') ? comps.includes(p.competition) : true) &&
     (!years.includes('All') ? years.includes(p.year) : true)
   );
@@ -253,7 +254,9 @@ function generateRanking() {
   const entries = data.map(p => ({
     player: p.player,
     team: p.team,
-    score: stats.reduce((s, stat) => s + (p[stat] || 0) * weights[stat] / p.gp, 0)
+    score: p.gp > 0
+      ? stats.reduce((s, stat) => s + (p[stat] || 0) * weights[stat] / p.gp, 0)
+      : 0
   }))
   .sort((a, b) => b.score - a.score)
   .slice(0, 10);
