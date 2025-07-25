@@ -178,7 +178,6 @@ tr:nth-child(even) {
 .table-type2 table {
   table-layout: auto;
   min-width: max-content;
-  display: none; /* hide by default */
 }
 
 .table-type2 th:nth-child(1),
