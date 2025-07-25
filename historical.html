@@ -42,85 +42,85 @@
   <div class="container">
     <h1>Box Score</h1>
 
-<!-- Filter buttons -->
-<div class="filter-bar">
-  <label for="competitionSelect">Competition:</label>
-  <select id="competitionSelect" onchange="updateYears()">
-    <option value="All">All</option>
-    <option value="U15 (Boys)">National U15 (Boys)</option>
-    <option value="U17 (Boys)">National U17 (Boys)</option>
-  </select>
-
-  <label for="yearSelect">Year:</label>
-  <select id="yearSelect">
-    <option value="All">All</option>
-    <option value="2024">2024</option>
-    <option value="2025">2025</option>
-  </select>
-
-  <div class="player-search">
-    <label for="playerInput">Player:</label>
-    <input type="text" id="playerInput" placeholder="Enter player name" />
+  <!-- Filter buttons -->
+  <div class="filter-bar">
+    <label for="competitionSelect">Competition:</label>
+    <select id="competitionSelect" onchange="updateYears()">
+      <option value="All">All</option>
+      <option value="U15 (Boys)">National U15 (Boys)</option>
+      <option value="U17 (Boys)">National U17 (Boys)</option>
+    </select>
+  
+    <label for="yearSelect">Year:</label>
+    <select id="yearSelect">
+      <option value="All">All</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+    </select>
+  
+    <div class="player-search">
+      <label for="playerInput">Player:</label>
+      <input type="text" id="playerInput" placeholder="Enter player name" />
+    </div>
+  
+    <button onclick="filterByCompetition()">Search</button>
   </div>
-
-  <button onclick="filterByCompetition()">Search</button>
-</div>
-
-<!-- sort bar -->
-<div class="sort-bar">
-  <label for="sortSelect">Sort by:</label>
-  <select id="sortSelect">
-    <option value="pts">Points (PTS)</option>
-    <option value="min">Minutes (MIN)</option>
-    <option value="as">Assists (AS)</option>
-    <option value="reb">Rebounds (TR)</option>
-    <option value="st">Steals (ST)</option>
-    <option value="fgm">FG Made (FGM)</option>
-  </select>
-  <button onclick="sortByStat()">Sort 🔽</button>
-</div>
-
- <!-- Box Score Table -->
- <div class="table-wrapper table-type2">
-    <table id="statsTable">
-      <thead>
-        <tr>
-          <th>Player</th>
-          <th>Competition</th>
-          <th>Year</th>
-          <th>Team</th>
-          <th>GP</th>
-          <th>Min</th>
-          <th>FGA</th>
-          <th>FGM</th>
-          <th>2FGA</th>
-          <th>2FGM</th>
-          <th>3FGA</th>
-          <th>3FGM</th>
-          <th>FTA</th>
-          <th>FTM</th>
-          <th>OR</th>
-          <th>DR</th>
-          <th>TR</th>
-          <th>AS</th>
-          <th>TO</th>
-          <th>ST</th>
-          <th>BS</th>
-          <th>PF</th>
-          <th>FD</th>
-          <th>PTS</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
+  
+  <!-- sort bar -->
+  <div class="sort-bar">
+    <label for="sortSelect">Sort by:</label>
+    <select id="sortSelect">
+      <option value="pts">Points (PTS)</option>
+      <option value="min">Minutes (MIN)</option>
+      <option value="as">Assists (AS)</option>
+      <option value="reb">Rebounds (TR)</option>
+      <option value="st">Steals (ST)</option>
+      <option value="fgm">FG Made (FGM)</option>
+    </select>
+    <button onclick="sortByStat()">Sort 🔽</button>
+  </div>
+  
+   <!-- Box Score Table -->
+   <div class="table-wrapper table-type2">
+      <table id="statsTable">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Competition</th>
+            <th>Year</th>
+            <th>Team</th>
+            <th>GP</th>
+            <th>Min</th>
+            <th>FGA</th>
+            <th>FGM</th>
+            <th>2FGA</th>
+            <th>2FGM</th>
+            <th>3FGA</th>
+            <th>3FGM</th>
+            <th>FTA</th>
+            <th>FTM</th>
+            <th>OR</th>
+            <th>DR</th>
+            <th>TR</th>
+            <th>AS</th>
+            <th>TO</th>
+            <th>ST</th>
+            <th>BS</th>
+            <th>PF</th>
+            <th>FD</th>
+            <th>PTS</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+        
     <!-- pagination -->
     <div id="pagination" class="pagination">
       <button onclick="changePage(-1)">Previous</button>
       <span id="pageInfo">Page 1</span>
       <button onclick="changePage(1)">Next</button>
     </div>
-  </div>
   </div>
 
 <!-- JS Script -->
@@ -130,7 +130,7 @@
   let filteredData = []; // will hold filtered results
   let originalData = [];
 
- fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
+  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
   .then(response => response.text())
   .then(csv => {
     const parsed = Papa.parse(csv, { header: true });
@@ -263,6 +263,8 @@
 
     currentPage = 1;
     renderTable(filtered);
+    document.getElementById('tableWrapper').style.display = 'block';
+    document.getElementById('pagination').style.display = 'flex';
   }
 
   let sortDescending = true;
