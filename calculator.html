@@ -219,7 +219,10 @@ function generateRanking() {
   const weights = {};
   document.querySelectorAll('#sliderContainer input[type=range]')
     .forEach(inp => {
-      weights[inp.name.replace('w_','')] = +inp.value / 100;
+      if (inp.name == 'to' || inp.name == 'pf') {
+        weights[inp.name.replace('w_','')] = -inp.value / 100;
+      } else {
+        weights[inp.name.replace('w_','')] = +inp.value / 100;
     });
 
   let data = originalData.slice();
