@@ -103,7 +103,8 @@ let originalData = [];
 fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
   .then(r => r.text())
   .then(csv => {
-    Papa.parse(csv, { header:true, skipEmptyLines:true }).data.forEach(r => {
+    const parsed = Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
+    parsed.forEach(r => {
       originalData.push({
         player: r.Player,
         competition: r.Competition,
@@ -129,13 +130,13 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
         pf: +r.PF,
         fd: +r.FD,
         pts: +r.PTS,
-        fg: r.FGM/r.FGA || 0,
-        fg2: r['2FGM']/r['2FGA'] || 0,
-        fg3: r['2FGM']/r['2FGA'] || 0,
-        ft: r.FTM/r.FTA || 0
+        fg: r.FGM / r.FGA || 0,
+        fg2: r['2FGM'] / r['2FGA'] || 0,
+        fg3: r['3FGM'] / r['3FGA'] || 0,
+        ft: r.FTM / r.FTA || 0
       });
     });
-    .then(populateCompetitionOptions);
+    populateCompetitionOptions();
   });
 
   function populateCompetitionOptions(){
@@ -160,14 +161,13 @@ function renderSliders() {
   container.innerHTML = '<h3>Weight Allocation (Total = 100%)</h3>';
   stats.forEach(s => {
     const init = Math.floor(100 / stats.length);
-    cont.insertAdjacentHTML('beforeend', `
+    container.insertAdjacentHTML('beforeend', `
       <label style="display:flex; justify-content:space-between; margin-bottom:8px;">
         ${s.toUpperCase()}:
         <input type="range" name="w_${s}" min="0" max="100" value="${init}" oninput="rebalance('${s}')">
         <span>${init}</span>%
       </label>`);
   });
-}
 
 function rebalance(changed){
   const all = document.querySelectorAll('#sliderContainer input[type="range"]');
