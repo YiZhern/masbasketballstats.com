@@ -280,6 +280,26 @@ function safeDivide(numerator, denominator) {
   return denominator === 0 ? 0 : numerator / denominator;
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  const chips = document.querySelectorAll('.chip');
+  let selectedChips = [];
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const value = chip.dataset.value;
+
+      if (chip.classList.contains('selected')) {
+        chip.classList.remove('selected');
+        selectedChips = selectedChips.filter(item => item !== value);
+      } else {
+        chip.classList.add('selected');
+        selectedChips.push(value);
+      }
+      console.log('Selected Chips:', selectedChips);
+    });
+  });
+});
+
 // Event bindings after DOM loads
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input[name="stat"]').forEach(c =>
