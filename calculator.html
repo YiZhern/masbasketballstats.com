@@ -109,7 +109,7 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
         competition: r['Competition'],
         year: r['Year'],
         team: r['Team'],
-        gp:r['GP'],
+        gp: r['GP'],
         min: r['Min'],
         fga: +r['FGA'],
         fgm: +r['FGM'],
@@ -236,7 +236,7 @@ function generateRanking() {
   const entries = data.map(p => ({
     player: p.player,
     team: p.team,
-    score: stats.reduce((s, stat) => s + (p[stat] || 0) * weights[stat], 0)
+    score: stats.reduce((s, stat) => s + (p[stat] || 0) * weights[stat] / p.gp, 0)
   }))
   .sort((a,b) => b.score - a.score)
   .slice(0, 10);
