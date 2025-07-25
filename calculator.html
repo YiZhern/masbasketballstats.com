@@ -265,11 +265,47 @@
   }
 
   function generateRanking() {
-    const name = document.getElementById('allocName').value.trim() || 'Custom Allocation';
+    const compVals = getSelectValues(document.getElementById('competitionSelect'));
+    const yearVals = getSelectValues(document.getElementById('yearSelect'));
+  
+    const stats = getSelectedStats();
+    if (!stats.length) {
+      alert('Select at least one stat.');
+      return;
+    }
+    renderSliders();
+  
     const weights = {};
-    document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
+    document.querySelectorAll('#sliderContainer input[type="range"]').forEach(inp => {
       weights[inp.name.replace('w_', '')] = inp.value/100;
     });
+  
+    let data = originalData.slice();
+  
+    // Competition filter
+    if (!compVals.includes('All')) {
+      data = data.filter(p => compVals.includes(p.competition));
+    }
+    // Year filter
+    if (!yearVals.includes('All')) {
+      data = data.filter(p => yearVals.includes(p.year.toString()));
+    }
+  
+    const entries = data.map(p => ({
+      player: p.player,
+      team: p.team,
+      score: Object.entries(weights).reduce((s,[stat,w]) => s + ((p[stat]||0)*w), 0)
+    }))
+    .filter(e => e.score > 0)
+    .sort((a,b) => b.score - a.score)
+    .slice(0, 10);
+  
+    document.getElementById('rankingTitle').textContent = document.getElementById('allocName').value.trim() || 'Custom Allocation';
+    const tbody = document.querySelector('#rankingTable tbody');
+    tbody.innerHTML = entries.map(e => `
+      <tr><td>${e.player}</td><td>${e.team}</td><td>${e.score.toFixed(2)}</td></tr>`
+    ).join('');
+  }
   
     // Filter & compute
     const entries = originalData.map(p => ({
@@ -287,7 +323,10 @@
 
   document.querySelectorAll('input[name="stat"]').forEach(c => c.addEventListener('change', renderSliders));
   document.getElementById('generateBtn').addEventListener('click', generateRanking);
-   
+  
+  function getSelectValues(select) {
+    return Array.from(select.selectedOptions).map(o => o.value);
+  }
   </script>
 </body>
 </html>
