@@ -131,10 +131,10 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
         pf: +r.PF,
         fd: +r.FD,
         pts: +r.PTS,
-        fg: r.FGM / r.FGA || 0,
-        fg2: r['2FGM'] / r['2FGA'] || 0,
-        fg3: r['3FGM'] / r['3FGA'] || 0,
-        ft: r.FTM / r.FTA || 0
+        fg: +r.FGM / +r.FGA || 0,
+        fg2: +r['2FGM'] / +r['2FGA'] || 0,
+        fg3: +r['3FGM'] / +r['3FGA'] || 0,
+        ft: +r.FTM / +r.FTA || 0
       });
     });
     populateCompetitionOptions();
@@ -182,6 +182,7 @@ function renderSliders() {
       </label>
     `);
   });
+  document.getElementById('sliderContainer').style.display = 'block';
   updateLabels();
 }
 
