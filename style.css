@@ -272,7 +272,6 @@ tr:nth-child(even) {
   accent-color: #ff6600;
   background: linear-gradient(to right, #ffd9b0, #ff6600);
   height: 6px;
-  border-radius: 4px;
   outline: none;
   transition: background 0.3s ease;
 }
