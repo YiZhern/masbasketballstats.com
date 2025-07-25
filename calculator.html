@@ -109,8 +109,8 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
         competition: r.Competition,
         year: r.Year,
         team: r.Team,
-        gp: r.GP,
-        min: r['Min'],
+        gp: +r.GP,
+        min: +r['Min'],
         fga: +r.FGA,
         fgm: +r.FGM,
         fga2: +r['2FGA'],
@@ -148,14 +148,8 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
     });
   }
 
-function getSelectValues(select) {
-  return Array.from(select.selectedOptions).map(o => o.value);
-}
-
-function getSelectedStats() {
-  return Array.from(document.querySelectorAll('input[name="stat"]:checked'))
-    .map(c => c.value);
-}
+function getSelectValues(sel){ return [...sel.selectedOptions].map(o=>o.value); }
+function getSelectedStats(){ return [...document.querySelectorAll('input[name="stat"]:checked')].map(c=>c.value); }
 
 function renderSliders() {
   const stats = getSelectedStats();
