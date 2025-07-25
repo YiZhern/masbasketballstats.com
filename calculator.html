@@ -15,7 +15,11 @@
 
     <div class="filter-bar">
       <label>Competition:</label>
-      <select id="competitionSelect" multiple size="3"></select>
+      <select id="competitionSelect" multiple size="3">
+        <option>All</option>
+        <option>U15 (Boys)</option>
+        <option>U17 (Boys)</option>
+      </select>
 
       <label>Year:</label>
       <select id="yearSelect" multiple size="3">
@@ -59,7 +63,7 @@
 <script>
 let originalData = [];
 
-fetch('https://docs.google.com/.../pub?output=csv')
+fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
   .then(r => r.text())
   .then(csv => {
     Papa.parse(csv, { header:true, skipEmptyLines:true }).data.forEach(r => {
