@@ -121,7 +121,7 @@
           year: r.Year,
           team: r.Team,
           gp: +r.GP,
-          min: +r.Min || +r.MIN || +r[' Minutes'] || 0,
+          min: +r.Min || +r.MIN || +r[' Minutes'] || +r['MIN'] || 0,
           fga: +r.FGA,
           fgm: +r.FGM,
           fga2: +r['2FGA'],
@@ -165,8 +165,7 @@
       const stat = document.getElementById('sortSelect').value;
       const statKey = stat === 'reb' ? 'treb' : stat;
     
-      const sorted = [...data].sort((a, b) => b[statKey] - a[statKey]);
-    
+      const sorted = [...data].sort((a, b) => (b[statKey] || 0) - (a[statKey] || 0));
       const start = (currentPage - 1) * pageSize;
       const paged = sorted.slice(start, start + pageSize);
     
@@ -182,6 +181,7 @@
         </tr>
       `).join('');
     
+      document.getElementById('tableContainer').style.display = 'block';
       document.getElementById('pageInfo').textContent = `Page ${currentPage}`;
     }
 
@@ -192,13 +192,10 @@
       renderTable();
     }
 
-    function sortByStat() {
-      const stat = document.getElementById('sortSelect').value;
-      const statKey = stat === 'reb' ? 'treb' : stat; // map "reb" to "treb"
-      originalData.sort((a, b) => b[statKey] - a[statKey]);
-      currentPage = 1;
-      renderTable();
-    }
+  function sortByStat() {
+    currentPage = 1;
+    renderTable();
+  }
 
     function filterByCompetition(){
       currentPage = 1;
