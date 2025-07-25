@@ -196,6 +196,20 @@ tr:hover {
   padding: 14px 10px;
 }
 
+#rankingTable {
+  border: 2px solid #ffe3cc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#rankingTitle {
+  font-size: 20px;
+  color: #e65c00;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
 /* === Pagination === */
 .pagination {
   margin-top: 32px;
@@ -220,41 +234,44 @@ tr:hover {
 
 /* === Weight Panel === */
 .weight-panel {
-  background: #fffaf5;
-  color: #111;
-  padding: 34px;
-  border-radius: 14px;
-  box-shadow: 0 0 18px rgba(255, 165, 0, 0.06);
-  margin-bottom: 40px;
+  border: 2px solid #ffddc2;
+  background: linear-gradient(to bottom right, #fffaf5, #fff3e5);
 }
 
-.weight-panel h2 {
-  margin-bottom: 28px;
-  color: #ff6600;
-  font-size: 22px;
-  font-weight: 600;
+.weight-panel h2, .weight-panel h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #ff5500;
 }
 
 /* === Slider Section === */
-#sliderContainer label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  gap: 12px;
-  font-weight: 500;
-}
-
 #sliderContainer input[type="range"] {
-  flex: 1;
-  max-width: 300px;
-  accent-color: #ff6600;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 4px;
+  background: #ffd4af;
+  outline: none;
 }
 
-#sliderContainer span {
-  width: 40px;
-  text-align: right;
+#sliderContainer input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #ff6600;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
+
+#sliderContainer input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #ff6600;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 
 /* === Responsive === */
 @media (max-width: 768px) {
