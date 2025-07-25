@@ -192,6 +192,43 @@ tr:hover {
   background: #fff0dc;
 }
 
+/* === Table Type 1: Default Table (existing style) === */
+.table-type1 table {
+  table-layout: fixed;
+  min-width: max-content;
+  width: 100%;
+}
+
+.table-type1 th, .table-type1 td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* === Table Type 2: Historical Table with wider columns === */
+.table-type2 table {
+  table-layout: auto;
+  min-width: max-content;
+  width: 100%;
+}
+
+.table-type2 th:nth-child(1),  /* Player */
+.table-type2 th:nth-child(2),  /* Competition */
+.table-type2 th:nth-child(4),  /* Team */
+.table-type2 td:nth-child(1),
+.table-type2 td:nth-child(2),
+.table-type2 td:nth-child(4) {
+  min-width: 160px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+.table-type2 th, .table-type2 td {
+  padding: 10px;
+  font-size: 14px;
+}
+
 /* === Pagination === */
 .pagination {
   margin-top: 20px;
