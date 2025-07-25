@@ -4,329 +4,195 @@
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Advanced Weight Calculator</title>
   <link rel="stylesheet" href="style.css"/>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <style>
-    .weight-group { margin-bottom:20px; background:#222; padding:15px; border-radius:8px; }
-    .weight-group h3 { margin-top:0; color:#FFA500; }
-    .weight-group label { display:flex; justify-content:space-between; margin:5px 0; }
-    .weight-group input { width:80px; text-align:center; }
-    #generateBtn { background:#FFA500; }
-    table { margin-bottom:30px; }
-  </style>
 </head>
 <body>
-  <!-- nav bar -->
-  <div class="top-nav">
-    <div class="left-section">
-      <a href="https://www.maba.com.my" target="_blank" style="color: #333; text-decoration: none;">MABA</a>
-      <span>FIBA</span>
-    </div>
-    <div class="right-section">
-      <span>Listen</span>
-      <span>Search 🔍</span>
-      <span>👤</span>
-    </div>
-  </div>
-  
-  <!-- Sub-nav with dropdown -->
-  <div class="sub-nav">
-    <a href="index.html">Home</a>
-    <a href="historical.html">Historical Stats</a>
-    <a href="calculator.html">Advanced Calculator</a>
-    <div class="dropdown">
-      <a href="#" class="dropbtn">Competition ▼</a>
-      <div class="dropdown-content">
-        <a href="#">MABA Cup</a>
-        <a href="#">National U17</a>
-        <a href="#">National U15</a>
-        <a href="#">Agong Cup</a>
-      </div>
-    </div>
-  </div>
-  
+  <div class="top-nav"> … </div>
+  <div class="sub-nav"> … </div>
+
   <div class="container">
     <h1>Weighted Rankings</h1>
 
     <div class="filter-bar">
-      <label for="competitionSelect">Competition:</label>
-        <select id="competitionSelect" multiple size = "3" onchange="updateYears()">
-          <option>All</option>
-          <option>U15 (Boys)</option>
-          <option>U17 (Boys)</option>
-        </select>
-      
-      <label for="yearSelect" multiple size = "3">Year:</label>
-        <select id="yearSelect">
-          <option>All</option>
-          <option>2024</option>
-          <option>2025</option>
-        </select>
+      <label>Competition:</label>
+      <select id="competitionSelect" multiple size="3"></select>
+
+      <label>Year:</label>
+      <select id="yearSelect" multiple size="3">
+        <option>All</option>
+        <option>2024</option>
+        <option>2025</option>
+      </select>
     </div>
 
-  <div class="weight-panel">
-    <h2>Weight Allocation</h2>
-    <div class="stats-select">
-      <label><input type="checkbox" name="stat" value="pts"> Points (PTS)</label>
-      <label><input type="checkbox" name="stat" value="as"> Assists (AS)</label>
-      <label><input type="checkbox" name="stat" value="fgm"> FG Made (FGM)</label>
-      <label><input type="checkbox" name="stat" value="st"> Steals (ST)</label>
-    </div>
-    <div class="name-input">
-      <label>Allocation Name: <input type="text" id="allocName" placeholder="e.g. Scoring Focus"></label>
-    </div>
+    <div class="weight-panel">
+      <h2>Weight Allocation</h2>
+      <div class="stats-select">
+        <label><input type="checkbox" name="stat" value="pts"> Points (PTS)</label>
+        <label><input type="checkbox" name="stat" value="as"> Assists (AS)</label>
+        <label><input type="checkbox" name="stat" value="fgm"> FG Made (FGM)</label>
+        <label><input type="checkbox" name="stat" value="st"> Steals (ST)</label>
+      </div>
 
-    <div id="sliderContainer" class="weight-panel"></div>
-    
-    <button id="generateBtn">Generate Rankings</button>
-  
-    <h2 id="rankingTitle"></h2>
-    <div class="table-wrapper">
-      <table id="rankingTable">
-        <thead><tr><th>Player</th><th>Team</th><th>Score</th></tr></thead>
-        <tbody></tbody>
-      </table>
+      <div class="name-input">
+        <label>Allocation Name:
+          <input type="text" id="allocName" placeholder="Scoring Focus">
+        </label>
+      </div>
+
+      <div id="sliderContainer"></div>
+
+      <button id="generateBtn">Generate Rankings</button>
+
+      <h2 id="rankingTitle"></h2>
+      <div class="table-wrapper">
+        <table id="rankingTable">
+          <thead>
+            <tr><th>Player</th><th>Team</th><th>Score</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </div>
-    
-  <script>
-    let originalData = [];
-    fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
-      .then(r => r.text()).then(csv => {
-        Papa.parse(csv, { header:true, skipEmptyLines:true }).data.forEach(r => {
-          originalData.push({
-            player:r['Player'], competition:r['Competition'], year:parseInt(r['Year']),
-            team:r['Team'], pts:+r['PTS'], as:+r['AS'], fgm:+r['FGM'], reb:+r['TR'],
-            st:+r['ST'], bs:+r['BS'], to:+r['TO'], pf:+r['PF']
-          });
-        });
-      });
 
-    function sumWeights(prefix) {
-      return ['fga','fgm','fga2','fgm2','fga3','fgm3','fta','ftm','oreb','dreb','treb','as','to','st','bs','pf','fd','pts']
-        .reduce((s, stat) => {
-          const el = document.querySelector(`input[name="${prefix}_${stat}"]`);
-          return el ? s + Number(el.value) : s;
-        },0);
-    }
+<script>
+let originalData = [];
 
-    function readWeights(prefix, stats) {
-      const w = {};
-      let total = 0;
-      stats.forEach(stat => {
-        const val = Number(document.querySelector(`input[name="${prefix}_${stat}"]`).value);
-        w[stat] = val;
-        total += val;
-      });
-      return stats.map(stat => [stat, w[stat] / total]);
-    }
-
-    function validateAll() {
-      const groups = ['pg','wg','center','def'];
-      let ok = true;
-      groups.forEach(g => {
-        const s = sumWeights(g);
-        document.getElementById(`${g}-total`).textContent = s;
-        if (s !== 100) ok = false;
-      });
-      return ok;
-    }
-
-    function calculateScore(p, weights) {
-      return weights.reduce((sum, [stat, w]) => sum + (p[stat]||0)*w, 0);
-    }
-
-    function generate() {
-      document.getElementById('errorMsg').textContent = '';
-      if (!validateAll()) {
-        document.getElementById('errorMsg').textContent = '⚠️ Each group must sum to 100.';
-        return;
-      }
-
-      const comp = document.getElementById('competitionSelect').value;
-      const year = document.getElementById('yearSelect').value;
-      let data = originalData.slice();
-      if (comp !== 'All') data = data.filter(p => p.competition === comp);
-      if (year !== 'All') data = data.filter(p => p.year.toString() === year);
-
-      const config = {
-        pg: readWeights('pg',['pts','as','fga','to']),
-        wg: readWeights('wg',['pts','as','fga','to']),
-        center: readWeights('center',['pts','as','fga','to']),
-        def:    readWeights('def',['pts','as','fga','to'])
-      };
-
-      const container = document.getElementById('rankingMatrix');
-      container.innerHTML = '';
-      ['pg','wg','center','def'].forEach(pos => {
-        const weights = config[pos];
-        const sorted = data.map(p => ({
-          player:p.player, team:p.team, score:calculateScore(p,weights)
-        })).sort((a,b)=>b.score-a.score).slice(0,10);
-
-        const tbl = document.createElement('table');
-        tbl.innerHTML = `
-          <thead><tr><th>${pos.toUpperCase()}</th><th>Team</th><th>Score</th></tr></thead>
-          <tbody>${sorted.map(p=>`
-            <tr><td>${p.player}</td><td>${p.team}</td><td>${p.score.toFixed(2)}</td></tr>`).join('')}</tbody>`;
-        container.appendChild(tbl);
-      });
-    }
-
-    function updateWeightAutoAdjusted(input, group) {
-      const sliders = Array.from(document.querySelectorAll(`#${group}-weights input[type="range"]`));
-      const total = 100;
-      const movedSlider = input;
-      const movedValue = parseInt(movedSlider.value);
-      const others = sliders.filter(s => s !== movedSlider);
-      let remaining = total - movedValue;
-    
-      if (remaining < 0) remaining = 0; // Prevent negative weights
-    
-      const sumOthers = others.reduce((sum, s) => sum + parseInt(s.value), 0);
-    
-      if (sumOthers === 0) {
-        // Distribute remaining equally
-        const share = Math.floor(remaining / others.length);
-        others.forEach(s => s.value = share);
-      } else {
-        // Redistribute proportionally
-        others.forEach(s => {
-          const val = parseInt(s.value);
-          const ratio = val / sumOthers;
-          s.value = Math.round(ratio * remaining);
-        });
-      }
-    
-      // Rounding fix to make sure total is exactly 100
-      let checkTotal = sliders.reduce((sum, s) => sum + parseInt(s.value), 0);
-      if (checkTotal !== 100 && others.length > 0) {
-        const delta = 100 - checkTotal;
-        const adj = others[0];
-        adj.value = parseInt(adj.value) + delta;
-      }
-    
-      sliders.forEach(s => s.nextElementSibling.textContent = s.value);
-      document.getElementById(`${group}-total`).textContent = "100";
-      document.getElementById(`${group}-total`).style.color = 'green';
-    }
-
-    document.getElementById('generateBtn').onclick = generate;
-    ['pg','wg','center','def'].forEach(g => {
-      ['fga','fgm','fga2','fgm2','fga3','fgm3','fta','ftm','oreb','dreb','treb','as','to','st','bs','pf','fd','pts'].forEach(stat => {
-        const el = document.querySelector(`input[name="${g}_${stat}"]`);
-        if (el) {
-          el.oninput = function () {
-            updateWeightAutoAdjusted(this, g);
-            document.getElementById(`sum_${g}`).textContent = sumWeights(g);
-          };
-        }
+fetch('https://docs.google.com/.../pub?output=csv')
+  .then(r => r.text())
+  .then(csv => {
+    Papa.parse(csv, { header:true, skipEmptyLines:true }).data.forEach(r => {
+      originalData.push({
+        player: r['Player'],
+        competition: r['Competition'],
+        year: r['Year'],
+        team: r['Team'],
+        pts: +r['PTS'],
+        as: +r['AS'],
+        fgm: +r['FGM'],
+        st: +r['ST']
       });
     });
+    populateCompetitionOptions();
+  });
 
-  function getSelectedStats() {
-    return Array.from(document.querySelectorAll('input[name="stat"]:checked')).map(c => c.value);
-  }
+function populateCompetitionOptions(){
+  const compSet = new Set(originalData.map(p=>p.competition));
+  const sel = document.getElementById('competitionSelect');
+  sel.innerHTML = '<option>All</option>';
+  compSet.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
 
-  function renderSliders() {
-    const stats = getSelectedStats();
-    const container = document.getElementById('sliderContainer');
-    container.innerHTML = '<h2>Weight Allocation (Total = 100%)</h2>';
-  
-    stats.forEach(stat => {
-      const div = document.createElement('div');
-      div.innerHTML = `
-        <label>${stat.toUpperCase()}: 
-          <input type="range" name="w_${stat}" min="0" max="100" value="${Math.floor(100/stats.length)}" oninput="rebalance('${stat}')"> 
-          <span>0</span>%
-        </label>`;
-      container.appendChild(div);
+function getSelectValues(select) {
+  return Array.from(select.selectedOptions).map(o => o.value);
+}
+
+function getSelectedStats() {
+  return Array.from(document.querySelectorAll('input[name="stat"]:checked'))
+    .map(c => c.value);
+}
+
+function renderSliders() {
+  const stats = getSelectedStats();
+  const container = document.getElementById('sliderContainer');
+  container.innerHTML = '';
+  if (!stats.length) return;
+
+  container.innerHTML = '<h3>Weight Allocation (Total = 100%)</h3>';
+  stats.forEach(stat => {
+    const div = document.createElement('div');
+    const init = Math.floor(100 / stats.length);
+    div.innerHTML = `
+      <label style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        ${stat.toUpperCase()}:
+        <input type="range" name="w_${stat}" min="0" max="100" value="${init}" oninput="rebalance('${stat}')">
+        <span>${init}</span>%
+      </label>`;
+    container.appendChild(div);
+  });
+}
+
+function rebalance(changed) {
+  const sliders = document.querySelectorAll('#sliderContainer input[type=range]');
+  const changedEl = document.querySelector(`[name=w_${changed}]`);
+  const changedVal = +changedEl.value;
+
+  const others = Array.from(sliders).filter(s => s !== changedEl);
+  const totalOthers = others.reduce((sum,s) => sum + +s.value, 0);
+
+  const remaining = 100 - changedVal;
+  if (totalOthers > 0) {
+    others.forEach(s => {
+      const ratio = +s.value / totalOthers;
+      s.value = Math.round(ratio * remaining);
     });
+  } else {
+    const share = Math.floor(remaining / others.length);
+    others.forEach(s => s.value = share);
   }
 
-  function rebalance(changed) {
-    const sliders = Array.from(document.querySelectorAll('#sliderContainer input[type=range]'));
-    const total = sliders.reduce((s,i) => s + +i.value, 0);
-    if (total === 0) return;
-  
-    sliders.forEach(slider => {
-      if (slider.name !== `w_${changed}`) {
-        const ratio = slider.value / (total - +document.querySelector(`[name=w_${changed}]`).value);
-        slider.value = Math.round(ratio * (100 - +document.querySelector(`[name=w_${changed}]`).value));
-      }
+  updateLabels();
+}
+
+function updateLabels() {
+  document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
+    inp.nextElementSibling.textContent = inp.value;
+  });
+}
+
+function generateRanking() {
+  const compVals = getSelectValues(document.getElementById('competitionSelect'));
+  const yearVals = getSelectValues(document.getElementById('yearSelect'));
+  const stats = getSelectedStats();
+
+  if (!stats.length) {
+    alert('Select at least one stat');
+    return;
+  }
+
+  renderSliders();
+  updateLabels();
+
+  const weights = {};
+  document.querySelectorAll('#sliderContainer input[type=range]')
+    .forEach(inp => {
+      weights[inp.name.replace('w_','')] = +inp.value / 100;
     });
-    updateLabels();
+
+  let data = originalData.slice();
+  if (!compVals.includes('All')) {
+    data = data.filter(p => compVals.includes(p.competition));
+  }
+  if (!yearVals.includes('All')) {
+    data = data.filter(p => yearVals.includes(p.year));
   }
 
-  function updateLabels() {
-    document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
-      inp.nextElementSibling.textContent = inp.value;
-    });
-  }
+  const entries = data.map(p => ({
+    player: p.player,
+    team: p.team,
+    score: stats.reduce((s, stat) => s + (p[stat] || 0) * weights[stat], 0)
+  }))
+  .sort((a,b) => b.score - a.score)
+  .slice(0, 10);
 
-  function generateRanking() {
-    const compVals = getSelectValues(document.getElementById('competitionSelect'));
-    const yearVals = getSelectValues(document.getElementById('yearSelect'));
-  
-    const stats = getSelectedStats();
-    if (!stats.length) {
-      alert('Select at least one stat.');
-      return;
-    }
-    renderSliders();
-  
-    const weights = {};
-    document.querySelectorAll('#sliderContainer input[type="range"]').forEach(inp => {
-      weights[inp.name.replace('w_', '')] = inp.value/100;
-    });
-  
-    let data = originalData.slice();
-  
-    // Competition filter
-    if (!compVals.includes('All')) {
-      data = data.filter(p => compVals.includes(p.competition));
-    }
-    // Year filter
-    if (!yearVals.includes('All')) {
-      data = data.filter(p => yearVals.includes(p.year.toString()));
-    }
-  
-    const entries = data.map(p => ({
-      player: p.player,
-      team: p.team,
-      score: Object.entries(weights).reduce((s,[stat,w]) => s + ((p[stat]||0)*w), 0)
-    }))
-    .filter(e => e.score > 0)
-    .sort((a,b) => b.score - a.score)
-    .slice(0, 10);
-  
-    document.getElementById('rankingTitle').textContent = document.getElementById('allocName').value.trim() || 'Custom Allocation';
-    const tbody = document.querySelector('#rankingTable tbody');
-    tbody.innerHTML = entries.map(e => `
-      <tr><td>${e.player}</td><td>${e.team}</td><td>${e.score.toFixed(2)}</td></tr>`
-    ).join('');
-  }
-  
-    // Filter & compute
-    const entries = originalData.map(p => ({
-      player: p.player, team: p.team,
-      score: Object.entries(weights).reduce((s,[stat,w]) => s + (p[stat]||0)*w, 0)
-    })).filter(e => e.score > 0)
-      .sort((a,b) => b.score - a.score).slice(0,10);
-  
-    // Display table
-    document.getElementById('rankingTitle').textContent = name;
-    const tbody = document.querySelector('#rankingTable tbody');
-    tbody.innerHTML = entries.map(e => `
-      <tr><td>${e.player}</td><td>${e.team}</td><td>${e.score.toFixed(2)}</td></tr>`).join('');
-  }
+  document.getElementById('rankingTitle').textContent =
+    document.getElementById('allocName').value.trim() || 'Custom Allocation';
 
-  document.querySelectorAll('input[name="stat"]').forEach(c => c.addEventListener('change', renderSliders));
-  document.getElementById('generateBtn').addEventListener('click', generateRanking);
-  
-  function getSelectValues(select) {
-    return Array.from(select.selectedOptions).map(o => o.value);
-  }
-  </script>
+  const tbody = document.querySelector('#rankingTable tbody');
+  tbody.innerHTML = entries
+    .map(e => `<tr><td>${e.player}</td><td>${e.team}</td><td>${e.score.toFixed(2)}</td></tr>`)
+    .join('');
+}
+
+document.querySelectorAll('input[name="stat"]').forEach(c =>
+  c.addEventListener('change', renderSliders));
+document.getElementById('generateBtn').addEventListener('click', generateRanking);
+</script>
 </body>
 </html>
