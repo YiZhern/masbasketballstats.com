@@ -256,6 +256,10 @@ function getSelectValues(sel) {
 
 // Event bindings after DOM loads
 document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('competitionSelect').addEventListener('change', filterByCompetition);
+  document.getElementById('yearSelect').addEventListener('change', filterByCompetition);
+  document.getElementById('playerInput').addEventListener('input', filterByCompetition);
+});
 </script>
 </body>
 </html>
