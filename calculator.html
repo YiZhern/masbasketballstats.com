@@ -100,6 +100,7 @@
 <script>
 let originalData = [];
 
+// Fetch and parse CSV data
 fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
   .then(r => r.text())
   .then(csv => {
@@ -137,21 +138,33 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
       });
     });
     populateCompetitionOptions();
+  })
+  .catch(err => {
+    console.error("Error loading CSV:", err);
+    alert("Failed to load player data.");
   });
 
-  function populateCompetitionOptions(){
-    const sel = document.getElementById('competitionSelect');
-    sel.innerHTML = '<option>All</option>';
-    [...new Set(originalData.map(p => p.competition))].forEach(c => {
-      const opt = document.createElement('option');
-      opt.value = c; opt.textContent = c;
-      sel.appendChild(opt);
-    });
-  }
+// Populate dropdown with unique competition values
+function populateCompetitionOptions() {
+  const sel = document.getElementById('competitionSelect');
+  sel.innerHTML = '<option>All</option>';
+  [...new Set(originalData.map(p => p.competition))].forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
 
-function getSelectValues(sel){ return [...sel.selectedOptions].map(o=>o.value); }
-function getSelectedStats(){ return [...document.querySelectorAll('input[name="stat"]:checked')].map(c=>c.value); }
+function getSelectValues(sel) {
+  return [...sel.selectedOptions].map(o => o.value);
+}
 
+function getSelectedStats() {
+  return [...document.querySelectorAll('input[name="stat"]:checked')].map(c => c.value);
+}
+
+// Renders sliders dynamically based on selected stats
 function renderSliders() {
   const stats = getSelectedStats();
   const container = document.getElementById('sliderContainer');
@@ -166,10 +179,13 @@ function renderSliders() {
         ${s.toUpperCase()}:
         <input type="range" name="w_${s}" min="0" max="100" value="${init}" oninput="rebalance('${s}')">
         <span>${init}</span>%
-      </label>`);
+      </label>
+    `);
   });
+  updateLabels();
+}
 
-function rebalance(changed){
+function rebalance(changed) {
   const all = document.querySelectorAll('#sliderContainer input[type="range"]');
   const changedEl = document.querySelector(`[name=w_${changed}]`);
   const cv = +changedEl.value;
@@ -177,7 +193,7 @@ function rebalance(changed){
   const sumOthers = others.reduce((sum, s) => sum + +s.value, 0);
   const remaining = 100 - cv;
   if (sumOthers > 0) {
-    others.forEach(s => s.value = Math.round((s.value/sumOthers)*remaining));
+    others.forEach(s => s.value = Math.round((s.value / sumOthers) * remaining));
   } else {
     const share = Math.floor(remaining / others.length);
     others.forEach(s => s.value = share);
@@ -191,22 +207,23 @@ function updateLabels() {
   });
 }
 
-function generateRanking(){
-  const compSel = document.getElementById('competitionSelect'),
-        yearSel = document.getElementById('yearSelect');
-  const comps = getSelectValues(compSel), years = getSelectValues(yearSel);
+// Generate top 10 ranking
+function generateRanking() {
+  const compSel = document.getElementById('competitionSelect');
+  const yearSel = document.getElementById('yearSelect');
+  const comps = getSelectValues(compSel);
+  const years = getSelectValues(yearSel);
   const stats = getSelectedStats();
-  if (!stats.length) return alert('Select at least one stat.');
 
-  renderSliders(); updateLabels();
+  if (!stats.length) return alert('Select at least one stat.');
 
   const weights = {};
   document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
-    const stat = inp.name.replace('w_','');
-    weights[stat] = (stat === 'to' || stat === 'pf') ? -inp.value/100 : +inp.value/100;
+    const stat = inp.name.replace('w_', '');
+    weights[stat] = (stat === 'to' || stat === 'pf') ? -inp.value / 100 : +inp.value / 100;
   });
 
-  let data = originalData.filter(p => 
+  let data = originalData.filter(p =>
     (!comps.includes('All') ? comps.includes(p.competition) : true) &&
     (!years.includes('All') ? years.includes(p.year) : true)
   );
@@ -216,7 +233,7 @@ function generateRanking(){
     team: p.team,
     score: stats.reduce((s, stat) => s + (p[stat] || 0) * weights[stat] / p.gp, 0)
   }))
-  .sort((a,b) => b.score - a.score)
+  .sort((a, b) => b.score - a.score)
   .slice(0, 10);
 
   document.getElementById('rankingTitle').textContent =
@@ -228,9 +245,13 @@ function generateRanking(){
     .join('');
 }
 
+// Event bindings after DOM loads
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('input[name="stat"]').forEach(c =>
-    c.addEventListener('change', renderSliders));
+    c.addEventListener('change', renderSliders)
+  );
+
+  document.getElementById('generateBtn').addEventListener('click', generateRanking);
 });
 </script>
 </body>
