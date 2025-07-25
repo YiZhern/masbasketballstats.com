@@ -81,7 +81,7 @@
     </div>
 
     <!-- Table -->
-    <div class="table-wrapper table-type2">
+    <div id="tableContainer" style="display:none;" class="table-wrapper table-type2">
       <table id="statsTable">
         <thead>
           <tr>
@@ -121,7 +121,7 @@
           year: r.Year,
           team: r.Team,
           gp: +r.GP,
-          min: +r.Min || +r['MIN'] || 0,
+          min: +r.Min || +r.MIN || +r[' Minutes'] || 0,
           fga: +r.FGA,
           fgm: +r.FGM,
           fga2: +r['2FGA'],
@@ -195,9 +195,10 @@
       renderTable();
     }
 
-    function filterByCompetition() {
+    function filterByCompetition(){
       currentPage = 1;
       renderTable();
+      document.getElementById('tableContainer').style.display = 'block';
     }
 
     // Setup dynamic filters
