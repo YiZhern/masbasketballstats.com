@@ -46,7 +46,7 @@
   </div>
   
   <div class="container">
-    <h1>Weighted Position Calculator</h1>
+    <h1>Weighted Rankings</h1>
 
     <div class="filter-bar">
       <label for="competitionSelect">Competition:</label>
@@ -66,8 +66,29 @@
 
   <div class="weight-panel">
     <h2>Weight Allocation</h2>
-    <div class = 'row-wrapper'>
-      <!-- POINT GUARD -->
+    <div class="stats-select">
+      <label><input type="checkbox" name="stat" value="pts"> Points (PTS)</label>
+      <label><input type="checkbox" name="stat" value="as"> Assists (AS)</label>
+      <label><input type="checkbox" name="stat" value="fgm"> FG Made (FGM)</label>
+      <label><input type="checkbox" name="stat" value="st"> Steals (ST)</label>
+    </div>
+    <div class="name-input">
+      <label>Allocation Name: <input type="text" id="allocName" placeholder="e.g. Scoring Focus"></label>
+    </div>
+
+    <div id="sliderContainer" class="weight-panel"></div>
+    
+    <button id="generateBtn">Generate Rankings</button>
+  
+    <h2 id="rankingTitle"></h2>
+    <div class="table-wrapper">
+      <table id="rankingTable">
+        <thead><tr><th>Player</th><th>Team</th><th>Score</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+    <!--
       <div class="position-group">
         <h3>Point Guard</h3>
         <div class="slider-group" id="pg-weights">
@@ -78,8 +99,7 @@
         </div>
         <p>Total: <span id="pg-total">100</span>%</p>
       </div>
-    
-      <!-- WINGS -->
+
       <div class="position-group">
         <h3>Wings</h3>
         <div class="slider-group" id="wg-weights">
@@ -93,7 +113,6 @@
     </div>
 
     <div class = 'row-wrapper'>  
-      <!-- CENTER -->
       <div class="position-group">
         <h3>Center</h3>
         <div class="slider-group" id="center-weights">
@@ -104,8 +123,7 @@
         </div>
         <p>Total: <span id="center-total">100</span>%</p>
       </div>
-    
-      <!-- DEFENSIVE -->
+
       <div class="position-group">
         <h3>Defensive</h3>
         <div class="slider-group" id="def-weights">
@@ -122,6 +140,7 @@
     <div id="errorMsg" style="color:#f55; margin:10px 0;"></div>
     <div id="rankingMatrix"></div>
   </div>
+  -->
 
     
   <script>
@@ -258,6 +277,71 @@
         }
       });
     });
+
+  function getSelectedStats() {
+    return Array.from(document.querySelectorAll('input[name="stat"]:checked')).map(c => c.value);
+  }
+
+  function renderSliders() {
+    const stats = getSelectedStats();
+    const container = document.getElementById('sliderContainer');
+    container.innerHTML = '<h2>Weight Allocation (Total = 100%)</h2>';
+  
+    stats.forEach(stat => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <label>${stat.toUpperCase()}: 
+          <input type="range" name="w_${stat}" min="0" max="100" value="${Math.floor(100/stats.length)}" oninput="rebalance('${stat}')"> 
+          <span>0</span>%
+        </label>`;
+      container.appendChild(div);
+    });
+  }
+
+  function rebalance(changed) {
+    const sliders = Array.from(document.querySelectorAll('#sliderContainer input[type=range]'));
+    const total = sliders.reduce((s,i) => s + +i.value, 0);
+    if (total === 0) return;
+  
+    sliders.forEach(slider => {
+      if (slider.name !== `w_${changed}`) {
+        const ratio = slider.value / (total - +document.querySelector(`[name=w_${changed}]`).value);
+        slider.value = Math.round(ratio * (100 - +document.querySelector(`[name=w_${changed}]`).value));
+      }
+    });
+    updateLabels();
+  }
+
+  function updateLabels() {
+    document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
+      inp.nextElementSibling.textContent = inp.value;
+    });
+  }
+
+  function generateRanking() {
+    const name = document.getElementById('allocName').value.trim() || 'Custom Allocation';
+    const weights = {};
+    document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
+      weights[inp.name.replace('w_', '')] = inp.value/100;
+    });
+  
+    // Filter & compute
+    const entries = originalData.map(p => ({
+      player: p.player, team: p.team,
+      score: Object.entries(weights).reduce((s,[stat,w]) => s + (p[stat]||0)*w, 0)
+    })).filter(e => e.score > 0)
+      .sort((a,b) => b.score - a.score).slice(0,10);
+  
+    // Display table
+    document.getElementById('rankingTitle').textContent = name;
+    const tbody = document.querySelector('#rankingTable tbody');
+    tbody.innerHTML = entries.map(e => `
+      <tr><td>${e.player}</td><td>${e.team}</td><td>${e.score.toFixed(2)}</td></tr>`).join('');
+  }
+
+  document.querySelectorAll('input[name="stat"]').forEach(c => c.addEventListener('change', renderSliders));
+  document.getElementById('generateBtn').addEventListener('click', generateRanking);
+   
   </script>
 </body>
 </html>
