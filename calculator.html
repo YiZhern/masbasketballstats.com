@@ -100,43 +100,46 @@
 <script>
 let originalData = [];
 
+// Utility to safely divide
+function safeDivide(n, d) {
+  return d === 0 ? 0 : n / d;
+}
+
 // Fetch and parse CSV data
 fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
   .then(r => r.text())
   .then(csv => {
     const parsed = Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
-    parsed.forEach(r => {
-      originalData.push({
-        player: r.Player,
-        competition: r.Competition,
-        year: r.Year,
-        team: r.Team,
-        gp: +r.GP,
-        min: +r['Min'],
-        fga: +r.FGA,
-        fgm: +r.FGM,
-        fga2: +r['2FGA'],
-        fgm2: +r['2FGM'],
-        fga3: +r['3FGA'],
-        fgm3: +r['3FGM'],
-        fta: +r.FTA,
-        ftm: +r.FTM,
-        oreb: +r.OR,
-        dreb: +r.DR,
-        treb: +r.TR,
-        as: +r.AS,
-        to: +r.TO,
-        st: +r.ST,
-        bs: +r.BS,
-        pf: +r.PF,
-        fd: +r.FD,
-        pts: +r.PTS,
-        fg: safeDivide(+r.FGM, +r.FGA),
-        fg2: safeDivide(+r['2FGM'], +r['2FGA']),
-        fg3: safeDivide(+r['3FGM'], +r['3FGA']),
-        ft: safeDivide(+r.FTM, +r.FTA)
-      });
-    });
+    originalData = parsed.map(r => ({
+      player: r.Player,
+      competition: r.Competition,
+      year: r.Year,
+      team: r.Team,
+      gp: +r.GP,
+      min: +r['Min'],
+      fga: +r.FGA,
+      fgm: +r.FGM,
+      fga2: +r['2FGA'],
+      fgm2: +r['2FGM'],
+      fga3: +r['3FGA'],
+      fgm3: +r['3FGM'],
+      fta: +r.FTA,
+      ftm: +r.FTM,
+      oreb: +r.OR,
+      dreb: +r.DR,
+      treb: +r.TR,
+      as: +r.AS,
+      to: +r.TO,
+      st: +r.ST,
+      bs: +r.BS,
+      pf: +r.PF,
+      fd: +r.FD,
+      pts: +r.PTS,
+      fg: safeDivide(+r.FGM, +r.FGA),
+      fg2: safeDivide(+r['2FGM'], +r['2FGA']),
+      fg3: safeDivide(+r['3FGM'], +r['3FGA']),
+      ft: safeDivide(+r.FTM, +r.FTA)
+    }));
     populateCompetitionOptions();
   })
   .catch(err => {
@@ -144,7 +147,6 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
     alert("Failed to load player data.");
   });
 
-// Populate dropdown with unique competition values
 function populateCompetitionOptions() {
   const sel = document.getElementById('competitionSelect');
   sel.innerHTML = '<option>All</option>';
@@ -164,7 +166,6 @@ function getSelectedStats() {
   return [...document.querySelectorAll('input[name="stat"]:checked')].map(c => c.value);
 }
 
-// Renders sliders dynamically based on selected stats
 function renderSliders() {
   const stats = getSelectedStats();
   const container = document.getElementById('sliderContainer');
@@ -182,59 +183,46 @@ function renderSliders() {
       </label>
     `);
   });
-  document.getElementById('sliderContainer').style.display = 'block';
+  container.style.display = 'block';
   updateLabels();
 }
 
 function rebalance(changed) {
-  const all = document.querySelectorAll('#sliderContainer input[type="range"]');
-  const changedEl = document.querySelector(`[name=w_${changed}]`);
-  const cv = +changedEl.value;
-  const others = [...all].filter(s => s !== changedEl);
-  let remaining = 100 - cv;
-
-  if (remaining < 0) remaining = 0;
-
+  const sliders = document.querySelectorAll('#sliderContainer input[type="range"]');
+  const changedSlider = document.querySelector(`[name="w_${changed}"]`);
+  const changedVal = +changedSlider.value;
+  const others = [...sliders].filter(slider => slider !== changedSlider);
+  let remaining = 100 - changedVal;
   const sumOthers = others.reduce((sum, s) => sum + +s.value, 0);
 
   if (sumOthers === 0) {
-    // Evenly distribute if all others were 0
     const even = Math.floor(remaining / others.length);
     others.forEach(s => s.value = even);
   } else {
-    // Redistribute proportionally
     others.forEach(s => {
-      const v = +s.value;
-      const ratio = v / sumOthers;
+      const ratio = +s.value / sumOthers;
       s.value = Math.round(ratio * remaining);
     });
   }
 
-  // Fix any rounding errors
-  let total = [...all].reduce((sum, s) => sum + +s.value, 0);
+  const total = [...sliders].reduce((sum, s) => sum + +s.value, 0);
   if (total !== 100) {
     const delta = 100 - total;
-    const firstOther = others[0];
-    if (firstOther) {
-      firstOther.value = +firstOther.value + delta;
-    }
+    others[0].value = +others[0].value + delta;
   }
 
   updateLabels();
 }
 
 function updateLabels() {
-  document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
+  document.querySelectorAll('#sliderContainer input[type="range"]').forEach(inp => {
     inp.nextElementSibling.textContent = inp.value;
   });
 }
 
-// Generate top 10 ranking
 function generateRanking() {
-  const compSel = document.getElementById('competitionSelect');
-  const yearSel = document.getElementById('yearSelect');
-  const comps = getSelectValues(compSel);
-  const years = getSelectValues(yearSel);
+  const comps = getSelectValues(document.getElementById('competitionSelect'));
+  const years = getSelectValues(document.getElementById('yearSelect'));
   const stats = getSelectedStats();
 
   if (!stats.length) return alert('Select at least one stat.');
@@ -245,18 +233,16 @@ function generateRanking() {
     weights[stat] = (stat === 'to' || stat === 'pf') ? -inp.value / 100 : +inp.value / 100;
   });
 
-  let data = originalData.filter(p =>
+  const filtered = originalData.filter(p =>
     p.gp > 0 &&
     (!comps.includes('All') ? comps.includes(p.competition) : true) &&
     (!years.includes('All') ? years.includes(p.year) : true)
   );
 
-  const entries = data.map(p => ({
+  const results = filtered.map(p => ({
     player: p.player,
     team: p.team,
-    score: p.gp > 0
-      ? stats.reduce((s, stat) => s + (p[stat] || 0) * weights[stat] / p.gp, 0)
-      : 0
+    score: stats.reduce((sum, s) => sum + (p[s] || 0) * weights[s] / p.gp, 0)
   }))
   .sort((a, b) => b.score - a.score)
   .slice(0, 10);
@@ -265,61 +251,28 @@ function generateRanking() {
     document.getElementById('allocName').value.trim() || 'Ranking';
 
   const tbody = document.querySelector('#rankingTable tbody');
-  tbody.innerHTML = entries
-    .map(e => `<tr><td>${e.player}</td><td>${e.team}</td><td>${e.score.toFixed(2)}</td></tr>`)
+  tbody.innerHTML = results
+    .map(r => `<tr><td>${r.player}</td><td>${r.team}</td><td>${r.score.toFixed(2)}</td></tr>`)
     .join('');
 }
 
-function safeDivide(numerator, denominator) {
-  return denominator === 0 ? 0 : numerator / denominator;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  const chips = document.querySelectorAll('.chip');
-  let selectedChips = [];
-
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      const value = chip.dataset.value;
-
-      if (chip.classList.contains('selected')) {
-        chip.classList.remove('selected');
-        selectedChips = selectedChips.filter(item => item !== value);
-      } else {
-        chip.classList.add('selected');
-        selectedChips.push(value);
-      }
-      console.log('Selected Chips:', selectedChips);
-    });
-  });
-});
-
-// Event bindings after DOM loads
-let originalData = [];
-
-document.addEventListener('DOMContentLoaded', () => {
-  const chips = document.querySelectorAll('.chip');
-
-  chips.forEach(chip => {
+  document.querySelectorAll('.chip').forEach(chip => {
     const value = chip.dataset.value;
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.name = 'stat';
+    checkbox.value = value;
+    checkbox.style.display = 'none';
+    chip.appendChild(checkbox);
 
-    // Create a hidden checkbox and append it to each chip
-    const hidden = document.createElement('input');
-    hidden.type = 'checkbox';
-    hidden.name = 'stat';
-    hidden.value = value;
-    hidden.style.display = 'none';
-    chip.appendChild(hidden);
-
-    // Toggle chip appearance and checkbox value
     chip.addEventListener('click', () => {
       chip.classList.toggle('selected');
-      hidden.checked = chip.classList.contains('selected');
-      renderSliders(); // Update sliders dynamically
+      checkbox.checked = chip.classList.contains('selected');
+      renderSliders();
     });
   });
 
-  // Attach event to generate button
   document.getElementById('generateBtn').addEventListener('click', generateRanking);
 });
 </script>
