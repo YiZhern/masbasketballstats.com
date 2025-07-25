@@ -12,10 +12,10 @@ body {
   max-width: 1400px;
   margin: 30px auto;
   background: #ffffff;
-  padding: 35px 20px;
-  border-radius: 12px;
+  padding: 35px 24px;
+  border-radius: 14px;
   box-sizing: border-box;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(255, 102, 0, 0.06);
 }
 
 /* === Buttons === */
@@ -23,30 +23,31 @@ button {
   background: #ff6600;
   color: white;
   border: none;
-  padding: 10px 18px;
-  font-weight: bold;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
 button:hover {
-  background: #ff8800;
+  background: #ff7700;
   transform: translateY(-2px);
 }
 
 /* === Inputs & Selects === */
 input[type="text"], select {
-  padding: 10px;
-  background: #fdfdfd;
+  padding: 10px 14px;
+  background: #fafafa;
   color: #333;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 6px;
   box-sizing: border-box;
 }
 
 input::placeholder {
-  color: #aaa;
+  color: #bbb;
 }
 
 /* === Navigation === */
@@ -54,33 +55,33 @@ input::placeholder {
   display: flex;
   justify-content: space-between;
   background: #ffffff;
-  color: #333;
-  padding: 12px 24px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 14px 28px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .top-nav .left-section span,
 .top-nav .right-section span {
   margin-right: 20px;
   cursor: pointer;
+  font-weight: 500;
 }
 
 .sub-nav {
-  background: #fff4e6;
-  padding: 12px 24px;
+  background: #fff6ed;
+  padding: 14px 28px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .sub-nav a {
   text-decoration: none;
   color: #333;
   font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
@@ -97,7 +98,7 @@ input::placeholder {
 .dropbtn {
   color: #333;
   font-weight: 600;
-  padding: 6px 12px;
+  padding: 6px 14px;
   background: none;
   border: none;
   cursor: pointer;
@@ -110,8 +111,8 @@ input::placeholder {
   left: 0;
   background: #ffffff;
   min-width: 180px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-radius: 8px;
   overflow: hidden;
   z-index: 999;
 }
@@ -139,28 +140,30 @@ input::placeholder {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  margin: 20px 0;
+  margin: 24px 0;
   align-items: center;
 }
 
 .filter-bar label,
 .sort-bar label {
   font-weight: 600;
-  color: #555;
+  color: #444;
 }
 
 .player-search {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-/* === Table Styling === */
+/* === Table Wrapper === */
 .table-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  margin-top: 24px;
 }
 
+/* === Table === */
 table {
   table-layout: fixed;
   min-width: max-content;
@@ -172,49 +175,44 @@ th, td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 8px;
+  padding: 10px 8px;
   border: 1px solid #eee;
   text-align: center;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 thead th {
   background: #ff6600;
   color: white;
   text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
 tr:nth-child(even) {
-  background: #fff7f0;
+  background: #fff5ed;
 }
 
 tr:hover {
   background: #fff0dc;
 }
 
-/* === Table Type 1: Default Table (existing style) === */
+/* === Table Type 1: Default Table === */
 .table-type1 table {
   table-layout: fixed;
-  min-width: max-content;
-  width: 100%;
 }
 
 .table-type1 th, .table-type1 td {
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-/* === Table Type 2: Historical Table with wider columns === */
+/* === Table Type 2: Historical Box Score === */
 .table-type2 table {
   table-layout: auto;
-  min-width: max-content;
-  width: 100%;
 }
 
-.table-type2 th:nth-child(1),  /* Player */
-.table-type2 th:nth-child(2),  /* Competition */
-.table-type2 th:nth-child(4),  /* Team */
+.table-type2 th:nth-child(1),
+.table-type2 th:nth-child(2),
+.table-type2 th:nth-child(4),
 .table-type2 td:nth-child(1),
 .table-type2 td:nth-child(2),
 .table-type2 td:nth-child(4) {
@@ -224,52 +222,45 @@ tr:hover {
   text-align: left;
 }
 
-.table-type2 th, .table-type2 td {
-  padding: 10px;
-  font-size: 14px;
-}
-
 /* === Pagination === */
 .pagination {
-  margin-top: 20px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
-  align-items: center;
   gap: 20px;
 }
 
 .pagination button {
-  background-color: #ff6600;
+  background: #ff6600;
 }
 
 .pagination button:hover {
-  background-color: #ff8800;
+  background: #ff8800;
 }
 
 .pagination #pageInfo {
   font-size: 16px;
   font-weight: bold;
-  color: #333;
 }
 
 /* === Weight Panel === */
 .weight-panel {
   background: #fff;
   color: #111;
-  padding: 30px;
-  border-radius: 12px;
-  margin-top: 30px;
-  box-shadow: 0 0 15px rgba(255, 165, 0, 0.1);
+  padding: 32px;
+  border-radius: 14px;
+  margin-top: 40px;
+  box-shadow: 0 0 18px rgba(255, 165, 0, 0.08);
 }
 
 .weight-panel h2 {
-  margin-bottom: 25px;
+  margin-bottom: 28px;
   color: #ff6600;
   font-size: 22px;
   font-weight: bold;
 }
 
-/* === Weight Slider Layout === */
+/* === Slider Layout === */
 .row-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -281,10 +272,10 @@ tr:hover {
 .position-group {
   flex: 1 1 45%;
   min-width: 300px;
-  background: #fff4e6;
+  background: #fff7ed;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 102, 0, 0.08);
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.06);
 }
 
 .position-group h3 {
@@ -319,7 +310,7 @@ tr:hover {
 /* === Responsive Design === */
 @media (max-width: 768px) {
   .container {
-    padding: 20px 10px;
+    padding: 20px 12px;
     margin: 0;
     border-radius: 0;
   }
@@ -327,7 +318,9 @@ tr:hover {
   .top-nav,
   .sub-nav,
   .filter-bar,
-  .sort-bar {
+  .sort-bar,
+  .player-search,
+  .row-wrapper {
     flex-direction: column;
     align-items: stretch;
   }
@@ -339,15 +332,6 @@ tr:hover {
   .dropdown-content {
     position: static;
     width: 100%;
-  }
-
-  .player-search {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .row-wrapper {
-    flex-direction: column;
   }
 
   .position-group {
