@@ -162,9 +162,14 @@
 
     function renderTable() {
       const data = getFilteredData();
+      const stat = document.getElementById('sortSelect').value;
+      const statKey = stat === 'reb' ? 'treb' : stat;
+    
+      const sorted = [...data].sort((a, b) => b[statKey] - a[statKey]);
+    
       const start = (currentPage - 1) * pageSize;
-      const paged = data.slice(start, start + pageSize);
-
+      const paged = sorted.slice(start, start + pageSize);
+    
       const tbody = document.querySelector('#statsTable tbody');
       tbody.innerHTML = paged.map(r => `
         <tr>
@@ -176,7 +181,7 @@
           <td>${r.pf}</td><td>${r.fd}</td><td>${r.pts}</td>
         </tr>
       `).join('');
-
+    
       document.getElementById('pageInfo').textContent = `Page ${currentPage}`;
     }
 
