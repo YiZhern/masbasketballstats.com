@@ -228,9 +228,10 @@ function generateRanking(){
     .join('');
 }
 
-document.querySelectorAll('input[name="stat"]').forEach(c =>
-  c.addEventListener('change', renderSliders));
-document.getElementById('generateBtn').addEventListener('click', generateRanking);
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('input[name="stat"]').forEach(c =>
+    c.addEventListener('change', renderSliders));
+});
 </script>
 </body>
 </html>
