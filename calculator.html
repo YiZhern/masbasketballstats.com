@@ -105,46 +105,48 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
   .then(csv => {
     Papa.parse(csv, { header:true, skipEmptyLines:true }).data.forEach(r => {
       originalData.push({
-        player: r['Player'],
-        competition: r['Competition'],
-        year: r['Year'],
-        team: r['Team'],
-        gp: r['GP'],
+        player: r.Player,
+        competition: r.Competition,
+        year: r.Year,
+        team: r.Team,
+        gp: r.GP,
         min: r['Min'],
-        fga: +r['FGA'],
-        fgm: +r['FGM'],
+        fga: +r.FGA,
+        fgm: +r.FGM,
         fga2: +r['2FGA'],
         fgm2: +r['2FGM'],
         fga3: +r['3FGA'],
         fgm3: +r['3FGM'],
-        fta: +r['FTA'],
-        ftm: +r['FTM'],
-        oreb: +r['OR'],
-        dreb: +r['DR'],
-        treb: +r['TR'],
-        as: +r['AS'],
-        to: +r['TO'],
-        st: +r['ST'],
-        bs: +r['BS'],
-        pf: +r['PF'],
-        fd: +r['FD'],
-        pts: +r['PTS']
+        fta: +r.FTA,
+        ftm: +r.FTM,
+        oreb: +r.OR,
+        dreb: +r.DR,
+        treb: +r.TR,
+        as: +r.AS,
+        to: +r.TO,
+        st: +r.ST,
+        bs: +r.BS,
+        pf: +r.PF,
+        fd: +r.FD,
+        pts: +r.PTS,
+        fg: r.FGM/r.FGA || 0,
+        fg2: r['2FGM']/r['2FGA'] || 0,
+        fg3: r['2FGM']/r['2FGA'] || 0,
+        ft: r.FTM/r.FTA || 0
       });
     });
-    populateCompetitionOptions();
+    .then(populateCompetitionOptions);
   });
 
-function populateCompetitionOptions(){
-  const compSet = new Set(originalData.map(p=>p.competition));
-  const sel = document.getElementById('competitionSelect');
-  sel.innerHTML = '<option>All</option>';
-  compSet.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c;
-    opt.textContent = c;
-    sel.appendChild(opt);
-  });
-}
+  function populateCompetitionOptions(){
+    const sel = document.getElementById('competitionSelect');
+    sel.innerHTML = '<option>All</option>';
+    [...new Set(originalData.map(p => p.competition))].forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      sel.appendChild(opt);
+    });
+  }
 
 function getSelectValues(select) {
   return Array.from(select.selectedOptions).map(o => o.value);
@@ -162,38 +164,30 @@ function renderSliders() {
   if (!stats.length) return;
 
   container.innerHTML = '<h3>Weight Allocation (Total = 100%)</h3>';
-  stats.forEach(stat => {
-    const div = document.createElement('div');
+  stats.forEach(s => {
     const init = Math.floor(100 / stats.length);
-    div.innerHTML = `
+    cont.insertAdjacentHTML('beforeend', `
       <label style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        ${stat.toUpperCase()}:
-        <input type="range" name="w_${stat}" min="0" max="100" value="${init}" oninput="rebalance('${stat}')">
+        ${s.toUpperCase()}:
+        <input type="range" name="w_${s}" min="0" max="100" value="${init}" oninput="rebalance('${s}')">
         <span>${init}</span>%
-      </label>`;
-    container.appendChild(div);
+      </label>`);
   });
 }
 
-function rebalance(changed) {
-  const sliders = document.querySelectorAll('#sliderContainer input[type=range]');
+function rebalance(changed){
+  const all = document.querySelectorAll('#sliderContainer input[type="range"]');
   const changedEl = document.querySelector(`[name=w_${changed}]`);
-  const changedVal = +changedEl.value;
-
-  const others = Array.from(sliders).filter(s => s !== changedEl);
-  const totalOthers = others.reduce((sum,s) => sum + +s.value, 0);
-
-  const remaining = 100 - changedVal;
-  if (totalOthers > 0) {
-    others.forEach(s => {
-      const ratio = +s.value / totalOthers;
-      s.value = Math.round(ratio * remaining);
-    });
+  const cv = +changedEl.value;
+  const others = [...all].filter(s => s !== changedEl);
+  const sumOthers = others.reduce((sum, s) => sum + +s.value, 0);
+  const remaining = 100 - cv;
+  if (sumOthers > 0) {
+    others.forEach(s => s.value = Math.round((s.value/sumOthers)*remaining));
   } else {
     const share = Math.floor(remaining / others.length);
     others.forEach(s => s.value = share);
   }
-
   updateLabels();
 }
 
@@ -203,35 +197,25 @@ function updateLabels() {
   });
 }
 
-function generateRanking() {
-  const compVals = getSelectValues(document.getElementById('competitionSelect'));
-  const yearVals = getSelectValues(document.getElementById('yearSelect'));
+function generateRanking(){
+  const compSel = document.getElementById('competitionSelect'),
+        yearSel = document.getElementById('yearSelect');
+  const comps = getSelectValues(compSel), years = getSelectValues(yearSel);
   const stats = getSelectedStats();
+  if (!stats.length) return alert('Select at least one stat.');
 
-  if (!stats.length) {
-    alert('Select at least one stat');
-    return;
-  }
-
-  renderSliders();
-  updateLabels();
+  renderSliders(); updateLabels();
 
   const weights = {};
-  document.querySelectorAll('#sliderContainer input[type=range]')
-    .forEach(inp => {
-      if (inp.name == 'to' || inp.name == 'pf') {
-        weights[inp.name.replace('w_','')] = -inp.value / 100;
-      } else {
-        weights[inp.name.replace('w_','')] = +inp.value / 100;
-    });
+  document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
+    const stat = inp.name.replace('w_','');
+    weights[stat] = (stat === 'to' || stat === 'pf') ? -inp.value/100 : +inp.value/100;
+  });
 
-  let data = originalData.slice();
-  if (!compVals.includes('All')) {
-    data = data.filter(p => compVals.includes(p.competition));
-  }
-  if (!yearVals.includes('All')) {
-    data = data.filter(p => yearVals.includes(p.year));
-  }
+  let data = originalData.filter(p => 
+    (!comps.includes('All') ? comps.includes(p.competition) : true) &&
+    (!years.includes('All') ? years.includes(p.year) : true)
+  );
 
   const entries = data.map(p => ({
     player: p.player,
