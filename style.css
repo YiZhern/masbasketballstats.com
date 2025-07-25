@@ -235,8 +235,12 @@ tr:nth-child(even) {
 
 /* === Weight Panel === */
 .weight-panel {
-  border: 2px solid #ffddc2;
-  background: linear-gradient(to bottom right, #fffaf5, #fff3e5);
+  margin-top: 24px;
+  padding: 24px;
+  background: #fffaf5;
+  border: 2px solid #ffe3c0;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(255, 136, 0, 0.06);
 }
 
 .weight-panel h2, .weight-panel h3 {
@@ -343,6 +347,7 @@ tr:nth-child(even) {
   box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.1);
 }
 
+/* === Chip === */
 .stats-chip {
   display: inline-block;
   flex-wrap: wrap;
@@ -350,15 +355,18 @@ tr:nth-child(even) {
 }
 
 .chip {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 20px; /* Rounded corners for pill-shaped chips */
+  background: #fff4ec;
+  border: 1px solid #ffcc9a;
+  padding: 10px 14px;
+  margin: 6px;
+  border-radius: 20px;
+  font-weight: 600;
   cursor: pointer;
-  background-color: #f0f0f0;
+  transition: all 0.2s ease;
 }
 
 .chip.selected {
-  background-color: #007bff; /* Highlight selected chips */
+  background: #ff914d;
   color: white;
-  border-color: #007bff;
+  border-color: #ff914d;
 }
