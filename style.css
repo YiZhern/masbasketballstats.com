@@ -272,6 +272,10 @@ tr:hover {
   cursor: pointer;
 }
 
+#sliderContainer {
+  display: none;
+}
+
 
 /* === Responsive === */
 @media (max-width: 768px) {
@@ -307,3 +311,4 @@ tr:hover {
     width: 100%;
   }
 }
+
