@@ -59,8 +59,6 @@
     <div class="weight-panel">
       <h2>Weight Allocation</h2>
       <div class = "stats-chip">
-        <label><input type="chip" name="stat" value="fg"> FG% </label>
-        <!--
         <div class = "chip" value="fg" name = "stat"> FG% </div>
         <div class = "chip" value="fg2" name = "stat"> 2FG% </div>
         <div class = "chip" value="fg3" name = "stat"> 3FG% </div>
@@ -75,7 +73,6 @@
         <div class = "chip" value="pf" name = "stat"> Personal Fouls </div>
         <div class = "chip" value="fd" name = "stat"> Fouls Drawn </div>
         <div class = "chip" value="pts" name = "stat"> PTS </div>
-        -->
       </div>
     </div>
 
@@ -318,6 +315,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Event bindings after DOM loads
 document.addEventListener('DOMContentLoaded', () => {
+  chips.forEach(chip => {
+  const value = chip.getAttribute('value');
+
+  // Add hidden checkbox
+  const hidden = document.createElement('input');
+  hidden.type = 'checkbox';
+  hidden.name = 'stat';
+  hidden.value = value;
+  hidden.style.display = 'none';
+  chip.appendChild(hidden);
+
+  chip.addEventListener('click', () => {
+    chip.classList.toggle('selected');
+    hidden.checked = chip.classList.contains('selected');
+    renderSliders(); // Trigger re-render
+  });
+
   document.querySelectorAll('input[name="stat"]').forEach(c =>
     c.addEventListener('change', renderSliders)
   );
