@@ -12,10 +12,10 @@ body {
   max-width: 1400px;
   margin: 30px auto;
   background: #fff;
-  padding: 40px 20px;
+  padding: 40px 24px;
   border-radius: 14px;
-  box-sizing: border-box;
   box-shadow: 0 8px 28px rgba(255, 102, 0, 0.08);
+  box-sizing: border-box;
 }
 
 /* === Buttons === */
@@ -45,6 +45,7 @@ input, select {
   border: 1px solid #ddd;
   border-radius: 6px;
   box-sizing: border-box;
+  margin-top: 4px;
 }
 
 input::placeholder {
@@ -97,6 +98,8 @@ input::placeholder {
   font-weight: 600;
   color: #444;
   font-size: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* === Table Wrapper === */
@@ -104,6 +107,7 @@ input::placeholder {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin-top: 30px;
+  border-radius: 8px;
 }
 
 /* === Common Table Styles === */
@@ -111,11 +115,12 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  background: #fff;
 }
 
 th, td {
   border: 1px solid #eee;
-  padding: 12px 8px;
+  padding: 12px 10px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
@@ -147,6 +152,7 @@ tr:hover {
 .table-type2 table {
   table-layout: auto;
   min-width: max-content;
+  display: none; /* hide by default */
 }
 
 .table-type2 th:nth-child(1),
@@ -164,11 +170,6 @@ tr:hover {
 .table-type2 th, .table-type2 td {
   font-size: 15px;
   padding: 14px 10px;
-}
-
-/* Initially hide historical table until user searches */
-.table-type2 table {
-  display: none;
 }
 
 /* === Pagination === */
@@ -210,57 +211,31 @@ tr:hover {
   font-weight: 600;
 }
 
-/* === Slider Panel Layout === */
-.row-wrapper {
+/* === Slider Section === */
+#sliderContainer label {
   display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  margin-bottom: 30px;
-}
-
-.position-group {
-  flex: 1 1 45%;
-  min-width: 300px;
-  background: #fff6f0;
-  padding: 22px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 102, 0, 0.06);
-}
-
-.position-group h3 {
-  color: #ff6600;
-  font-size: 18px;
-  margin-bottom: 16px;
-}
-
-.slider-group label {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 14px;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
   font-weight: 500;
-  font-size: 15px;
-  color: #333;
-  flex-wrap: wrap;
 }
 
-.slider-group span {
-  display: inline-block;
-  width: 36px;
-  text-align: right;
-}
-
-.slider-group input[type="range"] {
+#sliderContainer input[type="range"] {
   flex: 1;
-  max-width: 320px;
+  max-width: 300px;
   accent-color: #ff6600;
+}
+
+#sliderContainer span {
+  width: 40px;
+  text-align: right;
 }
 
 /* === Responsive === */
 @media (max-width: 768px) {
   .container {
-    padding: 24px 12px;
+    padding: 24px 14px;
     margin: 0;
     border-radius: 0;
   }
@@ -270,15 +245,24 @@ tr:hover {
     align-items: stretch;
   }
 
+  .filter-bar label, .sort-bar label {
+    width: 100%;
+  }
+
   input, select, button {
     width: 100%;
   }
 
-  .row-wrapper {
-    flex-direction: column;
-  }
-
   .position-group {
     flex: 1 1 100%;
+  }
+
+  #sliderContainer label {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #sliderContainer input[type="range"] {
+    width: 100%;
   }
 }
