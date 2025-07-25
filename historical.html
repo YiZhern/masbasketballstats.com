@@ -187,99 +187,9 @@ function getSelectValues(sel) {
   return [...sel.selectedOptions].map(o => o.value);
 }
 
-function getSelectedStats() {
-  return [...document.querySelectorAll('input[name="stat"]:checked')].map(c => c.value);
-}
-
-// Renders sliders dynamically based on selected stats
-function renderSliders() {
-  const stats = getSelectedStats();
-  const container = document.getElementById('sliderContainer');
-  container.innerHTML = '';
-  if (!stats.length) return;
-
-  container.innerHTML = '<h3>Weight Allocation (Total = 100%)</h3>';
-  stats.forEach(s => {
-    const init = Math.floor(100 / stats.length);
-    container.insertAdjacentHTML('beforeend', `
-      <label style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        ${s.toUpperCase()}:
-        <input type="range" name="w_${s}" min="0" max="100" value="${init}" oninput="rebalance('${s}')">
-        <span>${init}</span>%
-      </label>
-    `);
-  });
-  updateLabels();
-}
-
-function rebalance(changed) {
-  const all = document.querySelectorAll('#sliderContainer input[type="range"]');
-  const changedEl = document.querySelector(`[name=w_${changed}]`);
-  const cv = +changedEl.value;
-  const others = [...all].filter(s => s !== changedEl);
-  const sumOthers = others.reduce((sum, s) => sum + +s.value, 0);
-  const remaining = 100 - cv;
-  if (sumOthers > 0) {
-    others.forEach(s => s.value = Math.round((s.value / sumOthers) * remaining));
-  } else {
-    const share = Math.floor(remaining / others.length);
-    others.forEach(s => s.value = share);
-  }
-  updateLabels();
-}
-
-function updateLabels() {
-  document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
-    inp.nextElementSibling.textContent = inp.value;
-  });
-}
-
-// Generate top 10 ranking
-function generateRanking() {
-  const compSel = document.getElementById('competitionSelect');
-  const yearSel = document.getElementById('yearSelect');
-  const comps = getSelectValues(compSel);
-  const years = getSelectValues(yearSel);
-  const stats = getSelectedStats();
-
-  if (!stats.length) return alert('Select at least one stat.');
-
-  const weights = {};
-  document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
-    const stat = inp.name.replace('w_', '');
-    weights[stat] = (stat === 'to' || stat === 'pf') ? -inp.value / 100 : +inp.value / 100;
-  });
-
-  let data = originalData.filter(p =>
-    (!comps.includes('All') ? comps.includes(p.competition) : true) &&
-    (!years.includes('All') ? years.includes(p.year) : true)
-  );
-
-  const entries = data.map(p => ({
-    player: p.player,
-    team: p.team,
-    score: stats.reduce((s, stat) => s + (p[stat] || 0) * weights[stat] / p.gp, 0)
-  }))
-  .sort((a, b) => b.score - a.score)
-  .slice(0, 10);
-
-  document.getElementById('rankingTitle').textContent =
-    document.getElementById('allocName').value.trim() || 'Ranking';
-
-  const tbody = document.querySelector('#rankingTable tbody');
-  tbody.innerHTML = entries
-    .map(e => `<tr><td>${e.player}</td><td>${e.team}</td><td>${e.score.toFixed(2)}</td></tr>`)
-    .join('');
-}
 
 // Event bindings after DOM loads
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('input[name="stat"]').forEach(c =>
-    c.addEventListener('change', renderSliders)
-  );
-
-  document.getElementById('generateBtn').addEventListener('click', generateRanking);
-});
 </script>
 </body>
 </html>
