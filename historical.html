@@ -125,164 +125,161 @@
 
 <!-- JS Script -->
 <script>
-  let currentPage = 1;
-  const rowsPerPage = 30;
-  let filteredData = []; // will hold filtered results
-  let originalData = [];
+let originalData = [];
 
-  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
-  .then(response => response.text())
+// Fetch and parse CSV data
+fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
+  .then(r => r.text())
   .then(csv => {
-    const parsed = Papa.parse(csv, { header: true });
-    originalData = parsed.data.map(row => ({
-      player: row['Player'],
-      competition: row['Competition'],
-      year: parseInt(row['Year']),
-      team: row['Team'],
-      gp: parseInt(row['GP']),
-      min: parseInt(row['Min']),
-      fga: parseInt(row['FGA']),
-      fgm: parseInt(row['FGM']),
-      fga2: parseInt(row['2FGA']),
-      fgm2: parseInt(row['2FGM']),
-      fga3: parseInt(row['3FGA']),
-      fgm3: parseInt(row['3FGM']),
-      fta: parseInt(row['FTA']),
-      ftm: parseInt(row['FTM']),
-      oreb: parseInt(row['OR']),
-      dreb: parseInt(row['DR']),
-      treb: parseInt(row['TR']),
-      as: parseInt(row['AS']),
-      to: parseInt(row['TO']),
-      st: parseInt(row['ST']),
-      bs: parseInt(row['BS']),
-      pf: parseInt(row['PF']),
-      fd: parseInt(row['FD']),
-      pts: parseInt(row['PTS'])
-    }));
-    filteredData = originalData;       
-      updateYears();                     
-      console.log('Loaded rows:', originalData.length);   
+    const parsed = Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
+    parsed.forEach(r => {
+      originalData.push({
+        player: r.Player,
+        competition: r.Competition,
+        year: r.Year,
+        team: r.Team,
+        gp: +r.GP,
+        min: +r['Min'],
+        fga: +r.FGA,
+        fgm: +r.FGM,
+        fga2: +r['2FGA'],
+        fgm2: +r['2FGM'],
+        fga3: +r['3FGA'],
+        fgm3: +r['3FGM'],
+        fta: +r.FTA,
+        ftm: +r.FTM,
+        oreb: +r.OR,
+        dreb: +r.DR,
+        treb: +r.TR,
+        as: +r.AS,
+        to: +r.TO,
+        st: +r.ST,
+        bs: +r.BS,
+        pf: +r.PF,
+        fd: +r.FD,
+        pts: +r.PTS,
+        fg: r.FGM / r.FGA || 0,
+        fg2: r['2FGM'] / r['2FGA'] || 0,
+        fg3: r['3FGM'] / r['3FGA'] || 0,
+        ft: r.FTM / r.FTA || 0
+      });
+    });
+    populateCompetitionOptions();
+  })
+  .catch(err => {
+    console.error("Error loading CSV:", err);
+    alert("Failed to load player data.");
   });
 
-  function renderTable(data) {
-    filteredData = data;
-    const tbody = document.querySelector('#statsTable tbody');
-    tbody.innerHTML = '';
-  
-    const start = (currentPage - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const pageData = data.slice(start, end);
-  
-    pageData.forEach(p => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${p.player}</td>
-        <td>${p.competition}</td>
-        <td>${p.year}</td>
-        <td>${p.team}</td>
-        <td>${p.gp}</td>
-        <td>${p.min}</td>
-        <td>${p.fga}</td>
-        <td>${p.fgm}</td>
-        <td>${p.fga2}</td>
-        <td>${p.fgm2}</td>
-        <td>${p.fga3}</td>
-        <td>${p.fgm3}</td>
-        <td>${p.fta}</td>
-        <td>${p.ftm}</td>
-        <td>${p.oreb}</td>
-        <td>${p.dreb}</td>
-        <td>${p.treb}</td>
-        <td>${p.as}</td>
-        <td>${p.to}</td>
-        <td>${p.st}</td>
-        <td>${p.bs}</td>
-        <td>${p.pf}</td>
-        <td>${p.fd}</td>
-        <td>${p.pts}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-  
-    updatePaginationInfo(data.length);
-  }
-  
-  function changePage(direction) {
-    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-    currentPage += direction;
-  
-    if (currentPage < 1) currentPage = 1;
-    if (currentPage > totalPages) currentPage = totalPages;
-  
-    renderTable(filteredData);
-  }
+// Populate dropdown with unique competition values
+function populateCompetitionOptions() {
+  const sel = document.getElementById('competitionSelect');
+  sel.innerHTML = '<option>All</option>';
+  [...new Set(originalData.map(p => p.competition))].forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
 
-  function updatePaginationInfo(totalItems) {
-    const totalPages = Math.ceil(totalItems / rowsPerPage);
-    document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+function getSelectValues(sel) {
+  return [...sel.selectedOptions].map(o => o.value);
+}
+
+function getSelectedStats() {
+  return [...document.querySelectorAll('input[name="stat"]:checked')].map(c => c.value);
+}
+
+// Renders sliders dynamically based on selected stats
+function renderSliders() {
+  const stats = getSelectedStats();
+  const container = document.getElementById('sliderContainer');
+  container.innerHTML = '';
+  if (!stats.length) return;
+
+  container.innerHTML = '<h3>Weight Allocation (Total = 100%)</h3>';
+  stats.forEach(s => {
+    const init = Math.floor(100 / stats.length);
+    container.insertAdjacentHTML('beforeend', `
+      <label style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        ${s.toUpperCase()}:
+        <input type="range" name="w_${s}" min="0" max="100" value="${init}" oninput="rebalance('${s}')">
+        <span>${init}</span>%
+      </label>
+    `);
+  });
+  updateLabels();
+}
+
+function rebalance(changed) {
+  const all = document.querySelectorAll('#sliderContainer input[type="range"]');
+  const changedEl = document.querySelector(`[name=w_${changed}]`);
+  const cv = +changedEl.value;
+  const others = [...all].filter(s => s !== changedEl);
+  const sumOthers = others.reduce((sum, s) => sum + +s.value, 0);
+  const remaining = 100 - cv;
+  if (sumOthers > 0) {
+    others.forEach(s => s.value = Math.round((s.value / sumOthers) * remaining));
+  } else {
+    const share = Math.floor(remaining / others.length);
+    others.forEach(s => s.value = share);
   }
+  updateLabels();
+}
 
-  function updateYears() {
-    const comp = document.getElementById('competitionSelect').value;
-    const yearSelect = document.getElementById('yearSelect');
-    yearSelect.innerHTML = '<option value="All">All</option>';
-  
-    const years = [...new Set(originalData
-      .filter(p => comp === 'All' || p.competition === comp)
-      .map(p => p.year))
-    ];
-    years.sort((a, b) => b - a);
-  
-    years.forEach(y => {
-      const opt = document.createElement('option');
-      opt.value = y;
-      opt.textContent = y;
-      yearSelect.appendChild(opt);
-    });
-  }
+function updateLabels() {
+  document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
+    inp.nextElementSibling.textContent = inp.value;
+  });
+}
 
-  function filterByCompetition() {
-    const comp = document.getElementById('competitionSelect').value;
-    const year = document.getElementById('yearSelect').value;
-    const player = document.getElementById('playerInput').value.toLowerCase();
-  
-    let filtered = originalData;
+// Generate top 10 ranking
+function generateRanking() {
+  const compSel = document.getElementById('competitionSelect');
+  const yearSel = document.getElementById('yearSelect');
+  const comps = getSelectValues(compSel);
+  const years = getSelectValues(yearSel);
+  const stats = getSelectedStats();
 
-    if (comp !== '' && comp !== 'All') {
-      filtered = filtered.filter(p => p.competition === comp);
-    } 
-    
-    if (year !== '' && year !== 'All') {
-      filtered = filtered.filter(p => p.year.toString() === year);
-    }
-  
-    if (player) {
-      filtered = filtered.filter(p => p.player.toLowerCase().includes(player));
-    }
+  if (!stats.length) return alert('Select at least one stat.');
 
-    currentPage = 1;
-    renderTable(filtered);
-    document.querySelector('.table-type2 table').style.display = 'table';
-  }
+  const weights = {};
+  document.querySelectorAll('#sliderContainer input[type=range]').forEach(inp => {
+    const stat = inp.name.replace('w_', '');
+    weights[stat] = (stat === 'to' || stat === 'pf') ? -inp.value / 100 : +inp.value / 100;
+  });
 
-  let sortDescending = true;
-  
-  function sortByStat() {
-    const stat = document.getElementById('sortSelect').value;
-    if (!filteredData.length) return;
-  
-    filteredData.sort((a, b) => {
-      return sortDescending ? b[stat] - a[stat] : a[stat] - b[stat];
-    });
-  
-    document.querySelector("button[onclick='sortByStat()']").textContent = 
-      sortDescending ? "Sort 🔼" : "Sort 🔽";
-  
-    sortDescending = !sortDescending;
-    renderTable(filteredData);
-  }
-  
+  let data = originalData.filter(p =>
+    (!comps.includes('All') ? comps.includes(p.competition) : true) &&
+    (!years.includes('All') ? years.includes(p.year) : true)
+  );
+
+  const entries = data.map(p => ({
+    player: p.player,
+    team: p.team,
+    score: stats.reduce((s, stat) => s + (p[stat] || 0) * weights[stat] / p.gp, 0)
+  }))
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 10);
+
+  document.getElementById('rankingTitle').textContent =
+    document.getElementById('allocName').value.trim() || 'Ranking';
+
+  const tbody = document.querySelector('#rankingTable tbody');
+  tbody.innerHTML = entries
+    .map(e => `<tr><td>${e.player}</td><td>${e.team}</td><td>${e.score.toFixed(2)}</td></tr>`)
+    .join('');
+}
+
+// Event bindings after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('input[name="stat"]').forEach(c =>
+    c.addEventListener('change', renderSliders)
+  );
+
+  document.getElementById('generateBtn').addEventListener('click', generateRanking);
+});
 </script>
 </body>
 </html>
