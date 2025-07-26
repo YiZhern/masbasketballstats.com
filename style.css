@@ -126,6 +126,44 @@ select:focus {
   display: flex;
 }
 
+.subnav-toggle {
+  display: none;
+  background: #ff914d;
+  color: white;
+  border: none;
+  font-size: 18px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Default desktop view */
+.subnav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .subnav-toggle {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .subnav-links {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .subnav-links.open {
+    display: flex;
+  }
+}
+
 /* === Filter & Sort Bars === */
 .filter-bar,
 .sort-bar {
