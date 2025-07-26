@@ -44,32 +44,32 @@
 
     <!-- Filter bar -->
     <div class="filter-bar">
-      <div calss="filter-field">
-        <label for="competitionSelect">Competition:</label>
-        <select id="competitionSelect">
+      <div class="filter-field">
+        <label for="competitionSelect">Competition</label>
+        <select id="competitionSelect" aria-label="Select competition">
           <option value="All">All</option>
           <option value="U15 (Boys)">National U15 (Boys)</option>
           <option value="U17 (Boys)">National U17 (Boys)</option>
         </select>
       </div>
-
-      <div calss="filter-field">
-        <label for="yearSelect">Year:</label>
-        <select id="yearSelect">
+    
+      <div class="filter-field">
+        <label for="yearSelect">Year</label>
+        <select id="yearSelect" aria-label="Select year">
           <option value="All">All</option>
           <option value="2024">2024</option>
           <option value="2025">2025</option>
         </select>
       </div>
-
-      <div class="fliter-field">
-        <label for="playerInput">Player:</label>
-        <input type="text" id="playerInput" placeholder="Enter player name" />
+    
+      <div class="filter-field player-search">
+        <label for="playerInput">Player</label>
+        <input type="text" id="playerInput" placeholder="Enter player name" aria-label="Search player" />
       </div>
-
-      <button onclick="filterByCompetition()">Search</button>
+    
+      <button type="button" onclick="filterByCompetition()" aria-label="Search players">Search</button>
     </div>
-
+      
     <!-- Sort bar -->
     <div class="sort-bar">
       <label for="sortSelect">Sort by:</label>
@@ -83,7 +83,7 @@
       </select>
       <button onclick="sortByStat()">Sort 🔽</button>
     </div>
-
+  
     <!-- Table -->
     <div id="tableContainer" style="display:none;" class="table-wrapper table-type2">
       <table id="statsTable">
@@ -99,7 +99,7 @@
         <tbody></tbody>
       </table>
     </div>
-
+  
     <!-- Pagination -->
     <div id="pagination" class="pagination">
       <button onclick="changePage(-1)">Previous</button>
