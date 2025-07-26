@@ -18,8 +18,14 @@ body {
   box-sizing: border-box;
 }
 
+.container h1 {
+  font-size: 26px;
+  margin-bottom: 16px;
+}
+
 /* === Buttons === */
-button {
+button,
+.pagination button {
   background: linear-gradient(120deg, #ffa55a, #ff7a00);
   color: #fff;
   border: none;
@@ -30,9 +36,11 @@ button {
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(255, 153, 0, 0.2);
   transition: all 0.2s ease;
+  height: 40px;
 }
 
-button:hover {
+button:hover,
+.pagination button:hover {
   background: linear-gradient(120deg, #ffb36c, #ff9444);
   transform: translateY(-1px);
 }
@@ -43,15 +51,20 @@ button:focus {
 }
 
 /* === Inputs & Selects === */
-input, select {
+input,
+select {
   background: #fdfaf7;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 15px;
+  height: 40px;
+  padding: 6px 10px;
   transition: border 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   border-color: #ff914d;
   box-shadow: 0 0 0 2px rgba(255, 145, 77, 0.2);
 }
@@ -62,7 +75,7 @@ input:focus, select:focus {
   justify-content: space-between;
   background: #fff;
   padding: 16px 28px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .sub-nav {
@@ -72,7 +85,7 @@ input:focus, select:focus {
   flex-wrap: wrap;
   gap: 20px;
   align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .sub-nav a {
@@ -98,7 +111,7 @@ input:focus, select:focus {
   position: absolute;
   background-color: #ffddba;
   min-width: 160px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   z-index: 1;
   flex-direction: column;
   border-radius: 8px;
@@ -114,23 +127,21 @@ input:focus, select:focus {
 }
 
 /* === Filter & Sort Bars === */
+.filter-bar,
+.sort-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
 .sort-bar {
   background: #fff9f4;
   border: 1px solid #ffe5d0;
   border-radius: 12px;
   padding: 18px 24px;
   box-shadow: 0 2px 6px rgba(255, 136, 0, 0.06);
-}
-
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: flex-end;
-}
-
-.filter-bar label, .filter-bar select {
-  margin-bottom: 0;
 }
 
 .filter-field {
@@ -142,31 +153,31 @@ input:focus, select:focus {
 .filter-field label {
   font-weight: 600;
   margin-bottom: 4px;
+  font-size: 15px;
 }
 
-.filter-field input,
-.filter-field select {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  width: 100%;
-}
-
+/* === Player Search === */
 .player-search {
   display: flex;
   flex-direction: column;
-  margin-top: 0;
-}
-
-@media(min-width: 768px) {
-  .filter-bar .player-search {
-    flex: 1;
-  }
-}
-
-.filter-bar label, .sort-bar label {
   gap: 6px;
+  min-width: 200px;
+  flex-grow: 1;
+}
+
+.player-search input {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 15px;
+  background: #fffdfb;
+  transition: border 0.2s ease;
+}
+
+.player-search input:focus {
+  border-color: #ff6600;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.1);
 }
 
 /* === Table Wrapper === */
@@ -185,7 +196,8 @@ table {
   background: #fff;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #eee;
   padding: 12px 10px;
   text-align: center;
@@ -211,25 +223,18 @@ tr:nth-child(even) {
   background: #fff5ed;
 }
 
-/* === Table Type1 === */
 .table-type1 table {
   table-layout: fixed;
   min-width: max-content;
 }
 
-/* === Table Type2 (Historical) === */
-.table-type2 th, .table-type2 td {
+.table-type2 th,
+.table-type2 td {
   padding: 14px 12px;
   font-size: 15px;
 }
-.container h1 {
-  font-size: 26px;
-  margin-bottom: 16px;
-}
-.filter-bar label, .sort-bar label {
-  font-size: 15px;
-}
 
+/* === Ranking Section === */
 #rankingTable {
   border: 2px solid #ffe3cc;
   border-radius: 10px;
@@ -252,14 +257,6 @@ tr:nth-child(even) {
   gap: 24px;
 }
 
-.pagination button {
-  background: #ff6600;
-}
-
-.pagination button:hover {
-  background: #ff8800;
-}
-
 .pagination #pageInfo {
   font-size: 16px;
   font-weight: 600;
@@ -276,7 +273,8 @@ tr:nth-child(even) {
   box-shadow: 0 2px 12px rgba(255, 136, 0, 0.06);
 }
 
-.weight-panel h2, .weight-panel h3 {
+.weight-panel h2,
+.weight-panel h3 {
   margin-top: 0;
   margin-bottom: 16px;
   color: #ff5500;
@@ -306,6 +304,7 @@ tr:nth-child(even) {
   background: linear-gradient(to right, #ffbf8c, #ffa458);
   height: 6px;
   border-radius: 5px;
+  width: 100%;
 }
 
 #sliderContainer input[type="range"]::-webkit-slider-thumb {
@@ -313,79 +312,13 @@ tr:nth-child(even) {
   border: 2px solid white;
 }
 
-
-/* === Responsive === */
-@media (max-width: 768px) {
-  .container {
-    padding: 24px 14px;
-    margin: 0;
-    border-radius: 0;
-  }
-
-  .filter-bar, .sort-bar {
-    gap: 12px;
-    padding: 12px;
-  }
-
-  .filter-bar label, .sort-bar label {
-    width: 100%;
-  }
-
-  select, input, button {
-    font-size: 16px;
-  }
-
-  .position-group {
-    flex: 1 1 100%;
-  }
-  
-  .player-search input {
-    width: 50%;
-  }
-
-  #sliderContainer label {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  #sliderContainer input[type="range"] {
-    width: 100%;
-  }
-  
-  .table-wrapper {
-    overflow-x: auto;
-  }
-}
-
-.player-search {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 200px;
-  flex-grow: 1;
-}
-
-.player-search input {
-  border: 1px solid #ccc;
-  padding: 10px 12px;
-  border-radius: 6px;
-  font-size: 15px;
-  background: #fffdfb;
-  transition: border 0.2s ease;
-}
-
-.player-search input:focus {
-  border-color: #ff6600;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.1);
-}
-
-/* === Chip === */
+/* === Stat Chips === */
 .stats-chip {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
+
 .chip {
   padding: 8px 14px;
   background: #f5f5f5;
@@ -396,9 +329,52 @@ tr:nth-child(even) {
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .chip.selected {
   background: #ff914d;
   color: #fff;
   border-color: #ff914d;
 }
 
+/* === Responsive === */
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 14px;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .filter-bar,
+  .sort-bar {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .filter-bar label,
+  .sort-bar label {
+    width: 100%;
+  }
+
+  select,
+  input,
+  button {
+    font-size: 16px;
+  }
+
+  .position-group {
+    flex: 1 1 100%;
+  }
+
+  .player-search input {
+    width: 100%;
+  }
+
+  #sliderContainer label {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+}
