@@ -33,7 +33,7 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
       fd: +r.FD,
       pts: +r.PTS
     }));
-    renderTable();
+    //renderTable();
   })
   .catch(err => {
     console.error("Failed to load data", err);
