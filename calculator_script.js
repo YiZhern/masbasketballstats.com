@@ -16,7 +16,7 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
       year: r.Year,
       team: r.Team,
       gp: +r.GP,
-      min: +r['Min'],
+      min: +r.Min,
       fga: +r.FGA,
       fgm: +r.FGM,
       fga2: +r['2FGA'],
