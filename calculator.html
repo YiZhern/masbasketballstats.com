@@ -56,6 +56,12 @@
       </select>
     </div>
 
+    <div class="name-input">
+      <label>Allocation Name:
+        <input type="text" id="allocName" placeholder="Scoring Focus">
+      </label>
+    </div>
+
     <div class="weight-panel">
       <h2>Weight Allocation</h2>
       <div class = "stats-chip">
@@ -76,27 +82,20 @@
       </div>
     </div>
 
-      <div class="name-input">
-        <label>Allocation Name:
-          <input type="text" id="allocName" placeholder="Scoring Focus">
-        </label>
-      </div>
+    <div id="sliderContainer"></div>
 
-      <div id="sliderContainer"></div>
+    <button id="generateBtn">Generate Rankings</button>
 
-      <button id="generateBtn">Generate Rankings</button>
-
-      <h2 id="rankingTitle"></h2>
-      <div class="table-wrapper">
-        <table id="rankingTable">
-          <thead>
-            <tr><th>Player</th><th>Team</th><th>Score</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+    <h2 id="rankingTitle"></h2>
+    <div class="table-wrapper">
+      <table id="rankingTable">
+        <thead>
+          <tr><th>Player</th><th>Team</th><th>Score</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
-
+  </div>
 <script src="calculator_script.js"></script>
 </body>
 </html>
