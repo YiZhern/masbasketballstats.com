@@ -283,3 +283,15 @@ button:hover {
     width: 100%;
   }
 }
+
+/* Add caret icon padding fix for iOS Safari */
+select::-ms-expand {
+  display: none;
+}
+
+select::-webkit-appearance {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
