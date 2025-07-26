@@ -199,6 +199,19 @@ button:focus {
   border-radius: 8px;
 }
 
+.table-type2 th,
+.table-type2 td {
+  padding: 14px 12px;
+  font-size: 15px;
+}
+
+/* === Ranking Section === */
+#rankingTable {
+  border: 2px solid #ffe3cc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
 #statsTable {
   width: 100%;
   border-collapse: collapse;
