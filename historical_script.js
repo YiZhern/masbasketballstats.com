@@ -65,9 +65,9 @@ function renderTable() {
   tbody.innerHTML = paged.map(r => `
     <tr>
       <td>${r.player}</td><td>${r.competition}</td><td>${r.year}</td><td>${r.team}</td>
-      <td>${r.gp}</td><td>${r.min}</td><td>${r.fga}+"/"+${r.fgm}</td>
-      <td>${r.fga2}+"/"+${r.fgm2}</td><td>${r.fga3}+"/"+${r.fgm3}</td>
-      <td>${r.fta}+"/"+${r.ftm}</td><td>${r.oreb}</td><td>${r.dreb}</td><td>${r.treb}</td>
+      <td>${r.gp}</td><td>${r.min}</td><td>${r.fga}/${r.fgm}</td>
+      <td>${r.fga2}/${r.fgm2}</td><td>${r.fga3}/${r.fgm3}</td>
+      <td>${r.fta}/${r.ftm}</td><td>${r.oreb}</td><td>${r.dreb}</td><td>${r.treb}</td>
       <td>${r.as}</td><td>${r.to}</td><td>${r.st}</td><td>${r.bs}</td>
       <td>${r.pf}</td><td>${r.fd}</td><td>${r.pts}</td>
     </tr>
