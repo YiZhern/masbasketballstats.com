@@ -1,20 +1,27 @@
 /* === Historical Stats Page Styles === */
-
-/* Container */
-.container {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 32px 24px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+/* === Base Setup === */
+body {
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background: #fafafa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
-/* Heading */
+.container {
+  max-width: 1400px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 40px 24px;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(255, 102, 0, 0.08);
+  box-sizing: border-box;
+}
+
 .container h1 {
-  font-size: 28px;
-  margin-bottom: 24px;
-  color: #333;
+  font-size: 26px;
+  margin-bottom: 16px;
 }
 
 /* Filter Bar */
