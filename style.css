@@ -378,3 +378,15 @@ tr:nth-child(even) {
     overflow-x: auto;
   }
 }
+
+/* Add caret icon padding fix for iOS Safari */
+select::-ms-expand {
+  display: none;
+}
+
+select::-webkit-appearance {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
