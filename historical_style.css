@@ -289,9 +289,10 @@ select::-ms-expand {
   display: none;
 }
 
-select::-webkit-appearance {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+select {
+  -webkit-appearance: none; /* Safari */
+  -moz-appearance: none;    /* Firefox */
+  appearance: none;         /* Standard */
 }
+
 
