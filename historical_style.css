@@ -149,6 +149,30 @@ button:focus {
   outline: none;
 }
 
+/* === Player Search === */
+.player-search {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+  flex-grow: 1;
+}
+
+.player-search input {
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 15px;
+  background: #fffdfb;
+  transition: border 0.2s ease;
+}
+
+.player-search input:focus {
+  border-color: #ff6600;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.1);
+}
+
 /* Filter Button */
 .filter-bar button {
   height: 42px;
