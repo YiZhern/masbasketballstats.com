@@ -24,16 +24,19 @@
 
   <!-- Sub-nav with dropdown -->
   <div class="sub-nav">
-    <a href="index.html">Home</a>
-    <a href="historical.html">Historical Stats</a>
-    <a href="calculator.html">Advanced Calculator</a>
-    <div class="dropdown">
-      <a href="#" class="dropbtn">Competition ▼</a>
-      <div class="dropdown-content">
-        <a href="#">MABA Cup</a>
-        <a href="#">National U17</a>
-        <a href="#">National U15</a>
-        <a href="#">Agong Cup</a>
+    <button class="subnav-toggle" onclick="toggleSubnav()">☰ Menu</button>
+    <div class="subnav-links">
+      <a href="index.html">Home</a>
+      <a href="historical.html">Historical Stats</a>
+      <a href="calculator.html">Advanced Calculator</a>
+      <div class="dropdown">
+        <a href="#" class="dropbtn">Competition ▼</a>
+        <div class="dropdown-content">
+          <a href="#">MABA Cup</a>
+          <a href="#">National U17</a>
+          <a href="#">National U15</a>
+          <a href="#">Agong Cup</a>
+        </div>
       </div>
     </div>
   </div>
@@ -42,5 +45,12 @@
     <h1>🏀 Basketball Stats Dashboard</h1>
     <p>Welcome! Explore basketball statistics and data-driven insights.</p>
   </div>
+
+  <script>
+    function toggleSubnav() {
+      const nav = document.querySelector('.subnav-links');
+      nav.classList.toggle('open');
+    }
+  </script>
 </body>
 </html>
