@@ -125,12 +125,32 @@ input:focus, select:focus {
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 20px;
+  gap: 16px;
+  align-items: flex-end;
 }
 
 .filter-bar label, .filter-bar select {
   margin-bottom: 0;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+}
+
+.filter-field label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.filter-field input,
+.filter-field select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
 }
 
 .player-search {
