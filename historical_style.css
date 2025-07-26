@@ -16,44 +16,43 @@ body {
   padding: 40px 24px;
   border-radius: 14px;
   box-shadow: 0 8px 28px rgba(255, 102, 0, 0.08);
-  box-sizing: border-box;
 }
 
+/* Headings */
 .container h1 {
-  font-size: 26px;
-  margin-bottom: 16px;
+  font-size: 28px;
+  margin-bottom: 24px;
+  font-weight: 700;
 }
 
 /* === Navigation === */
-.top-nav {
-  display: flex;
-  justify-content: space-between;
+.top-nav,
+.sub-nav {
   background: #fff;
   padding: 16px 28px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-}
-
-.sub-nav {
-  background: #fff6ed;
-  padding: 16px 28px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
+.sub-nav {
+  background: #fff6ed;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 .sub-nav a {
-  color: #333;
-  text-decoration: none;
   font-weight: 600;
+  text-decoration: none;
   padding: 8px 16px;
-  border-radius: 8px;
+  color: #333;
+  border-radius: 6px;
   transition: background 0.2s, color 0.2s;
 }
 
 .sub-nav a:hover {
-  background: #ffe4c0;
+  background-color: #ffe4c0;
   color: #ff6600;
 }
 
@@ -64,26 +63,26 @@ body {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #ffddba;
+  background: #ffddba;
   min-width: 160px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  flex-direction: column;
   border-radius: 8px;
-}
-
-.dropdown-content a {
-  padding: 12px 16px;
-  display: block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  flex-direction: column;
 }
 
 .dropdown:hover .dropdown-content {
   display: flex;
 }
 
+.dropdown-content a {
+  padding: 12px 16px;
+  color: #333;
+  text-decoration: none;
+}
+
 /* === Buttons === */
-button,
-.pagination button {
+button {
   background: linear-gradient(120deg, #ffa55a, #ff7a00);
   color: #fff;
   border: none;
@@ -94,27 +93,21 @@ button,
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(255, 153, 0, 0.2);
   transition: all 0.2s ease;
-  height: 40px;
+  height: 42px;
 }
 
-button:hover,
-.pagination button:hover {
+button:hover {
   background: linear-gradient(120deg, #ffb36c, #ff9444);
   transform: translateY(-1px);
 }
 
-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.2);
-}
-
-/* Filter Bar */
+/* === Filter Bar === */
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   align-items: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .filter-bar .filter-field {
@@ -125,73 +118,46 @@ button:focus {
 }
 
 .filter-bar .filter-field label {
-  font-weight: 600;
   font-size: 14px;
+  font-weight: 600;
   margin-bottom: 6px;
   color: #444;
 }
 
 .filter-bar .filter-field select,
 .filter-bar .filter-field input {
-  padding: 10px 12px;
   height: 42px;
+  padding: 10px 12px;
   font-size: 15px;
-  border: 1px solid #ddd;
   border-radius: 8px;
-  background: #fdfdfd;
-  transition: all 0.2s ease;
+  border: 1px solid #ddd;
+  background: #fefefe;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 .filter-bar input:focus,
 .filter-bar select:focus {
   border-color: #ffa050;
-  box-shadow: 0 0 0 2px rgba(255, 160, 80, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 160, 80, 0.2);
   outline: none;
 }
 
-/* === Player Search === */
-.player-search {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 200px;
-  flex-grow: 1;
-}
-
-.player-search input {
+/* === Enhanced Search Input === */
+.filter-bar .filter-field input[type="text"] {
+  background: #fffdfb;
   border: 1px solid #ccc;
   padding: 10px 12px;
-  border-radius: 6px;
   font-size: 15px;
-  background: #fffdfb;
-  transition: border 0.2s ease;
+  border-radius: 6px;
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
-.player-search input:focus {
+.filter-bar .filter-field input[type="text"]:focus {
   border-color: #ff6600;
-  outline: none;
   box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.1);
 }
 
-/* Filter Button */
-.filter-bar button {
-  height: 42px;
-  padding: 0 20px;
-  font-size: 15px;
-  font-weight: bold;
-  background: linear-gradient(120deg, #ffa75e, #ff8400);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.filter-bar button:hover {
-  background: linear-gradient(120deg, #ffb56f, #ff9933);
-}
-
-/* Sort Bar */
+/* === Sort Bar === */
 .sort-bar {
   display: flex;
   flex-wrap: wrap;
@@ -216,47 +182,35 @@ button:focus {
   height: 42px;
 }
 
-/* Table Wrapper */
+/* === Table Styles === */
 .table-wrapper {
   overflow-x: auto;
   margin-top: 24px;
   border-radius: 8px;
 }
 
-.table-type2 th,
-.table-type2 td {
-  padding: 14px 12px;
-  font-size: 15px;
-}
-
-/* === Ranking Section === */
-#rankingTable {
-  border: 2px solid #ffe3cc;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
 #statsTable {
   width: 100%;
   border-collapse: collapse;
+  background: #fff;
   font-size: 14px;
-  background-color: #fff;
 }
 
 #statsTable thead th {
   background: #ff8a3d;
-  color: white;
+  color: #fff;
   font-weight: 600;
-  padding: 12px 10px;
+  padding: 14px 12px;
   text-align: center;
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 
 #statsTable td {
-  padding: 12px 10px;
-  border-bottom: 1px solid #eee;
+  padding: 14px 12px;
   text-align: center;
+  border-bottom: 1px solid #eee;
 }
 
 #statsTable tbody tr:nth-child(even) {
@@ -267,28 +221,26 @@ button:focus {
   background: #fff0e5;
 }
 
-/* Pagination */
+/* === Pagination === */
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  margin-top: 30px;
+  margin-top: 32px;
 }
 
 .pagination button {
-  background-color: #ff6a00;
+  background: #ff6a00;
   color: #fff;
-  font-weight: 600;
   padding: 10px 18px;
-  border: none;
   border-radius: 8px;
-  cursor: pointer;
+  font-weight: 600;
   transition: background 0.2s ease;
 }
 
 .pagination button:hover {
-  background-color: #ff8533;
+  background: #ff8533;
 }
 
 #pageInfo {
@@ -297,7 +249,7 @@ button:focus {
   color: #333;
 }
 
-/* Responsive Behavior */
+/* === Responsive === */
 @media (max-width: 768px) {
   .filter-bar,
   .sort-bar {
@@ -306,9 +258,9 @@ button:focus {
   }
 
   .filter-bar .filter-field,
-  .filter-bar button,
   .sort-bar select,
-  .sort-bar button {
+  .sort-bar button,
+  .filter-bar button {
     width: 100%;
   }
 }
