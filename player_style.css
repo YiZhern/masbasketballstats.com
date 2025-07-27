@@ -141,3 +141,24 @@ h1 {
   background: #ffe5cc;
   font-weight: bold;
 }
+
+.suggestion-list {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+}
+
+.suggestion-list div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.suggestion-list div:hover {
+  background-color: #ffe4c0;
+}
+
