@@ -3,50 +3,21 @@ let originalData = [];
 fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
   .then(r => r.text())
   .then(csv => {
-    originalData = Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
-  })
-  .catch(e => console.error('CSV load error', e));
-
-document.getElementById('searchBtn').addEventListener('click', () => {
-  const search = document.getElementById('playerNameInput').value.trim().toLowerCase();
-  if (!search) return;
-  const filtered = originalData.filter(r => r.Player.toLowerCase().includes(search));
-  if (!filtered.length) return alert('No data found');
-
-  const tbody = document.querySelector('#playerStatsTable tbody');
-  tbody.innerHTML = '';
-  let totals = { GP:0, Min:0, PTS:0, AS:0, TR:0, ST:0, BS:0};
-
-  filtered.forEach(r => {
-    const gp = +r.GP || 0;
-    const min = +r.Min || 0;
-    const tr = +r.TR || 0;
-    const row = `<tr>
-      <td>${r.Player}</td><td>${r.Competition}</td><td>${r.Year}</td><td>${r.Team}</td>
-      <td>${gp}</td><td>${min}</td><td>${+r.PTS}</td><td>${+r.AS}</td>
-      <td>${tr}</td><td>${+r.ST}</td><td>${+r.BS}</td>
-    </tr>`;
-    tbody.insertAdjacentHTML('beforeend', row);
-
-    totals.GP += gp;
-    totals.Min += min;
-    totals.PTS += +r.PTS || 0;
-    totals.AS += +r.AS || 0;
-    totals.TR += tr;
-    totals.ST += +r.ST || 0;
-    totals.BS += +r.BS || 0;
+    const parsed = Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
+    originalData = parsed.map(r => ({
+      player: r.Player,
+      competition: r.Competition,
+      year: r.Year,
+      team: r.Team,
+      gp: +r.GP,
+      min: +r.Min || 0,
+      pts: +r.PTS,
+      as: +r.AS,
+      tr: +r.TR,
+      st: +r.ST,
+      bs: +r.BS,
+    }));
   });
-
-  document.getElementById('tot-gp').textContent = totals.GP;
-  document.getElementById('tot-min').textContent = totals.Min;
-  document.getElementById('tot-pts').textContent = totals.PTS;
-  document.getElementById('tot-as').textContent = totals.AS;
-  document.getElementById('tot-tr').textContent = totals.TR;
-  document.getElementById('tot-st').textContent = totals.ST;
-  document.getElementById('tot-bs').textContent = totals.BS;
-
-  document.getElementById('tableContainer').style.display = 'block';
-});
 
 function showSuggestions() {
   const input = document.getElementById('searchPlayer');
@@ -71,3 +42,53 @@ function showSuggestions() {
   });
 }
 
+function searchPlayer() {
+  const player = document.getElementById('searchPlayer').value.trim().toLowerCase();
+  const results = originalData.filter(r => r.player.toLowerCase() === player);
+  const tableBody = document.querySelector('#playerStatsTable tbody');
+  const table = document.getElementById('tableContainer');
+
+  if (results.length === 0) {
+    table.style.display = 'none';
+    return;
+  }
+
+  tableBody.innerHTML = '';
+  let totals = { gp: 0, min: 0, pts: 0, as: 0, tr: 0, st: 0, bs: 0 };
+
+  results.forEach(r => {
+    tableBody.innerHTML += `
+      <tr>
+        <td>${r.player}</td>
+        <td>${r.competition}</td>
+        <td>${r.year}</td>
+        <td>${r.team}</td>
+        <td>${r.gp}</td>
+        <td>${r.min}</td>
+        <td>${r.pts}</td>
+        <td>${r.as}</td>
+        <td>${r.tr}</td>
+        <td>${r.st}</td>
+        <td>${r.bs}</td>
+      </tr>
+    `;
+
+    totals.gp += r.gp;
+    totals.min += r.min;
+    totals.pts += r.pts;
+    totals.as += r.as;
+    totals.tr += r.tr;
+    totals.st += r.st;
+    totals.bs += r.bs;
+  });
+
+  document.getElementById('tot-gp').textContent = totals.gp;
+  document.getElementById('tot-min').textContent = totals.min;
+  document.getElementById('tot-pts').textContent = totals.pts;
+  document.getElementById('tot-as').textContent = totals.as;
+  document.getElementById('tot-tr').textContent = totals.tr;
+  document.getElementById('tot-st').textContent = totals.st;
+  document.getElementById('tot-bs').textContent = totals.bs;
+
+  table.style.display = 'block';
+}
