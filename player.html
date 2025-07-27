@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Player Stats</title>
+  <link rel="stylesheet" href="player.css" />
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Player Stats Lookup</h1>
+    <div class="search-bar">
+      <input type="text" id="playerNameInput" placeholder="Enter player name..." />
+      <button id="searchBtn">Search</button>
+    </div>
+    <div id="tableContainer" class="table-wrapper" style="display:none;">
+      <table id="playerStatsTable">
+        <thead>
+          <tr>
+            <th>Competition</th>
+            <th>Year</th>
+            <th>Team</th>
+            <th>GP</th>
+            <th>Min</th>
+            <th>PTS</th>
+            <th>AS</th>
+            <th>TR</th>
+            <th>ST</th>
+            <th>BS</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr class="totals-row">
+            <td colspan="3">Totals</td>
+            <td id="tot-gp"></td>
+            <td id="tot-min"></td>
+            <td id="tot-pts"></td>
+            <td id="tot-as"></td>
+            <td id="tot-tr"></td>
+            <td id="tot-st"></td>
+            <td id="tot-bs"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <script src="player.js"></script>
+</body>
+</html>
