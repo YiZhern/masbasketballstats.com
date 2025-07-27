@@ -157,3 +157,30 @@ tfoot {
   font-weight: bold;
   background-color: #fff3e5;
 }
+
+@media (max-width: 768px) {
+  .subnav-links {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .subnav-links.open {
+    display: flex;
+  }
+
+  .subnav-toggle {
+    display: inline-block;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-bar input,
+  .filter-bar button {
+    width: 100%;
+  }
+}
