@@ -41,10 +41,9 @@
   
   <div class="container">
     <h1>Player Stats Lookup</h1>
-    <div class="filter-bar">
-      <input type="text" id="searchPlayer" placeholder="Enter player name..." oninput="showSuggestions()" />
-      <div id="suggestions" class="suggestion-list"></div>
-      <button onclick="searchPlayer()">Search</button>
+    <div class="search-bar">
+      <input type="text" id="playerNameInput" placeholder="Enter player name..." />
+      <button id="searchBtn">Search</button>
     </div>
     <div id="tableContainer" class="table-wrapper" style="display:none;">
       <table id="playerStatsTable">
