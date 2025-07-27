@@ -22,7 +22,7 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     const min = +r.Min || 0;
     const tr = +r.TR || 0;
     const row = `<tr>
-      <td>${r.Competition}</td><td>${r.Year}</td><td>${r.Team}</td>
+      <td>${r.Player}</td><td>${r.Competition}</td><td>${r.Year}</td><td>${r.Team}</td>
       <td>${gp}</td><td>${min}</td><td>${+r.PTS}</td><td>${+r.AS}</td>
       <td>${tr}</td><td>${+r.ST}</td><td>${+r.BS}</td>
     </tr>`;
