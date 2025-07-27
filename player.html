@@ -1,40 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF‑8" />
+  <meta name="viewport" content="width=device‑width, initial‑scale=1.0" />
   <title>Player Analysis</title>
   <link rel="stylesheet" href="player_style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
-  <!-- nav bar -->
   <div class="top-nav">
-    <div class="left-section">
-      <a href="index.html" style="text-decoration: none; color: #333;">🏀 MABA</a>
+    <div class="left‑section">
+      <a href="index.html" style="color:#333; text-decoration:none;">🏀 MABA</a>
       <span>FIBA</span>
     </div>
-    <div class="right-section">
+    <div class="right‑section">
       <span>Search 🔍</span>
       <span>👤</span>
     </div>
   </div>
-  
-  <!-- Sub-navigation -->
+
   <div class="sub-nav">
     <a href="index.html">Home</a>
     <a href="historical.html">Historical Stats</a>
-    <a href="calculator.html">Advanced Calculator</a>
+    <a href="calculator.html">Calculator</a>
     <a href="player.html" class="active">Player Analysis</a>
   </div>
 
   <div class="container">
     <h1>Player Stats Lookup</h1>
     <div class="filter-bar">
-      <input type="text" id="searchPlayer" placeholder="Enter player name..." oninput="showSuggestions()" />
+      <input type="text" id="searchPlayer" placeholder="Enter player name..." oninput="showSuggestions()" autocomplete="off" />
       <div id="suggestions" class="suggestion-list"></div>
-      <button onclick="searchPlayer()">Search</button>
+      <button type="button" onclick="searchPlayer()">Search</button>
     </div>
 
     <div id="tableContainer" class="table-wrapper" style="display:none;">
@@ -42,21 +39,16 @@
         <thead>
           <tr>
             <th>Player</th><th>Competition</th><th>Year</th><th>Team</th>
-            <th>GP</th><th>Min</th><th>PTS</th><th>AS</th>
-            <th>TR</th><th>ST</th><th>BS</th>
+            <th>GP</th><th>Min</th><th>PTS</th><th>AS</th><th>TR</th><th>ST</th><th>BS</th>
           </tr>
         </thead>
         <tbody></tbody>
         <tfoot>
           <tr class="totals-row">
             <td colspan="4">Totals</td>
-            <td id="tot-gp"></td>
-            <td id="tot-min"></td>
-            <td id="tot-pts"></td>
-            <td id="tot-as"></td>
-            <td id="tot-tr"></td>
-            <td id="tot-st"></td>
-            <td id="tot-bs"></td>
+            <td id="tot-gp"></td><td id="tot-min"></td>
+            <td id="tot-pts"></td><td id="tot-as"></td><td id="tot-tr"></td>
+            <td id="tot-st"></td><td id="tot-bs"></td>
           </tr>
         </tfoot>
       </table>
