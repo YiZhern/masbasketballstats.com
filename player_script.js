@@ -47,3 +47,27 @@ document.getElementById('searchBtn').addEventListener('click', () => {
 
   document.getElementById('tableContainer').style.display = 'block';
 });
+
+function showSuggestions() {
+  const input = document.getElementById('searchPlayer');
+  const list = document.getElementById('suggestions');
+  const value = input.value.toLowerCase();
+
+  if (value.length < 1) return list.innerHTML = '';
+
+  const uniqueNames = [...new Set(originalData.map(r => r.player))];
+  const filtered = uniqueNames.filter(name => name.toLowerCase().includes(value));
+
+  list.innerHTML = '';
+  filtered.forEach(name => {
+    const div = document.createElement('div');
+    div.textContent = name;
+    div.onclick = () => {
+      input.value = name;
+      list.innerHTML = '';
+      searchPlayer();
+    };
+    list.appendChild(div);
+  });
+}
+
