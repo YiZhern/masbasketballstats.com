@@ -1,0 +1,66 @@
+body {
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background: #fafafa;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+h1 {
+  font-size: 24px;
+  margin-bottom: 24px;
+  color: #333;
+}
+.search-bar {
+  display: flex;
+  gap: 12px;
+}
+.search-bar input {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.search-bar button {
+  padding: 10px 20px;
+  font-size: 14px;
+  background: #ff7a00;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.search-bar button:hover {
+  background: #ff914d;
+}
+.table-wrapper {
+  margin-top: 30px;
+  overflow-x: auto;
+}
+#playerStatsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+#playerStatsTable th, #playerStatsTable td {
+  border: 1px solid #e5e5e5;
+  padding: 10px;
+  text-align:center;
+}
+#playerStatsTable thead {
+  background: #ff7f3f;
+  color: #fff;
+  position: sticky;
+  top: 0;
+}
+.totals-row {
+  background: #ffe5cc;
+  font-weight: bold;
+}
