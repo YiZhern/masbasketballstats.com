@@ -1,145 +1,52 @@
-/* === Base Setup === */
 body {
-  font-family: 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   background: #fafafa;
-  color: #333;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  color: #333;
 }
 
-.container {
-  max-width: 1400px;
-  margin: 30px auto;
-  background: #fff;
-  padding: 40px 24px;
-  border-radius: 14px;
-  box-shadow: 0 8px 28px rgba(255, 102, 0, 0.08);
-}
-
-/* Headings */
-.container h1 {
-  font-size: 28px;
-  margin-bottom: 24px;
-  font-weight: 700;
-}
-
-/* === Navigation === */
-.top-nav {
+.top-nav, .sub-nav {
   display: flex;
   justify-content: space-between;
-  background: #fff;
-  padding: 16px 28px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  align-items: center;
+  padding: 14px 24px;
+  background-color: #fff;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.05);
 }
 
 .sub-nav {
-  background: #fff6ed;
-  padding: 16px 28px;
-  display: flex;
-  flex-wrap: wrap;
+  justify-content: flex-start;
   gap: 20px;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  background: #fff6ed;
 }
 
 .sub-nav a {
   color: #333;
   text-decoration: none;
   font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 8px;
-  transition: background 0.2s, color 0.2s;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
 
-.sub-nav a:hover {
-  background: #ffe4c0;
+.sub-nav a:hover, .sub-nav a.active {
+  background-color: #ffe3c2;
   color: #ff6600;
 }
 
-.dropdown {
-  position: relative;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #ffddba;
-  min-width: 160px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  flex-direction: column;
-  border-radius: 8px;
-}
-
-.dropdown-content a {
-  padding: 12px 16px;
-  display: block;
-}
-
-.dropdown:hover .dropdown-content {
-  display: flex;
-}
-
 .container {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 20px;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 24px;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 20px rgba(255, 102, 0, 0.08);
 }
+
 h1 {
-  font-size: 24px;
-  margin-bottom: 24px;
-  color: #333;
-}
-.search-bar {
-  display: flex;
-  gap: 12px;
-}
-.search-bar input {
-  flex: 1;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-.search-bar button {
-  padding: 10px 20px;
-  font-size: 14px;
-  background: #ff7a00;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.search-bar button:hover {
-  background: #ff914d;
-}
-.table-wrapper {
-  margin-top: 30px;
-  overflow-x: auto;
-}
-#playerStatsTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-#playerStatsTable th, #playerStatsTable td {
-  border: 1px solid #e5e5e5;
-  padding: 10px;
-  text-align:center;
-}
-#playerStatsTable thead {
-  background: #ff7f3f;
-  color: #fff;
-  position: sticky;
-  top: 0;
-}
-.totals-row {
-  background: #ffe5cc;
-  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 26px;
 }
 
 .filter-bar {
@@ -147,7 +54,7 @@ h1 {
   display: flex;
   flex-direction: column;
   max-width: 400px;
-  margin-bottom: 20px;
+  gap: 10px;
 }
 
 #searchPlayer {
@@ -162,20 +69,63 @@ h1 {
   top: 100%;
   left: 0;
   right: 0;
-  background: #fff;
+  background: white;
   border: 1px solid #ccc;
   border-top: none;
+  z-index: 100;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 10;
   border-radius: 0 0 8px 8px;
 }
 
 .suggestion-list div {
-  padding: 8px 12px;
+  padding: 10px 12px;
   cursor: pointer;
 }
 
 .suggestion-list div:hover {
-  background-color: #ffe4c0;
+  background-color: #ffe9d6;
+}
+
+button {
+  background: linear-gradient(120deg, #ffa55a, #ff7a00);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: linear-gradient(120deg, #ffb370, #ff914d);
+}
+
+.table-wrapper {
+  margin-top: 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 14px;
+}
+
+thead th {
+  background-color: #ff7e2c;
+  color: white;
+  padding: 12px;
+}
+
+tbody td, tfoot td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+tfoot {
+  font-weight: bold;
+  background-color: #fff3e5;
 }
