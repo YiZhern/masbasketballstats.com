@@ -12,54 +12,38 @@
   <!-- nav bar -->
   <div class="top-nav">
     <div class="left-section">
-      <a href="https://maba.web.geniussports.com/" target="_blank" style="color: #333; text-decoration: none;">MABA</a>
+      <a href="index.html" style="text-decoration: none; color: #333;">🏀 MABA</a>
       <span>FIBA</span>
     </div>
     <div class="right-section">
-      <span>Listen</span>
       <span>Search 🔍</span>
       <span>👤</span>
     </div>
   </div>
   
-  <!-- Sub-nav with dropdown -->
+  <!-- Sub-navigation -->
   <div class="sub-nav">
     <a href="index.html">Home</a>
     <a href="historical.html">Historical Stats</a>
     <a href="calculator.html">Advanced Calculator</a>
-    <a href="player.html">Player Analysis</a>
-    <div class="dropdown">
-      <a href="#" class="dropbtn">Competition ▼</a>
-      <div class="dropdown-content">
-        <a href="#">MABA Cup</a>
-        <a href="#">National U17</a>
-        <a href="#">National U15</a>
-        <a href="#">Agong Cup</a>
-      </div>
-    </div>
+    <a href="player.html" class="active">Player Analysis</a>
   </div>
-  
+
   <div class="container">
     <h1>Player Stats Lookup</h1>
-    <div class="search-bar">
-      <input type="text" id="playerNameInput" placeholder="Enter player name..." />
-      <button id="searchBtn">Search</button>
+    <div class="filter-bar">
+      <input type="text" id="searchPlayer" placeholder="Enter player name..." oninput="showSuggestions()" />
+      <div id="suggestions" class="suggestion-list"></div>
+      <button onclick="searchPlayer()">Search</button>
     </div>
+
     <div id="tableContainer" class="table-wrapper" style="display:none;">
       <table id="playerStatsTable">
         <thead>
           <tr>
-            <th>Player</th>
-            <th>Competition</th>
-            <th>Year</th>
-            <th>Team</th>
-            <th>GP</th>
-            <th>Min</th>
-            <th>PTS</th>
-            <th>AS</th>
-            <th>TR</th>
-            <th>ST</th>
-            <th>BS</th>
+            <th>Player</th><th>Competition</th><th>Year</th><th>Team</th>
+            <th>GP</th><th>Min</th><th>PTS</th><th>AS</th>
+            <th>TR</th><th>ST</th><th>BS</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -78,6 +62,7 @@
       </table>
     </div>
   </div>
+
   <script src="player_script.js"></script>
 </body>
 </html>
