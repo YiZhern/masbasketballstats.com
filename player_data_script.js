@@ -1,8 +1,21 @@
 function showPercentiles(playerName, stats) {
-  const ctx = document.getElementById('percentileChart').getContext('2d');
+  console.log('showPercentiles called with:', playerName, stats);
+
+  const canvas = document.getElementById('percentileChart');
+  if (!canvas) {
+    console.error('Canvas element not found');
+    return;
+  }
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error('Unable to get canvas context');
+    return;
+  }
 
   const labels = ['PTS', 'AS', 'TR', 'ST', 'BS', 'Min'];
   const values = [stats.PTS, stats.AS, stats.TR, stats.ST, stats.BS, stats.Min];
+  console.log('Chart values:', values);
 
   if (window.percentileChart) {
     window.percentileChart.destroy();
