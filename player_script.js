@@ -42,16 +42,16 @@ function showSuggestions() {
 }
 
 function searchPlayer() {
-  const name = document.getElementById('searchPlayer').value.trim().toLowerCase();
-  const filtered = originalData.filter(r => r.player.toLowerCase() === name);
+  const nameInput = document.getElementById('searchPlayer').value.trim().toLowerCase();
+  const filtered = originalData.filter(r => r.player.toLowerCase() === nameInput);
 
   if (filtered.length === 0) {
     document.getElementById('tableContainer').style.display = 'none';
+    document.getElementById('percentileSection').style.display = 'none';
     return;
   }
 
   const tbody = document.querySelector('#playerStatsTable tbody');
-  const tfoot = document.querySelector('#playerStatsTable tfoot');
   tbody.innerHTML = '';
 
   let totals = { gp: 0, min: 0, pts: 0, as: 0, tr: 0, st: 0, bs: 0 };
@@ -73,13 +73,13 @@ function searchPlayer() {
       </tr>
     `;
 
-    totals.gp += r.gp;
-    totals.min += r.min;
-    totals.pts += r.pts;
-    totals.as += r.as;
-    totals.tr += r.tr;
-    totals.st += r.st;
-    totals.bs += r.bs;
+    totals.gp += Number(r.gp);
+    totals.min += Number(r.min);
+    totals.pts += Number(r.pts);
+    totals.as += Number(r.as);
+    totals.tr += Number(r.tr);
+    totals.st += Number(r.st);
+    totals.bs += Number(r.bs);
   });
 
   document.getElementById('tot-gp').textContent = totals.gp;
@@ -91,4 +91,17 @@ function searchPlayer() {
   document.getElementById('tot-bs').textContent = totals.bs;
 
   document.getElementById('tableContainer').style.display = 'block';
+
+  // Only generate chart if there are games
+  if (totals.gp > 0) {
+    const avgStats = {
+      PTS: totals.pts / totals.gp,
+      AS: totals.as / totals.gp,
+      TR: totals.tr / totals.gp,
+      ST: totals.st / totals.gp,
+      BS: totals.bs / totals.gp,
+      Min: totals.min / totals.gp,
+    };
+    showPercentiles(filtered[0].player, avgStats);
+  }
 }
