@@ -75,7 +75,138 @@
     </div>
   </div>
 
-  <script src="player_script.js"></script>
-  <script src="player_data_script.js"></script>
+  <script>
+  let originalData = [];
+  let dataReady = false;
+  
+  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0rb6BjWabVdhvrwn6DZ9DRAhEdwKhvkZ_dGQVwBrs1qrTtJQiHf-JEyU/pub?output=csv')
+    .then(r => r.text())
+    .then(csv => {
+      const parsed = Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
+      originalData = parsed.map(r => ({
+        player: r.Player,
+        competition: r.Competition,
+        year: r.Year,
+        team: r.Team,
+        gp: +r.GP || 0,
+        min: +r.Min || 0,
+        pts: +r.PTS || 0,
+        as: +r.AS || 0,
+        tr: +r.TR || 0,
+        st: +r.ST || 0,
+        bs: +r.BS || 0
+      }));
+      dataReady = true;
+    });
+  
+  function showPercentiles(playerName, stats) {
+    const canvas = document.getElementById('percentileChart');
+    if (!canvas) {
+      alert("Canvas not found.");
+      return;
+    }
+    const ctx = canvas.getContext('2d');
+  
+    const values = [stats.PTS, stats.AS, stats.TR, stats.ST, stats.BS, stats.Min];
+    const labels = ['PTS', 'AS', 'TR', 'ST', 'BS', 'Min'];
+  
+    if (window.percentileChart) {
+      window.percentileChart.destroy();
+    }
+  
+    window.percentileChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: `${playerName} (Avg Per Game)`,
+          data: values,
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: Math.max(...values) + 5
+          }
+        }
+      }
+    });
+  
+    document.getElementById('percentileSection').style.display = 'block';
+  }
+  
+  function searchPlayer() {
+    if (!dataReady) {
+      alert("Data not loaded yet. Please try again.");
+      return;
+    }
+  
+    const name = document.getElementById('searchPlayer').value.trim().toLowerCase();
+    const filtered = originalData.filter(r => r.player.toLowerCase() === name);
+  
+    if (filtered.length === 0) {
+      document.getElementById('tableContainer').style.display = 'none';
+      document.getElementById('percentileSection').style.display = 'none';
+      return;
+    }
+  
+    const tbody = document.querySelector('#playerStatsTable tbody');
+    tbody.innerHTML = '';
+  
+    let totals = { gp: 0, min: 0, pts: 0, as: 0, tr: 0, st: 0, bs: 0 };
+  
+    filtered.forEach(r => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${r.player}</td>
+          <td>${r.competition}</td>
+          <td>${r.year}</td>
+          <td>${r.team}</td>
+          <td>${r.gp}</td>
+          <td>${r.min}</td>
+          <td>${r.pts}</td>
+          <td>${r.as}</td>
+          <td>${r.tr}</td>
+          <td>${r.st}</td>
+          <td>${r.bs}</td>
+        </tr>
+      `;
+      totals.gp += r.gp;
+      totals.min += r.min;
+      totals.pts += r.pts;
+      totals.as += r.as;
+      totals.tr += r.tr;
+      totals.st += r.st;
+      totals.bs += r.bs;
+    });
+  
+    document.getElementById('tot-gp').textContent = totals.gp;
+    document.getElementById('tot-min').textContent = totals.min;
+    document.getElementById('tot-pts').textContent = totals.pts;
+    document.getElementById('tot-as').textContent = totals.as;
+    document.getElementById('tot-tr').textContent = totals.tr;
+    document.getElementById('tot-st').textContent = totals.st;
+    document.getElementById('tot-bs').textContent = totals.bs;
+  
+    document.getElementById('tableContainer').style.display = 'block';
+  
+    if (totals.gp > 0) {
+      const avgStats = {
+        PTS: totals.pts / totals.gp,
+        AS: totals.as / totals.gp,
+        TR: totals.tr / totals.gp,
+        ST: totals.st / totals.gp,
+        BS: totals.bs / totals.gp,
+        Min: totals.min / totals.gp,
+      };
+      showPercentiles(filtered[0].player, avgStats);
+    }
+  }
+  </script>
 </body>
 </html>
