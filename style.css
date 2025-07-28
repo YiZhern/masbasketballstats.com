@@ -428,3 +428,58 @@ select::-webkit-appearance {
   appearance: none;
 }
 
+.hero {
+  background: linear-gradient(to right, #fff0e1, #ffe2c4);
+  padding: 80px 30px;
+  text-align: center;
+  border-radius: 14px;
+  margin: 40px auto;
+  max-width: 1000px;
+  box-shadow: 0 8px 30px rgba(255, 136, 0, 0.08);
+}
+
+.hero h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ff6600;
+  margin-bottom: 20px;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 30px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.cta-button {
+  display: inline-block;
+  background: linear-gradient(120deg, #ffa55a, #ff7a00);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  animation: fadeInUp 1s ease-out;
+}
+
+.cta-button:hover {
+  background: linear-gradient(120deg, #ffb370, #ff914d);
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
