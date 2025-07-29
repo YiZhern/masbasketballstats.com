@@ -124,8 +124,9 @@ window.showPercentiles = function (playerName, stats) {
   const values = [stats.PTS, stats.AS, stats.TR, stats.ST, stats.BS, stats.Min];
   console.log(`Drawing chart for ${playerName} with values:`, values);
 
-  if (window.percentileChart) {
+  if (window.percentileChart instanceof Chart) {
     window.percentileChart.destroy();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   window.percentileChart = new Chart(ctx, {
