@@ -4,7 +4,7 @@ function calculatePercentiles(playerStats) {
 
   const statFieldMap = {
     'PTS': 'pts',
-    '3FGM': 'fg3m',
+    '3FGM': 'fgm3',
     'BLK': 'bs',
     'STL': 'st',
     'AST': 'as',
@@ -86,7 +86,7 @@ function showOgiveChart(statKey, playerValue) {
   const values = originalData
     .filter(p => p.gp > 0)
     .map(p => {
-      if (statKey === '3FGM') return p.fg3m;
+      if (statKey === '3FGM') return p.fgm3;
       if (statKey === 'BLK') return p.bs;
       if (statKey === 'REB') return p.tr;
       if (statKey === 'AST') return p.as;
