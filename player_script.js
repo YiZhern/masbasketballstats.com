@@ -109,23 +109,20 @@ function searchPlayer() {
 }
 
 function showPercentiles(playerName, stats) {
-  console.log('showPercentiles called with:', playerName, stats);
-
   const canvas = document.getElementById('percentileChart');
   if (!canvas) {
-    console.error('Canvas element not found');
+    alert('Canvas for percentileChart not found.');
     return;
   }
 
   const ctx = canvas.getContext('2d');
   if (!ctx) {
-    console.error('Unable to get canvas context');
+    alert('Canvas context could not be created.');
     return;
   }
 
-  const labels = ['PTS', 'AS', 'TR', 'ST', 'BS', 'Min'];
   const values = [stats.PTS, stats.AS, stats.TR, stats.ST, stats.BS, stats.Min];
-  console.log('Chart values:', values);
+  console.log(`Drawing chart for ${playerName} with values:`, values);
 
   if (window.percentileChart) {
     window.percentileChart.destroy();
@@ -134,7 +131,7 @@ function showPercentiles(playerName, stats) {
   window.percentileChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: labels,
+      labels: ['PTS', 'AS', 'TR', 'ST', 'BS', 'Min'],
       datasets: [{
         label: `${playerName} (Avg Per Game)`,
         data: values,
@@ -147,15 +144,8 @@ function showPercentiles(playerName, stats) {
       responsive: true,
       scales: {
         y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Avg Per Game'
-          }
+          beginAtZero: true
         }
-      },
-      plugins: {
-        legend: { display: false }
       }
     }
   });
