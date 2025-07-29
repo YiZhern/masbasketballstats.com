@@ -15,7 +15,8 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
       as: +r.AS || 0,
       tr: +r.TR || 0,
       st: +r.ST || 0,
-      bs: +r.BS || 0
+      bs: +r.BS || 0,
+      fgm3: +r['3FGM'] || 0
     }));
   });
 
@@ -54,7 +55,7 @@ window.searchPlayer = function () {
   const tbody = document.querySelector('#playerStatsTable tbody');
   tbody.innerHTML = '';
 
-  let totals = { gp: 0, min: 0, pts: 0, as: 0, tr: 0, st: 0, bs: 0 };
+  let totals = { gp: 0, min: 0, pts: 0, as: 0, tr: 0, st: 0, bs: 0, fgm3: 0};
 
   filtered.forEach(r => {
     tbody.innerHTML += `
@@ -80,6 +81,7 @@ window.searchPlayer = function () {
     totals.tr += Number(r.tr);
     totals.st += Number(r.st);
     totals.bs += Number(r.bs);
+    totals.fgm3 += Number(r.fgm3);
   });
 
   document.getElementById('tot-gp').textContent = totals.gp;
@@ -94,18 +96,38 @@ window.searchPlayer = function () {
 
   // Only generate chart if there are games
   if (totals.gp > 0) {
-    const avgStats = {
-      PTS: totals.pts / totals.gp,
-      AS: totals.as / totals.gp,
-      TR: totals.tr / totals.gp,
-      ST: totals.st / totals.gp,
-      BS: totals.bs / totals.gp,
-      Min: totals.min / totals.gp,
+    const playerStats = {
+      PTS: totals.pts,
+      AS: totals.as,
+      TR: totals.tr,
+      ST: totals.st,
+      BS: totals.bs,
+      Min: totals.min,
     };
     
-    console.log('Calling showPercentiles with:', filtered[0].player, avgStats);
-    showPercentiles(filtered[0].player, avgStats);
+    const percentiles = calculatePercentiles(playerStats);
+    showPercentiles(filtered[0].player, percentiles);
   }
+}
+
+function calculatePercentiles(playerStats) {
+  const statsKeys = Object.keys(playerStats);
+  const percentiles = {};
+
+  statsKeys.forEach(key => {
+    const allValues = originalData.reduce((arr, row) => {
+      const total = +row.gp > 0 ? (key === '3FGM' ? row.fg3m : row[key.toLowerCase()]) : 0;
+      if (total) arr.push(total);
+      return arr;
+    }, []);
+
+    allValues.sort((a, b) => a - b);
+    const rank = allValues.findIndex(v => v >= playerStats[key]);
+    const percentile = rank === -1 ? 100 : Math.round((rank / allValues.length) * 100);
+    percentiles[key] = percentile;
+  });
+
+  return percentiles;
 }
 
 window.showPercentiles = function (playerName, stats) {
@@ -121,32 +143,35 @@ window.showPercentiles = function (playerName, stats) {
     return;
   }
 
-  const values = [stats.PTS, stats.AS, stats.TR, stats.ST, stats.BS, stats.Min];
-  console.log(`Drawing chart for ${playerName} with values:`, values);
+  const labels = ['PTS', '3FGM', 'BLK', 'STL', 'AST', 'REB'];
+  const values = [stats.PTS, stats['3FGM'], stats.BLK, stats.STL, stats.AST, stats.REB];
 
-   if (window.percentileChart && typeof window.percentileChart.destroy === 'function') {
+  if (window.percentileChart && typeof window.percentileChart.destroy === 'function') {
     window.percentileChart.destroy();
   }
-  window.percentileChart = null;  // reset in case it was corrupted
-
+  window.percentileChart = null;
 
   window.percentileChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'radar',
     data: {
-      labels: ['PTS', 'AS', 'TR', 'ST', 'BS', 'Min'],
+      labels: labels,
       datasets: [{
-        label: `${playerName} (Avg Per Game)`,
+        label: `${playerName} - Percentile Rank`,
         data: values,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(255, 99, 132, 1)'
       }]
     },
     options: {
       responsive: true,
       scales: {
-        y: {
-          beginAtZero: true
+        r: {
+          beginAtZero: true,
+          max: 100,
+          ticks: { stepSize: 20 },
+          pointLabels: { font: { size: 14 } }
         }
       }
     }
