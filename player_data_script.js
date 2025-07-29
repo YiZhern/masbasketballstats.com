@@ -4,7 +4,7 @@ function calculatePercentiles(playerStats) {
 
   statsKeys.forEach(key => {
     const allValues = originalData.reduce((arr, row) => {
-      const total = +row.gp > 0 ? (key === '3FGM' ? row.fg3m : row[key.toLowerCase()]) : 0;
+      const total = +row.gp > 0 ? (key === '3FGM' ? row.fgm3 : row[key.toLowerCase()]) : 0;
       if (total) arr.push(total);
       return arr;
     }, []);
