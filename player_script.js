@@ -102,6 +102,8 @@ function searchPlayer() {
       BS: totals.bs / totals.gp,
       Min: totals.min / totals.gp,
     };
+    
+    console.log('Calling showPercentiles with:', filtered[0].player, avgStats);
     showPercentiles(filtered[0].player, avgStats);
   }
 }
