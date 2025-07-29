@@ -80,33 +80,7 @@
     <canvas id="testChart"></canvas>
   </div>
 
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const ctx = document.getElementById('testChart')?.getContext('2d');
-    if (!ctx) return;
-
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['PTS', 'AS', 'TR', 'ST', 'BS', 'Min'],
-        datasets: [{
-          label: 'Sample Averages',
-          data: [22, 7, 9, 2.5, 1.1, 30],
-          backgroundColor: 'rgba(255, 99, 132, 0.6)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  });
+<script scr=
 </script>
 </body>
 </html>
