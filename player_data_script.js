@@ -2,10 +2,19 @@ function calculatePercentiles(playerStats) {
   const statsKeys = Object.keys(playerStats);
   const percentiles = {};
 
+  const statFieldMap = {
+    'PTS': 'pts',
+    '3FGM': 'fg3m',
+    'BLK': 'bs',
+    'STL': 'st',
+    'AST': 'as',
+    'REB': 'tr'
+  };
+
   statsKeys.forEach(key => {
+    const field = statFieldMap[key];
     const allValues = originalData.reduce((arr, row) => {
-      const total = +row.gp > 0 ? (key === '3FGM' ? row.fgm3 : row[key.toLowerCase()]) : 0;
-      if (total) arr.push(total);
+      if (row.gp > 0 && row[field] != null) arr.push(row[field]);
       return arr;
     }, []);
 
