@@ -98,7 +98,7 @@ window.searchPlayer = function () {
   if (totals.gp > 0) {
     const playerStats = {
       PTS: totals.pts,
-      '3FGM': totals.fg3m,
+      '3FGM': totals.fgm3,
       BLK: totals.bs,
       STL: totals.st,
       AST: totals.as,
