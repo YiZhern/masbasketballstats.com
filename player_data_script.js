@@ -95,7 +95,7 @@ function showOgiveChart(statKey, playerValue) {
 
   const values = originalData
     .filter(r => r.gp > 0)
-    .map(r => r[field])
+    .map(r => r.gp > 0 ? r[field] / r.gp : 0)
     .filter(v => v != null)
     .sort((a, b) => a - b);
 
