@@ -98,11 +98,11 @@ window.searchPlayer = function () {
   if (totals.gp > 0) {
     const playerStats = {
       PTS: totals.pts,
-      AS: totals.as,
-      TR: totals.tr,
-      ST: totals.st,
-      BS: totals.bs,
-      Min: totals.min,
+      '3FGM': totals.fg3m,
+      BLK: totals.bs,
+      STL: totals.st,
+      AST: totals.as,
+      REB: totals.tr
     };
     
     const percentiles = calculatePercentiles(playerStats);
