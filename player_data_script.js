@@ -66,4 +66,71 @@ window.showPercentiles = function (playerName, stats) {
   });
 
   document.getElementById('percentileSection').style.display = 'block';
+
+  showOgiveChart('PTS', stats.PTS);
+}
+
+function showOgiveChart(statKey, playerValue) {
+  const canvas = document.getElementById('ogiveChart');
+  const ctx = canvas.getContext('2d');
+
+  const values = originalData
+    .filter(p => p.gp > 0)
+    .map(p => {
+      if (statKey === '3FGM') return p.fg3m;
+      if (statKey === 'BLK') return p.bs;
+      if (statKey === 'REB') return p.tr;
+      if (statKey === 'AST') return p.as;
+      if (statKey === 'STL') return p.st;
+      return p.pts;
+    });
+
+  values.sort((a, b) => a - b);
+
+  const cumulative = values.map((v, i) => ({
+    x: v,
+    y: ((i + 1) / values.length) * 100
+  }));
+
+  const playerPercentile = cumulative.find(d => d.x >= playerValue)?.y || 100;
+
+  if (window.ogiveChart && typeof window.ogiveChart.destroy === 'function') {
+    window.ogiveChart.destroy();
+  }
+
+  window.ogiveChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      datasets: [
+        {
+          label: `${statKey} Cumulative Distribution`,
+          data: cumulative,
+          borderColor: 'blue',
+          backgroundColor: 'rgba(0,0,255,0.1)',
+          tension: 0.3,
+          pointRadius: 0
+        },
+        {
+          label: 'Player',
+          data: [{ x: playerValue, y: playerPercentile }],
+          backgroundColor: 'red',
+          pointRadius: 6,
+          type: 'scatter'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: { title: { display: true, text: statKey } },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          title: { display: true, text: 'Percentile' }
+        }
+      }
+    }
+  });
+
+  document.getElementById('ogiveSection').style.display = 'block';
 }
