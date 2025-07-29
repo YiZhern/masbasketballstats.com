@@ -19,7 +19,7 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
     }));
   });
 
-function showSuggestions() {
+window.showSuggestions = function() {
   const input = document.getElementById('searchPlayer').value.toLowerCase();
   const suggestionsDiv = document.getElementById('suggestions');
   suggestionsDiv.innerHTML = '';
@@ -41,7 +41,7 @@ function showSuggestions() {
   });
 }
 
-function searchPlayer() {
+window.searchPlayer = function () {
   const nameInput = document.getElementById('searchPlayer').value.trim().toLowerCase();
   const filtered = originalData.filter(r => r.player.toLowerCase() === nameInput);
 
@@ -108,7 +108,7 @@ function searchPlayer() {
   }
 }
 
-function showPercentiles(playerName, stats) {
+window.showPercentiles = function (playerName, stats) {
   const canvas = document.getElementById('percentileChart');
   if (!canvas) {
     alert('Canvas for percentileChart not found.');
