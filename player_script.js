@@ -105,7 +105,16 @@ window.searchPlayer = function () {
       REB: totals.tr
     };
     
+    const perGameStats = {
+      PTS: totals.pts / totals.gp,
+      '3FGM': totals.fgm3 / totals.gp,
+      BLK: totals.bs / totals.gp,
+      STL: totals.st / totals.gp,
+      AST: totals.as / totals.gp,
+      REB: totals.tr / totals.gp
+    };
+    
     const percentiles = calculatePercentiles(playerStats);
-    showPercentiles(filtered[0].player, percentiles);
+    showPercentiles(filtered[0].player, percentiles, perGameStats);
   }
 }
