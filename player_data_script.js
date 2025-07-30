@@ -76,7 +76,8 @@ window.showPercentiles = function (playerName, stats) {
 
   document.getElementById('percentileSection').style.display = 'block';
 
-  showOgiveChart('PTS', totals.pts / totals.gp);
+  const perGamePTS = stats.PTS !== undefined ? playerStats.PTS / totals.gp : 0;
+  showOgiveChart('PTS', perGamePTS); 
 }
 
 function showOgiveChart(statKey, playerValue) {
