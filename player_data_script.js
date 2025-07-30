@@ -27,7 +27,7 @@ function calculatePercentiles(playerStats) {
   return percentiles;
 }
 
-window.showPercentiles = function (playerName, stats) {
+window.showPercentiles = function (playerName, stats, perGameStats) {
   const canvas = document.getElementById('percentileChart');
   if (!canvas) {
     alert('Canvas for percentileChart not found.');
@@ -76,8 +76,7 @@ window.showPercentiles = function (playerName, stats) {
 
   document.getElementById('percentileSection').style.display = 'block';
 
-  const perGamePTS = stats.PTS !== undefined ? playerStats.PTS / totals.gp : 0;
-  showOgiveChart('PTS', perGamePTS); 
+  showOgiveChart('PTS', perGameStats.PTS);
 }
 
 function showOgiveChart(statKey, playerValue) {
