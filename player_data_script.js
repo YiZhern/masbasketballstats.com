@@ -80,42 +80,61 @@ window.showPercentiles = function (playerName, stats) {
 }
 
 function showOgiveChart(statKey, playerValue) {
-  console.log("Ogive: comparing", statKey, "value:", playerValue);
+  console.log("=== showOgiveChart called ===");
+  console.log("Stat:", statKey, "Player Value:", playerValue);
 
-  const fieldMap = {
-    'PTS': 'pts',
-    '3FGM': 'fgm3',
-    'BLK': 'bs',
-    'STL': 'st',
-    'AST': 'as',
-    'REB': 'tr'
-  };
-  const field = fieldMap[statKey];
-  if (!field) return console.error("Unknown statKey:", statKey);
+  const canvas = document.getElementById('ogiveChart');
+  if (!canvas) {
+    console.error("Canvas #ogiveChart not found.");
+    return;
+  }
 
-  const values = originalData
-    .filter(r => r.gp > 0)
-    .map(r => r.gp > 0 ? r[field] / r.gp : 0)
-    .filter(v => v != null)
-    .sort((a, b) => a - b);
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error("Could not get canvas context.");
+    return;
+  }
 
-  console.log("Values array length:", values.length, values.slice(0,5));
+  // Extract per-game values based on statKey
+  const rawValues = originalData
+    .filter(p => p.gp > 0)
+    .map(p => {
+      if (statKey === '3FGM') return p.fgm3 / p.gp;
+      if (statKey === 'BLK') return p.bs / p.gp;
+      if (statKey === 'STL') return p.st / p.gp;
+      if (statKey === 'AST') return p.as / p.gp;
+      if (statKey === 'REB') return p.tr / p.gp;
+      return p.pts / p.gp;
+    });
 
+  console.log("Raw values (first 10):", rawValues.slice(0, 10));
+
+  // Clean and sort values
+  const values = rawValues.filter(v => !isNaN(v)).sort((a, b) => a - b);
+  console.log("Sorted values (first 10):", values.slice(0, 10));
+
+  if (values.length === 0) {
+    console.warn("No values available for ogive.");
+    return;
+  }
+
+  // Generate cumulative distribution
   const cumulative = values.map((v, i) => ({
     x: v,
     y: ((i + 1) / values.length) * 100
   }));
 
-  const playerPct = cumulative.find(d => d.x >= playerValue)?.y ?? 100;
+  console.log("Cumulative points (first 10):", cumulative.slice(0, 10));
 
-  const canvas = document.getElementById('ogiveChart');
-  if (!canvas) return console.error("canvas#ogiveChart not found");
+  const playerPercentile = cumulative.find(d => d.x >= playerValue)?.y || 100;
+  console.log("Player percentile location:", playerPercentile);
 
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return console.error("Cannot getContext for ogiveChart");
+  // Destroy old chart
+  if (window.ogiveChart && typeof window.ogiveChart.destroy === 'function') {
+    window.ogiveChart.destroy();
+  }
 
-  if (window.ogiveChart?.destroy) window.ogiveChart.destroy();
-
+  // Create ogive chart
   window.ogiveChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -124,27 +143,46 @@ function showOgiveChart(statKey, playerValue) {
           label: `CDF of ${statKey}`,
           data: cumulative,
           borderColor: 'blue',
-          backgroundColor: 'rgba(0,0,255,0.1)',
-          tension: 0.3,
+          borderWidth: 2,
+          fill: false,
           pointRadius: 0
         },
         {
           label: 'Player',
-          data: [{ x: playerValue, y: playerPct }],
+          data: [{ x: playerValue, y: playerPercentile }],
           backgroundColor: 'red',
+          borderColor: 'red',
+          type: 'scatter',
           pointRadius: 6,
-          type: 'scatter'
+          pointHoverRadius: 8
         }
       ]
     },
     options: {
       responsive: true,
+      plugins: {
+        legend: { display: true }
+      },
       scales: {
-        x: { title: { display: true, text: statKey } },
-        y: { beginAtZero: true, max: 100, title: { display: true, text: 'Percentile (%)' } }
+        x: {
+          title: {
+            display: true,
+            text: `${statKey} (Per Game)`
+          },
+          beginAtZero: true
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Percentile (%)'
+          },
+          beginAtZero: true,
+          max: 100
+        }
       }
     }
   });
 
   document.getElementById('ogiveSection').style.display = 'block';
 }
+
