@@ -76,12 +76,12 @@ window.showPercentiles = function (playerName, stats) {
 
   document.getElementById('percentileSection').style.display = 'block';
 
-  showOgiveChart('PTS', stats.PTS);
+  showOgiveChart('PTS', totals.pts / totals.gp);
 }
 
-function showOgiveChart(statKey, playerPercentile) {
+function showOgiveChart(statKey, playerValue) {
   console.log("=== showOgiveChart called ===");
-  console.log("Stat:", statKey, "Percentile:", playerPercentile);
+  console.log("Stat:", statKey, "Player Value:", playerValue);
 
   const canvas = document.getElementById('ogiveChart');
   if (!canvas) {
@@ -95,8 +95,7 @@ function showOgiveChart(statKey, playerPercentile) {
     return;
   }
 
-  // Prepare per-game data
-  const rawValues = originalData
+  const values = originalData
     .filter(p => p.gp > 0)
     .map(p => {
       switch (statKey) {
@@ -108,21 +107,17 @@ function showOgiveChart(statKey, playerPercentile) {
         case 'PTS': return p.pts / p.gp;
         default: return 0;
       }
-    });
+    })
+    .filter(v => !isNaN(v))
+    .sort((a, b) => a - b);
 
-  const values = rawValues.filter(v => !isNaN(v)).sort((a, b) => a - b);
-  if (values.length === 0) return;
-
-  // Build cumulative distribution
   const cumulative = values.map((v, i) => ({
     x: v,
     y: ((i + 1) / values.length) * 100
   }));
 
-  // Find closest x-value matching given percentile
-  let playerX = cumulative.find(d => d.y >= playerPercentile)?.x || values[values.length - 1];
-
-  console.log("Player X (stat value at percentile):", playerX);
+  // Calculate the player's percentile
+  const playerPercentile = cumulative.find(d => d.x >= playerValue)?.y || 100;
 
   if (window.ogiveChart && typeof window.ogiveChart.destroy === 'function') {
     window.ogiveChart.destroy();
@@ -136,13 +131,13 @@ function showOgiveChart(statKey, playerPercentile) {
           label: `CDF of ${statKey}`,
           data: cumulative,
           borderColor: 'blue',
-          borderWidth: 2,
+          backgroundColor: 'rgba(0,0,255,0.1)',
           fill: false,
           pointRadius: 0
         },
         {
           label: 'Player',
-          data: [{ x: playerX, y: playerPercentile }],
+          data: [{ x: playerValue, y: playerPercentile }],
           backgroundColor: 'red',
           borderColor: 'red',
           type: 'scatter',
@@ -171,5 +166,3 @@ function showOgiveChart(statKey, playerPercentile) {
 
   document.getElementById('ogiveSection').style.display = 'block';
 }
-
-
