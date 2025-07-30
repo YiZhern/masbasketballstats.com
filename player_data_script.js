@@ -79,9 +79,9 @@ window.showPercentiles = function (playerName, stats) {
   showOgiveChart('PTS', stats.PTS);
 }
 
-function showOgiveChart(statKey, playerValue) {
+function showOgiveChart(statKey, playerPercentile) {
   console.log("=== showOgiveChart called ===");
-  console.log("Stat:", statKey, "Player Value:", playerValue);
+  console.log("Stat:", statKey, "Percentile:", playerPercentile);
 
   const canvas = document.getElementById('ogiveChart');
   if (!canvas) {
@@ -95,46 +95,39 @@ function showOgiveChart(statKey, playerValue) {
     return;
   }
 
-  // Extract per-game values based on statKey
+  // Prepare per-game data
   const rawValues = originalData
     .filter(p => p.gp > 0)
     .map(p => {
-      if (statKey === '3FGM') return p.fgm3 / p.gp;
-      if (statKey === 'BLK') return p.bs / p.gp;
-      if (statKey === 'STL') return p.st / p.gp;
-      if (statKey === 'AST') return p.as / p.gp;
-      if (statKey === 'REB') return p.tr / p.gp;
-      return p.pts / p.gp;
+      switch (statKey) {
+        case '3FGM': return p.fgm3 / p.gp;
+        case 'BLK': return p.bs / p.gp;
+        case 'STL': return p.st / p.gp;
+        case 'AST': return p.as / p.gp;
+        case 'REB': return p.tr / p.gp;
+        case 'PTS': return p.pts / p.gp;
+        default: return 0;
+      }
     });
 
-  console.log("Raw values (first 10):", rawValues.slice(0, 10));
-
-  // Clean and sort values
   const values = rawValues.filter(v => !isNaN(v)).sort((a, b) => a - b);
-  console.log("Sorted values (first 10):", values.slice(0, 10));
+  if (values.length === 0) return;
 
-  if (values.length === 0) {
-    console.warn("No values available for ogive.");
-    return;
-  }
-
-  // Generate cumulative distribution
+  // Build cumulative distribution
   const cumulative = values.map((v, i) => ({
     x: v,
     y: ((i + 1) / values.length) * 100
   }));
 
-  console.log("Cumulative points (first 10):", cumulative.slice(0, 10));
+  // Find closest x-value matching given percentile
+  let playerX = cumulative.find(d => d.y >= playerPercentile)?.x || values[values.length - 1];
 
-  const playerPercentile = cumulative.find(d => d.x >= playerValue)?.y || 100;
-  console.log("Player percentile location:", playerPercentile);
+  console.log("Player X (stat value at percentile):", playerX);
 
-  // Destroy old chart
   if (window.ogiveChart && typeof window.ogiveChart.destroy === 'function') {
     window.ogiveChart.destroy();
   }
 
-  // Create ogive chart
   window.ogiveChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -149,12 +142,11 @@ function showOgiveChart(statKey, playerValue) {
         },
         {
           label: 'Player',
-          data: [{ x: playerValue, y: playerPercentile }],
+          data: [{ x: playerX, y: playerPercentile }],
           backgroundColor: 'red',
           borderColor: 'red',
           type: 'scatter',
-          pointRadius: 6,
-          pointHoverRadius: 8
+          pointRadius: 6
         }
       ]
     },
@@ -165,17 +157,11 @@ function showOgiveChart(statKey, playerValue) {
       },
       scales: {
         x: {
-          title: {
-            display: true,
-            text: `${statKey} (Per Game)`
-          },
+          title: { display: true, text: `${statKey} (Per Game)` },
           beginAtZero: true
         },
         y: {
-          title: {
-            display: true,
-            text: 'Percentile (%)'
-          },
+          title: { display: true, text: 'Percentile (%)' },
           beginAtZero: true,
           max: 100
         }
@@ -185,4 +171,5 @@ function showOgiveChart(statKey, playerValue) {
 
   document.getElementById('ogiveSection').style.display = 'block';
 }
+
 
