@@ -1,4 +1,4 @@
-2223function calculatePercentiles(playerStats) {
+function calculatePercentiles(playerStats) {
   const statsKeys = Object.keys(playerStats);
   const percentiles = {};
 
