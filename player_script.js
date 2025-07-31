@@ -118,3 +118,33 @@ window.searchPlayer = function () {
     showPercentiles(filtered[0].player, percentiles, perGameStats);
   }
 }
+
+function calculatePercentiles(playerStats) {
+  const statsKeys = Object.keys(playerStats);
+  const percentiles = {};
+
+  const statFieldMap = {
+    'PTS': 'pts',
+    '3FGM': 'fgm3',
+    'BLK': 'bs',
+    'STL': 'st',
+    'AST': 'as',
+    'REB': 'tr'
+  };
+
+  statsKeys.forEach(key => {
+    const field = statFieldMap[key];
+    const allValues = originalData.reduce((arr, row) => {
+      if (row.gp > 0 && row[field] != null) arr.push(row[field]);
+      return arr;
+    }, []);
+
+    allValues.sort((a, b) => a - b);
+    const rank = allValues.findIndex(v => v >= playerStats[key]);
+    const percentile = rank === -1 ? 100 : Math.round((rank / allValues.length) * 100);
+    percentiles[key] = percentile;
+  });
+
+  return percentiles;
+}
+
