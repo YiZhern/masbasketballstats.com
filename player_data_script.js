@@ -108,7 +108,11 @@ function showOgiveChart(statKey, playerValue) {
         default: return 0;
       }
     })
-    .filter(v => !isNaN(v))
+    console.log("Mapped values (before filtering):", rawValues.slice(0, 20));
+    const values = rawValues
+      .filter(v => typeof v === 'number' && !isNaN(v) && isFinite(v))
+      .sort((a, b) => a - b);
+    console.log("Filtered and sorted values:", values.slice(0, 20));  
     .sort((a, b) => a - b);
 
   console.log("Filtered values:", values.slice(0, 20));
