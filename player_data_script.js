@@ -66,7 +66,7 @@ function showOgiveChart(statKey, playerValue) {
     return;
   }
 
-  const values = originalData
+  const rawValues = originalData
     .filter(p => p.gp > 0)
     .map(p => {
       switch (statKey) {
@@ -78,20 +78,15 @@ function showOgiveChart(statKey, playerValue) {
         case 'PTS': return p.pts / p.gp;
         default: return 0;
       }
-    })
-    console.log("Mapped values (before filtering):", rawValues.slice(0, 20));
-    const perGameValues = rawValues.filter(v => !isNaN(v)).sort((a, b) => a - b);
-    console.log("Filtered and sorted values:", values.slice(0, 20));  
+    });
 
-  console.log("Filtered values:", values.slice(0, 20));
-  console.log("Player value for ogive:", playerValue);  
+  const values = rawValues.filter(v => !isNaN(v)).sort((a, b) => a - b);
+  console.log("Filtered and sorted values:", values.slice(0, 20));
+
   const cumulative = values.map((v, i) => ({
     x: v,
     y: ((i + 1) / values.length) * 100
   }));
-
-  // Calculate the player's percentile
-  const playerPercentile = cumulative.find(d => d.x >= playerValue)?.y || 100;
 
   let playerPercentile = 100;
   for (let i = 0; i < cumulative.length; i++) {
@@ -99,6 +94,10 @@ function showOgiveChart(statKey, playerValue) {
       playerPercentile = cumulative[i].y;
       break;
     }
+  }
+
+  if (window.ogiveChart && typeof window.ogiveChart.destroy === 'function') {
+    window.ogiveChart.destroy();
   }
 
   window.ogiveChart = new Chart(ctx, {
