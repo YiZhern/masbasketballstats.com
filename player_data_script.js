@@ -111,7 +111,6 @@ function showOgiveChart(statKey, playerValue) {
     console.log("Mapped values (before filtering):", rawValues.slice(0, 20));
     const perGameValues = rawValues.filter(v => !isNaN(v)).sort((a, b) => a - b);
     console.log("Filtered and sorted values:", values.slice(0, 20));  
-    .sort((a, b) => a - b);
 
   console.log("Filtered values:", values.slice(0, 20));
   console.log("Player value for ogive:", playerValue);  
