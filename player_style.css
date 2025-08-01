@@ -279,3 +279,28 @@ canvas#ogiveChart {
   font-family: 'Segoe UI', sans-serif !important;
   color: #444 !important;
 }
+
+@media (max-width: 600px) {
+  #ogiveSection,
+  #percentileSection {
+    padding: 16px;
+  }
+
+  canvas#ogiveChart,
+  canvas#percentileChart {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 280px;
+  }
+
+  .chartjs-render-monitor {
+    max-width: 100% !important;
+  }
+
+  /* Allow horizontal scroll for overflow */
+  #ogiveSection,
+  #percentileSection {
+    overflow-x: auto;
+  }
+}
+
