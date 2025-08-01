@@ -8,7 +8,7 @@ function calculatePercentiles(playerStats) {
     'BLK': 'bs',
     'STL': 'st',
     'AST': 'as',
-    'REB': 'tr'
+    'REB': 'treb'
   };
 
   statsKeys.forEach(key => {
@@ -103,7 +103,7 @@ function showOgiveChart(statKey, playerValue) {
         case 'BLK': return p.bs / p.gp;
         case 'STL': return p.st / p.gp;
         case 'AST': return p.as / p.gp;
-        case 'REB': return p.tr / p.gp;
+        case 'REB': return p.treb / p.gp;
         case 'PTS': return p.pts / p.gp;
         default: return 0;
       }
