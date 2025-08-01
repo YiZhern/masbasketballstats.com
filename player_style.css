@@ -236,3 +236,46 @@ canvas#percentileChart {
   max-width: 100%;
   height: auto;
 }
+
+/* === Ogive Selector Styling === */
+#ogiveStatSelect {
+  padding: 10px 16px;
+  border: 1px solid #ffae7a;
+  border-radius: 8px;
+  background-color: #fff6ed;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+#ogiveStatSelect:hover,
+#ogiveStatSelect:focus {
+  border-color: #ff7a00;
+  background-color: #ffe4c0;
+  outline: none;
+}
+
+/* === Chart Containers === */
+#percentileSection,
+#ogiveSection {
+  background-color: #fffdfb;
+  border: 1px solid #ffddba;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(255, 122, 0, 0.1);
+}
+
+canvas#percentileChart,
+canvas#ogiveChart {
+  background: #fff6ed;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+/* Chart Legends */
+.chartjs-render-monitor {
+  font-family: 'Segoe UI', sans-serif !important;
+  color: #444 !important;
+}
