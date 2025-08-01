@@ -88,7 +88,7 @@ window.searchPlayer = function () {
   document.getElementById('tot-min').textContent = totals.min;
   document.getElementById('tot-pts').textContent = totals.pts;
   document.getElementById('tot-as').textContent = totals.as;
-  document.getElementById('tot-treb').textContent = totals.treb;
+  document.getElementById('tot-tr').textContent = totals.treb;
   document.getElementById('tot-st').textContent = totals.st;
   document.getElementById('tot-bs').textContent = totals.bs;
 
