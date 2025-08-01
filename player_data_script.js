@@ -132,6 +132,14 @@ function showOgiveChart(statKey, playerValue) {
     data: {
       datasets: [
         {
+          label: 'Player',
+          data: [{ x: playerValue, y: playerPercentile }],
+          backgroundColor: 'red',
+          borderColor: 'red',
+          pointRadius: 6,
+          type: 'scatter'
+        }
+        {
           label: `CDF of ${statKey}`,
           data: cumulative,
           showLine: true,
@@ -140,14 +148,6 @@ function showOgiveChart(statKey, playerValue) {
           fill: false,
           pointRadius: 0
         },
-        {
-          label: 'Player',
-          data: [{ x: playerValue, y: playerPercentile }],
-          backgroundColor: 'red',
-          borderColor: 'red',
-          pointRadius: 6,
-          type: 'scatter'
-        }
       ]
     },
   options: {
