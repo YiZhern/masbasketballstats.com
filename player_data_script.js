@@ -110,7 +110,7 @@ function showOgiveChart(statKey, playerValue) {
     });
 
   const values = rawValues.filter(v => !isNaN(v)).sort((a, b) => a - b);
-  console.log("Filtered and sorted values:", values.slice(0, 20));
+  console.log("Filtered and sorted values:", values.slice(0, 100));
 
   const cumulative = values.map((v, i) => ({
     x: v,
