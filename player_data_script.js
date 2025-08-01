@@ -75,7 +75,7 @@ window.showPercentiles = function (playerName, stats, perGameStats) {
   });
 
   document.getElementById('percentileSection').style.display = 'block';
-
+  window.lastPerGameStats = perGameStats;
   showOgiveChart('PTS', perGameStats.PTS);
 }
 
