@@ -179,3 +179,11 @@ function showOgiveChart(statKey, playerValue) {
   }
   document.getElementById('ogiveSection').style.display = 'block';
 }
+
+window.updateOgiveStat = function () {
+  const selected = document.getElementById('ogiveStatSelect').value;
+  if (!window.lastPerGameStats) return;
+
+  showOgiveChart(selected, window.lastPerGameStats[selected]);
+}
+
