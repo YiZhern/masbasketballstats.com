@@ -138,7 +138,7 @@ function showOgiveChart(statKey, playerValue) {
           borderColor: 'red',
           pointRadius: 6,
           type: 'scatter'
-        }
+        },
         {
           label: `CDF of ${statKey}`,
           data: cumulative,
@@ -147,7 +147,7 @@ function showOgiveChart(statKey, playerValue) {
           backgroundColor: 'rgba(0,0,255,0.1)',
           fill: false,
           pointRadius: 0
-        },
+        }
       ]
     },
   options: {
