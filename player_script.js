@@ -13,7 +13,7 @@ fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTdFDyDmOtmFl1uhz2ZJkhb0r
       min: +r.Min || 0,
       pts: +r.PTS || 0,
       as: +r.AS || 0,
-      tr: +r.TR || 0,
+      treb: +r.TR || 0,
       st: +r.ST || 0,
       bs: +r.BS || 0,
       fgm3: +r['3FGM'] || 0
@@ -55,7 +55,7 @@ window.searchPlayer = function () {
   const tbody = document.querySelector('#playerStatsTable tbody');
   tbody.innerHTML = '';
 
-  let totals = { gp: 0, min: 0, pts: 0, as: 0, tr: 0, st: 0, bs: 0, fgm3: 0};
+  let totals = { gp: 0, min: 0, pts: 0, as: 0, treb: 0, st: 0, bs: 0, fgm3: 0};
 
   filtered.forEach(r => {
     tbody.innerHTML += `
@@ -68,7 +68,7 @@ window.searchPlayer = function () {
         <td>${r.min}</td>
         <td>${r.pts}</td>
         <td>${r.as}</td>
-        <td>${r.tr}</td>
+        <td>${r.treb}</td>
         <td>${r.st}</td>
         <td>${r.bs}</td>
       </tr>
@@ -78,7 +78,7 @@ window.searchPlayer = function () {
     totals.min += Number(r.min);
     totals.pts += Number(r.pts);
     totals.as += Number(r.as);
-    totals.tr += Number(r.tr);
+    totals.treb += Number(r.treb);
     totals.st += Number(r.st);
     totals.bs += Number(r.bs);
     totals.fgm3 += Number(r.fgm3);
@@ -88,7 +88,7 @@ window.searchPlayer = function () {
   document.getElementById('tot-min').textContent = totals.min;
   document.getElementById('tot-pts').textContent = totals.pts;
   document.getElementById('tot-as').textContent = totals.as;
-  document.getElementById('tot-tr').textContent = totals.tr;
+  document.getElementById('tot-treb').textContent = totals.treb;
   document.getElementById('tot-st').textContent = totals.st;
   document.getElementById('tot-bs').textContent = totals.bs;
 
@@ -102,7 +102,7 @@ window.searchPlayer = function () {
       BLK: totals.bs,
       STL: totals.st,
       AST: totals.as,
-      REB: totals.tr
+      REB: totals.treb
     };
     
     const perGameStats = {
@@ -111,7 +111,7 @@ window.searchPlayer = function () {
       BLK: totals.bs / totals.gp,
       STL: totals.st / totals.gp,
       AST: totals.as / totals.gp,
-      REB: totals.tr / totals.gp
+      REB: totals.treb / totals.gp
     };
     
     const percentiles = calculatePercentiles(playerStats);
