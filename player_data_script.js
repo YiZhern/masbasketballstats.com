@@ -125,6 +125,9 @@ function showOgiveChart(statKey, playerValue) {
     }
   }
 
+  console.log("Cumulative:", cumulative);
+  console.log("Player Percentile:", playerPercentile);
+
   if (window.ogiveChart && typeof window.ogiveChart.destroy === 'function') {
     window.ogiveChart.destroy();
   }
