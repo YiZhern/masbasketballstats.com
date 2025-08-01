@@ -150,25 +150,32 @@ function showOgiveChart(statKey, playerValue) {
         }
       ]
     },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: true }
-      },
-      scales: {
-        x: {
-          type: 'linear',
-          title: { display: true, text: `${statKey} (Per Game)` },
-          beginAtZero: true
-        },
-        y: {
-          title: { display: true, text: 'Percentile (%)' },
-          beginAtZero: true,
-          max: 100
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          color: '#333', // match text color
+          font: { family: 'Arial, sans-serif' }
         }
       }
+    },
+    scales: {
+      x: {
+        type: 'linear',
+        title: { display: true, text: `${statKey} (Per Game)`, color: '#444' },
+        ticks: { color: '#444' },
+        grid: { color: '#ddd' }
+      },
+      y: {
+        title: { display: true, text: 'Percentile (%)', color: '#444' },
+        beginAtZero: true,
+        max: 100,
+        ticks: { color: '#444' },
+        grid: { color: '#ddd' }
+      }
     }
-  });
-
+  }
   document.getElementById('ogiveSection').style.display = 'block';
 }
