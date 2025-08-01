@@ -74,6 +74,18 @@
       <canvas id="percentileChart"></canvas>
     </div>
 
+    <div style="text-align: center; margin: 20px;">
+      <label for="ogiveStatSelect">Choose stat for Ogive:</label>
+      <select id="ogiveStatSelect" onchange="updateOgiveStat()">
+        <option value="PTS">Points</option>
+        <option value="3FGM">3FGM</option>
+        <option value="BLK">Blocks</option>
+        <option value="STL">Steals</option>
+        <option value="AST">Assists</option>
+        <option value="REB">Rebounds</option>
+      </select>
+    </div>
+
     <div id="ogiveSection" style="max-width: 800px; margin: 40px auto; display: none;">
       <h2 style="text-align: center;">Player Comparison (Ogive)</h2>
       <canvas id="ogiveChart"></canvas>
