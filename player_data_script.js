@@ -110,8 +110,6 @@ function showOgiveChart(statKey, playerValue) {
     });
 
   const values = rawValues.filter(v => !isNaN(v)).sort((a, b) => a - b);
-  console.log("Filtered and sorted values:", values.slice(0, 100));
-
   const cumulative = values.map((v, i) => ({
     x: v,
     y: ((i + 1) / values.length) * 100
@@ -125,20 +123,18 @@ function showOgiveChart(statKey, playerValue) {
     }
   }
 
-  console.log("Cumulative:", cumulative);
-  console.log("Player Percentile:", playerPercentile);
-
   if (window.ogiveChart && typeof window.ogiveChart.destroy === 'function') {
     window.ogiveChart.destroy();
   }
 
   window.ogiveChart = new Chart(ctx, {
-    type: 'line',
+    type: 'scatter',  // Use scatter chart to handle custom x/y data
     data: {
       datasets: [
         {
           label: `CDF of ${statKey}`,
           data: cumulative,
+          showLine: true,
           borderColor: 'blue',
           backgroundColor: 'rgba(0,0,255,0.1)',
           fill: false,
@@ -149,8 +145,8 @@ function showOgiveChart(statKey, playerValue) {
           data: [{ x: playerValue, y: playerPercentile }],
           backgroundColor: 'red',
           borderColor: 'red',
-          type: 'scatter',
-          pointRadius: 6
+          pointRadius: 6,
+          type: 'scatter'
         }
       ]
     },
@@ -161,6 +157,7 @@ function showOgiveChart(statKey, playerValue) {
       },
       scales: {
         x: {
+          type: 'linear',
           title: { display: true, text: `${statKey} (Per Game)` },
           beginAtZero: true
         },
