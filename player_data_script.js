@@ -177,6 +177,7 @@ function showOgiveChart(statKey, playerValue) {
       }
     }
   }
+  });
   document.getElementById('ogiveSection').style.display = 'block';
 }
 
