@@ -51,3 +51,10 @@ function updateWeight(input, group) {
     document.getElementById(`${group}-total`).style.color = 'green';
   }
 }
+
+function toggleMenu() {
+  document.querySelectorAll('.nav-links').forEach(el => {
+    el.classList.toggle('open');
+  });
+}
+
