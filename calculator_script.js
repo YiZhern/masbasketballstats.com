@@ -72,14 +72,14 @@ function renderSliders() {
   container.innerHTML = '';
   if (!stats.length) return;
 
-  container.innerHTML = '<h3>Weight Allocation (Total = 100%)</h3>';
+  container.innerHTML = '<h3>Weight Allocation</h3>';
   stats.forEach(s => {
     const init = Math.floor(100 / stats.length);
     container.insertAdjacentHTML('beforeend', `
-      <label style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        ${s.toUpperCase()}:
+      <label>
+        <span class="slider-title">${s.toUpperCase()}</span>
         <input type="range" name="w_${s}" min="0" max="100" value="${init}" oninput="rebalance('${s}')">
-        <span>${init}</span>%
+        <span class="slider-value">${init}%</span>
       </label>
     `);
   });
