@@ -52,9 +52,4 @@ function updateWeight(input, group) {
   }
 }
 
-function toggleMenu() {
-  document.querySelectorAll('.nav-links').forEach(el => {
-    el.classList.toggle('open');
-  });
-}
 
