@@ -82,7 +82,7 @@ select:focus {
 .left-section {
   display: flex;
   align-items: center;
-  gap: 10px; /* Controls space between icon and text */
+  gap: 14px; /* Controls space between icon and text */
 }
 
 .sub-nav {
@@ -572,6 +572,7 @@ select::-webkit-appearance {
     opacity: 1;
   }
 }
+
 
 
 
