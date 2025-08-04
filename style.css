@@ -330,37 +330,50 @@ tr:nth-child(even) {
 
 #sliderContainer label {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 14px;
   font-weight: 600;
   color: #444;
-  gap: 10px;
   flex-wrap: wrap;
 }
 
-#sliderContainer input[type="range"] {
-  background: linear-gradient(to right, #ffbf8c, #ffa458);
-  height: 6px;
-  border-radius: 5px;
-  width: 100%;
-}
-
-#sliderContainer input[type="range"]::-webkit-slider-thumb {
-  background: #ff6600;
-  border: 2px solid white;
-}
-
 .slider-title {
-  width: 100px; /* fixed width to prevent jitter */
+  flex: 0 0 90px;
   text-align: left;
-  flex-shrink: 0;
 }
 
 .slider-value {
-  width: 50px; /* space to show value like '88%' without pushing */
+  flex: 0 0 50px;
   text-align: right;
-  flex-shrink: 0;
+}
+
+#sliderContainer input[type="range"] {
+  flex: 1 1 auto;
+  background: linear-gradient(to right, #ffbf8c, #ffa458);
+  height: 6px;
+  border-radius: 5px;
+  min-width: 120px;
+}
+
+@media (max-width: 600px) {
+  #sliderContainer label {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .slider-title,
+  .slider-value {
+    flex: unset;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+
+  #sliderContainer input[type="range"] {
+    width: 100%;
+  }
 }
 
 /* === Stat Chips === */
@@ -418,11 +431,6 @@ tr:nth-child(even) {
 
   .player-search input {
     width: 100%;
-  }
-
-  #sliderContainer label {
-    flex-direction: column;
-    align-items: flex-start;
   }
 
   .table-wrapper {
@@ -494,6 +502,7 @@ select::-webkit-appearance {
     opacity: 1;
   }
 }
+
 
 
 
