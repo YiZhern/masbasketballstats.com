@@ -336,6 +336,7 @@ tr:nth-child(even) {
   font-weight: 600;
   color: #444;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 #sliderContainer input[type="range"] {
@@ -348,6 +349,18 @@ tr:nth-child(even) {
 #sliderContainer input[type="range"]::-webkit-slider-thumb {
   background: #ff6600;
   border: 2px solid white;
+}
+
+.slider-title {
+  width: 100px; /* fixed width to prevent jitter */
+  text-align: left;
+  flex-shrink: 0;
+}
+
+.slider-value {
+  width: 50px; /* space to show value like '88%' without pushing */
+  text-align: right;
+  flex-shrink: 0;
 }
 
 /* === Stat Chips === */
@@ -481,5 +494,6 @@ select::-webkit-appearance {
     opacity: 1;
   }
 }
+
 
 
