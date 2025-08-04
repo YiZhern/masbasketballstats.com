@@ -137,7 +137,6 @@ select:focus {
   cursor: pointer;
 }
 
-/* Default desktop view */
 .subnav-links {
   display: flex;
   flex-wrap: wrap;
@@ -161,6 +160,33 @@ select:focus {
 
   .subnav-links.open {
     display: flex;
+  }
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+  padding: 6px 10px;
+  user-select: none;
+}
+
+/* Hide nav links and show toggle on mobile */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none !important;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .nav-links.open {
+    display: flex !important;
   }
 }
 
@@ -502,6 +528,7 @@ select::-webkit-appearance {
     opacity: 1;
   }
 }
+
 
 
 
