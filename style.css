@@ -161,6 +161,17 @@ select:focus {
   .subnav-links.open {
     display: flex;
   }
+
+  .top-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .top-nav .right-section {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
 }
 
 .menu-toggle {
@@ -528,6 +539,7 @@ select::-webkit-appearance {
     opacity: 1;
   }
 }
+
 
 
 
