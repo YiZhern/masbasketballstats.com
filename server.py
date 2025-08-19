@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 from extract_boxscore import parse_boxscore
 import tempfile
@@ -6,6 +7,7 @@ import tempfile
 app = Flask(__name__)
 
 @app.route("/")
+CORS(app, resources={r"/*": {"origins": "*"}})
 def home():
     return "🏀 PDF Boxscore Scanner API is running!"
 
@@ -28,3 +30,4 @@ def scan_pdf():
         return jsonify({"game_id": game_id, "stats": stats})
     finally:
         os.remove(pdf_path)  # clean up temp file
+
