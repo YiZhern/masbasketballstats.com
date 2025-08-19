@@ -6,4 +6,6 @@ opencv-python-headless
 numpy
 tabulate
 gspread
+
 oauth2client
+gunicorn
