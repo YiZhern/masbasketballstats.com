@@ -1,0 +1,9 @@
+flask
+pytesseract
+pdf2image
+pillow
+opencv-python-headless
+numpy
+tabulate
+gspread
+oauth2client
