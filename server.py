@@ -7,7 +7,7 @@ import tempfile
 app = Flask(__name__)
 
 @app.route("/")
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "https://yizhern.github.io"}})
 def home():
     return "🏀 PDF Boxscore Scanner API is running!"
 
@@ -30,4 +30,5 @@ def scan_pdf():
         return jsonify({"game_id": game_id, "stats": stats})
     finally:
         os.remove(pdf_path)  # clean up temp file
+
 
