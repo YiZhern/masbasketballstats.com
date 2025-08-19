@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Boxscore Scanner</title>
+</head>
+<body>
+  <h1>Upload PDF</h1>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file" accept="application/pdf" required />
+    <input type="text" name="game_id" placeholder="Game ID" required />
+    <button type="submit">Scan</button>
+  </form>
+
+  <pre id="output"></pre>
+
+  <script>
+    document.getElementById("uploadForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      const response = await fetch("https://your-app.onrender.com/scan", {
+        method: "POST",
+        body: formData
+      });
+      const result = await response.json();
+      document.getElementById("output").textContent = JSON.stringify(result, null, 2);
+    };
+  </script>
+</body>
+</html>
