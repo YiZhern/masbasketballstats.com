@@ -6,34 +6,21 @@
 <body>
   <h1>Upload PDF</h1>
   <form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" name="file" accept="application/pdf" required />
-    <input type="text" name="game_id" placeholder="Game ID" required />
+    <!-- ✅ Added id="pdfFile" -->
+    <input type="file" id="pdfFile" name="file" accept="application/pdf" required />
+    <input type="text" id="gameId" name="game_id" placeholder="Game ID" required />
     <button type="submit">Scan</button>
   </form>
 
   <pre id="output"></pre>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Upload PDF</title>
-</head>
-<body>
-  <h2>Upload Boxscore PDF</h2>
   
-  <form id="uploadForm">
-    <input type="file" id="pdfFile" accept="application/pdf" required />
-    <button type="submit">Upload</button>
-  </form>
-
-  <pre id="output"></pre>
-
   <script>
     document.getElementById("uploadForm").onsubmit = async function(e) {
       e.preventDefault();
 
-      const fileInput = document.getElementById("pdfFile"); // 👈 must match input id
+      const fileInput = document.getElementById("pdfFile");
+      const gameIdInput = document.getElementById("gameId");
+
       if (!fileInput || fileInput.files.length === 0) {
         alert("Please select a PDF file.");
         return;
@@ -41,12 +28,17 @@
 
       const formData = new FormData();
       formData.append("file", fileInput.files[0]);
+      formData.append("game_id", gameIdInput.value);
 
       try {
         const response = await fetch("https://masbasketballstats-com.onrender.com/scan", {
           method: "POST",
           body: formData
         });
+
+        if (!response.ok) {
+          throw new Error("Server error: " + response.status);
+        }
 
         const result = await response.json();
         document.getElementById("output").textContent = JSON.stringify(result, null, 2);
