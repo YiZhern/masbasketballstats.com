@@ -6,8 +6,9 @@ import tempfile
 
 app = Flask(__name__)
 
-@app.route("/")
 CORS(app, resources={r"/*": {"origins": "https://yizhern.github.io"}})
+
+@app.route("/")
 def home():
     return "🏀 PDF Boxscore Scanner API is running!"
 
@@ -35,6 +36,10 @@ def scan_pdf():
     except Exception as e:
         logging.exception("General error in /scan")
         return jsonify({"status": "error", "message": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
 
 
 
