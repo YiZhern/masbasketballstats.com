@@ -131,6 +131,18 @@ def safe_int(val, default=0):
         return default
 
 # --- OCR Preprocessing ---
+def pdf_to_images(pdf_path, dpi=300):
+    """Convert PDF pages to PIL Images using PyMuPDF."""
+    doc = fitz.open(pdf_path)
+    pages = []
+    for page in doc:
+        zoom = dpi / 72.0  # 72 dpi is default resolution
+        mat = fitz.Matrix(zoom, zoom)
+        pix = page.get_pixmap(matrix=mat, alpha=False)
+        img = Image.open(io.BytesIO(pix.tobytes("png")))
+        pages.append(img)
+    return pages
+
 def preprocess_cv(img_pil):
     """Preprocess using OpenCV for better OCR."""
     img = pil_to_cv(img_pil)
@@ -470,4 +482,5 @@ if __name__ == "__main__":
     pdf_path = r"C:\YZ\老弟\MABA\Website\championship-backend\pdfs\G37Q4.pdf"
     game_id = "G37"
     parse_boxscore(pdf_path, game_id)
+
 
