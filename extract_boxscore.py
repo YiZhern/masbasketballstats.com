@@ -25,7 +25,8 @@ DEBUG_DIR = "debug_outputs"
 os.makedirs(DEBUG_DIR, exist_ok=True)
 
 # Path to Tesseract (Windows example)
-pytesseract.pytesseract.tesseract_cmd = r"C:\YZ\tesseract.exe"
+if os.name == "nt":  # Windows
+    pytesseract.pytesseract.tesseract_cmd = r"C:\YZ\tesseract.exe"
 
 # Column headers
 HEADERS = [
@@ -483,6 +484,7 @@ if __name__ == "__main__":
     pdf_path = r"C:\YZ\老弟\MABA\Website\championship-backend\pdfs\G37Q4.pdf"
     game_id = "G37"
     parse_boxscore(pdf_path, game_id)
+
 
 
 
