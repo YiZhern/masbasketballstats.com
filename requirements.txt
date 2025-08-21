@@ -9,3 +9,5 @@ Pillow
 tabulate
 gspread
 oauth2client
+PyMuPDF
+
