@@ -8,6 +8,7 @@ import numpy as np
 from tabulate import tabulate
 import logging
 import os
+import io
 
 # Configure logging
 logging.basicConfig(
@@ -482,5 +483,6 @@ if __name__ == "__main__":
     pdf_path = r"C:\YZ\老弟\MABA\Website\championship-backend\pdfs\G37Q4.pdf"
     game_id = "G37"
     parse_boxscore(pdf_path, game_id)
+
 
 
