@@ -1,11 +1,11 @@
-flask
-pytesseract
+Flask
+Flask-Cors
+gunicorn
 pdf2image
-pillow
+pytesseract
 opencv-python-headless
 numpy
+Pillow
 tabulate
 gspread
-
 oauth2client
-gunicorn
