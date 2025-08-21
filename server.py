@@ -18,21 +18,23 @@ def scan_pdf():
             return jsonify({"error": "No file uploaded"}), 400
 
         file = request.files["file"]
-        logging.info(f"Received file: {file.filename}")
-
-        # Save to a temporary file
         pdf_path = f"/tmp/{file.filename}"
         file.save(pdf_path)
 
-         # Call your existing parse_boxscore
         from extract_boxscore import parse_boxscore
-        game_id = "TEST"  # you can extract real ID later
-        stats = parse_boxscore(pdf_path, game_id)
+
+        try:
+            game_id = "TEST"
+            stats = parse_boxscore(pdf_path, game_id)
+        except Exception as e:
+            logging.exception("Error parsing PDF")
+            return jsonify({"error": "PDF parsing failed", "details": str(e)}), 500
 
         return jsonify({"status": "success", "stats": stats})
-        
+
     except Exception as e:
-        logging.exception("Error in /scan")
+        logging.exception("General error in /scan")
         return jsonify({"status": "error", "message": str(e)}), 500
+
 
 
