@@ -13,22 +13,26 @@ def home():
 
 @app.route("/scan", methods=["POST"])
 def scan_pdf():
-    if "file" not in request.files:
-        return jsonify({"error": "No file uploaded"}), 400
-
-    file = request.files["file"]
-
-    # Save to a temporary file
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-        file.save(tmp.name)
-        pdf_path = tmp.name
-
     try:
-        # Run your parser
-        game_id = request.form.get("game_id", "UNKNOWN")
+        if "file" not in request.files:
+            return jsonify({"error": "No file uploaded"}), 400
+
+        file = request.files["file"]
+        logging.info(f"Received file: {file.filename}")
+
+        # Save to a temporary file
+        pdf_path = f"/tmp/{file.filename}"
+        file.save(pdf_path)
+
+         # Call your existing parse_boxscore
+        from extract_boxscore import parse_boxscore
+        game_id = "TEST"  # you can extract real ID later
         stats = parse_boxscore(pdf_path, game_id)
-        return jsonify({"game_id": game_id, "stats": stats})
-    finally:
-        os.remove(pdf_path)  # clean up temp file
+
+        return jsonify({"status": "success", "stats": stats})
+        
+    except Exception as e:
+        logging.exception("Error in /scan")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
