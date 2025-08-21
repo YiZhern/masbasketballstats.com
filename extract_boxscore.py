@@ -1,6 +1,7 @@
 ﻿import pytesseract
 import re
 from pdf2image import convert_from_path
+import fitz
 from PIL import Image
 import cv2
 import numpy as np
@@ -383,10 +384,7 @@ def rescan_cell(cell_img, col_name):
 
 # --- Main Parser ---
 def parse_boxscore(pdf_path, game_id):
-    pages = convert_from_path(
-        pdf_path, dpi=400,  # higher DPI for numbers
-        poppler_path=r"C:\YZ\Poppler\poppler-24.08.0\Library\bin"
-    )
+    pages = pdf_to_images(pdf_path, dpi=400)
     all_rows = []
 
     for page_idx, page in enumerate(pages):
@@ -472,3 +470,4 @@ if __name__ == "__main__":
     pdf_path = r"C:\YZ\老弟\MABA\Website\championship-backend\pdfs\G37Q4.pdf"
     game_id = "G37"
     parse_boxscore(pdf_path, game_id)
+
