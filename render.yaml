@@ -5,5 +5,3 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn server:app
     plan: free
-
-apt-get update && apt-get install -y tesseract-ocr
